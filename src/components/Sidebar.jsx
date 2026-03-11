@@ -1,11 +1,13 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import "../css/sidebar.css"
 
 const Sidebar = () => {
   return (
-    <aside style={{ width: "200px", float: "left", background: "#f0f0f0", height: "100vh", padding: "20px" }}>
+    <aside className="sidebar">
+      <h2 className="logo">📚 Bibliothèque</h2>
+
       <nav>
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul>
           <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/livres">Livres</Link></li>
           <li><Link to="/etudiants">Étudiants</Link></li>

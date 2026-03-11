@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmprunts, validerEmprunt, refuserEmprunt, retournerEmprunt } from "../redux/slices/empruntsSlice";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 const EmpruntsPage = () => {
-    const [search, setSearch] = useState("");
-    const empruntsFiltres = emprunts.filter(e =>
+  
+  const dispatch = useDispatch();
+  const { emprunts, loading, error } = useSelector(state => state.emprunts);
+
+  const [search, setSearch] = useState("");
+  const empruntsFiltres = emprunts.filter(e =>
     e.etudiantNom.toLowerCase().includes(search.toLowerCase()) ||
     e.livreTitre.toLowerCase().includes(search.toLowerCase())
     );
 
-  const dispatch = useDispatch();
-  const { emprunts, loading, error } = useSelector(state => state.emprunts);
 
   useEffect(() => { dispatch(fetchEmprunts()); }, [dispatch]);
 

@@ -1,12 +1,24 @@
-import AfficherLivres from "./gestionLivre/componant/affichage"
-import AjouterLivre from "./gestionLivre/componant/ajouterLivre"
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/loginPage";
+import DashboardPage from "./pages/DashboardPage";
+import EtudiantsPage from "./pages/EtudiantsPage";
+import LivresPage from "./pages/livresPage";
+import EmpruntsPage from "./pages/EmpruntsPage";
 
 function App() {
   return (
-    <>
-    <AjouterLivre />
-    <AfficherLivres/>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/etudiants" element={<EtudiantsPage />} />
+        <Route path="/livres" element={<LivresPage />} />
+        <Route path="/emprunts" element={<EmpruntsPage />} />
+
+      </Routes>
+    </Router>
+  );
 }
-export default App
+
+export default App;

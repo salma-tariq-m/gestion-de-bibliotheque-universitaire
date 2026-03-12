@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\us\\Desktop\\testDotnet\\LibraryApi\\LibraryApi.csproj": {}
+    "C:\\Users\\us\\Desktop\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\us\\Desktop\\testDotnet\\LibraryApi\\LibraryApi.csproj": {
+    "C:\\Users\\us\\Desktop\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\us\\Desktop\\testDotnet\\LibraryApi\\LibraryApi.csproj",
+        "projectUniqueName": "C:\\Users\\us\\Desktop\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
         "projectName": "LibraryApi",
-        "projectPath": "C:\\Users\\us\\Desktop\\testDotnet\\LibraryApi\\LibraryApi.csproj",
+        "projectPath": "C:\\Users\\us\\Desktop\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
         "packagesPath": "C:\\Users\\us\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\us\\Desktop\\testDotnet\\LibraryApi\\obj\\",
+        "outputPath": "C:\\Users\\us\\Desktop\\gestion-de-bibliotheque-universitaire\\LibraryApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -51,25 +51,27 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.4, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.3, )"
             },
-            "Microsoft.EntityFrameworkCore.Design": {
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[10.0.4, )"
             },
-            "Microsoft.EntityFrameworkCore.Sqlite": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[10.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[10.0.4, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.6.0, )"
             }
           },
           "imports": [

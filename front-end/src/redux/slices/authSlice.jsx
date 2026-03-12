@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Thunk pour le login
 export const loginAdmin = createAsyncThunk(
   "auth/loginAdmin",
   async ({ email, password }, thunkAPI) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
+      const response = await axios.post("http://localhost:5136/api/auth/login", {
         email,
         password,
       });
-      return response.data; 
+      return response.data; // { message, email, role }
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response?.data || { message: "Erreur serveur" });
     }
   }
 );
@@ -26,6 +27,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.admin = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -40,7 +42,7 @@ const authSlice = createSlice({
       })
       .addCase(loginAdmin.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Erreur de connexion";
+        state.error = action.payload?.message || "Email ou mot de passe incorrect";
       });
   },
 });

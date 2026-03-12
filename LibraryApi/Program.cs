@@ -1,68 +1,70 @@
-using LibraryApi;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using LibraryApi.Data;
+using LibraryApi.Repositories;
+using LibraryApi.Services;
+using LibraryApi.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ajouter DbContext SQLite
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddDbContext<LibraryContext>(options =>
-    options.UseSqlite("Data Source=library.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Ajouter Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<BookService>();
+builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+
+
+// 1️⃣ Ajouter le service CORS
+builder.Services.AddCors(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library API", Version = "v1" });
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // ton frontend React
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
 
-// Middleware Swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+// 2️⃣ Utiliser le middleware CORS
+app.UseCors("AllowReactApp");
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library API V1");
-    c.RoutePrefix = string.Empty; // Swagger à la racine
-});
+    app.MapOpenApi();
+}
 
-// Endpoints CRUD minimal
-app.MapGet("/", () => "Library API is running!");
+app.UseHttpsRedirection();
 
-// Récupérer tous les livres
-app.MapGet("/books", async (LibraryContext db) =>
-    await db.Books.ToListAsync());
-
-// Ajouter un livre
-app.MapPost("/books", async (LibraryContext db, Book book) =>
+var summaries = new[]
 {
-    db.Books.Add(book);
-    await db.SaveChangesAsync();
-    return Results.Created($"/books/{book.Id}", book);
-});
+    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+};
 
-// Mettre à jour un livre
-app.MapPut("/books/{id}", async (LibraryContext db, int id, Book updatedBook) =>
+app.MapGet("/weatherforecast", () =>
 {
-    var book = await db.Books.FindAsync(id);
-    if (book == null) return Results.NotFound();
+    var forecast =  Enumerable.Range(1, 5).Select(index =>
+        new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        ))
+        .ToArray();
+    return forecast;
+})
+.WithName("GetWeatherForecast");
 
-    book.Title = updatedBook.Title;
-    book.Author = updatedBook.Author;
-    book.Year = updatedBook.Year;
-
-    await db.SaveChangesAsync();
-    return Results.Ok(book);
-});
-
-// Supprimer un livre
-app.MapDelete("/books/{id}", async (LibraryContext db, int id) =>
-{
-    var book = await db.Books.FindAsync(id);
-    if (book == null) return Results.NotFound();
-
-    db.Books.Remove(book);
-    await db.SaveChangesAsync();
-    return Results.NoContent();
-});
+app.MapControllers();
 
 app.Run();
+record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+{
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}

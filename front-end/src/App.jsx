@@ -5,9 +5,9 @@ import DashboardPage from "./pages/DashboardPage";
 import EtudiantsPage from "./pages/EtudiantsPage";
 import LivresPage from "./pages/livresPage";
 import EmpruntsPage from "./pages/EmpruntsPage";
-
 function App() {
   return (
+    <>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
@@ -17,7 +17,7 @@ function App() {
         <Route path="/emprunts" element={<EmpruntsPage />} />
 
       </Routes>
-    </Router>
+    </Router></>
   );
 }
 

@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using LibraryApi.Services;
-using LibraryApi.Models;
 using LibraryApi.DTOs;
+using LibraryApi.Services;
+using Microsoft.AspNetCore.Mvc;
+
 namespace LibraryApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/livres")]
     public class BooksController : ControllerBase
     {
         private readonly BookService _service;
@@ -16,23 +16,25 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBooks()
-        {
-            var books = await _service.GetBooks();
-            return Ok(books);
-        }
+        public async Task<IActionResult> Get() => Ok(await _service.GetAllBooks());
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(BookDto dto)
+        public async Task<IActionResult> Post(BookDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             await _service.CreateBook(dto);
-
-            return Ok();
+            return Ok(new { message = "Livre ajouté !" });
         }
 
-        
+        [HttpDelete("{id_livre:int}")]
+        public async Task<IActionResult> DeleteBook(int id_livre)
+        {
+            Console.WriteLine($"le contrôleur : {id_livre}");
+            var success = await _service.DeleteBook(id_livre);
+
+            if (!success) 
+                return NotFound(new { message = "Livre non trouvé." });
+                
+            return Ok(new { message = "Livre supprimé avec succès !" });
+        }
     }
 }

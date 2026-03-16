@@ -9,6 +9,7 @@ namespace LibraryApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserService _service;
+
         public AuthController(UserService service)
         {
             _service = service;
@@ -17,11 +18,20 @@ namespace LibraryApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-        var user = await _service.LoginAsync(dto.Email, dto.Password);
+            var user = await _service.LoginAsync(dto.Email, dto.Password);
+
             if (user == null)
                 return Unauthorized(new { message = "Email ou mot de passe incorrect" });
 
             return Ok(new { message = "Connexion réussie", email = user.Email, role = user.Role });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDto dto)
+        {
+            var user = await _service.RegisterAsync(dto.Email, dto.Password);
+
+            return Ok(user);
         }
     }
 }

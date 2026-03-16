@@ -9,6 +9,10 @@ namespace LibraryApi.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>().HasKey(b => b.Id_livre);
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }

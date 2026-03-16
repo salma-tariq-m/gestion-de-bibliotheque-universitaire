@@ -15,17 +15,21 @@ const LivresPage = () => {
 
   useEffect(() => { dispatch(fetchLivres()); }, [dispatch]);
 
-  const handleAdd = (livre) => { dispatch(addLivre(livre)); setShowForm(false); };
-  const handleUpdate = (livre) => { dispatch(updateLivre({ id: editLivre.id, livre })); setEditLivre(null); setShowForm(false); };
-  const handleDelete = (id) => { if(window.confirm("Voulez-vous vraiment supprimer ce livre ?")) dispatch(deleteLivre(id)); };
+  const handleAdd = (livre) => {
+     dispatch(addLivre(livre)); setShowForm(false); 
+    };
+  const handleUpdate = (livre) => {
+     dispatch(updateLivre({ id: editLivre.id, livre }));
+      setEditLivre(null); setShowForm(false); 
+    };
+  const handleDelete = (id) => {
+    console.log("Valeur de l'ID reçu :", id);
+     if(window.confirm("Voulez-vous vraiment supprimer ce livre ?"))
+       dispatch(deleteLivre(id));
+       };
 
   // Filtrage dynamique
-  const livresFiltres = livres.filter(l =>
-    l.titre.toLowerCase().includes(search.toLowerCase()) ||
-    l.auteur.toLowerCase().includes(search.toLowerCase()) ||
-    l.categorie.toLowerCase().includes(search.toLowerCase())
-  );
-
+ 
   return (
     <div>
       <Header />
@@ -55,21 +59,21 @@ const LivresPage = () => {
             <tr>
               <th>Titre</th>
               <th>Auteur</th>
-              <th>Catégorie</th>
-              <th>Statut</th>
+              <th>Quantite</th>
+              <th>Annee</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {livresFiltres.map(livre => (
-              <tr key={livre.id}>
+            {livres.map(livre => (
+              <tr key={livre.id_livre}>
                 <td>{livre.titre}</td>
                 <td>{livre.auteur}</td>
-                <td>{livre.categorie}</td>
-                <td>{livre.statut}</td>
+                <td>{livre.quantite}</td>
+                <td>{livre.annee}</td>
                 <td>
                   <button onClick={() => { setEditLivre(livre); setShowForm(true); }}>Modifier</button>{" "}
-                  <button onClick={() => handleDelete(livre.id)}>Supprimer</button>
+                  <button onClick={() => handleDelete(livre.id_livre)}>Supprimer</button>
                 </td>
               </tr>
             ))}

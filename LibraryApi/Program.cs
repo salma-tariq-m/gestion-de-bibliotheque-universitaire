@@ -11,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LibraryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<BookRepository>();
-builder.Services.AddScoped<BookService>();
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<BookService>();
 
 
 // 1️⃣ Ajouter le service CORS

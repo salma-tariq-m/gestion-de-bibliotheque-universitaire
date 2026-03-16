@@ -17,5 +17,20 @@ namespace LibraryApi.Repositories
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
+
+        public async Task<User> RegisterAsync(string email, string password)
+        {
+
+            var user = new User
+            {
+                Email = email,
+                Password = password
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
     }
 }

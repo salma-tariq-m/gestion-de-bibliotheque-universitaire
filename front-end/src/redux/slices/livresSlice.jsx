@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/livres";
+const API_URL = "http://localhost:5136/api/livres";
 
 // Récupérer tous les livres
 export const fetchLivres = createAsyncThunk("livres/fetchLivres", async () => {
+  
   const response = await axios.get(API_URL);
   return response.data;
 });
@@ -23,7 +24,9 @@ export const updateLivre = createAsyncThunk("livres/updateLivre", async ({ id, l
 
 // Supprimer un livre
 export const deleteLivre = createAsyncThunk("livres/deleteLivre", async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+  const url = `${API_URL}/${id}`;
+  console.log("Appel API DELETE sur :", url); // Vérifiez ce log dans F12
+  await axios.delete(url);
   return id;
 });
 

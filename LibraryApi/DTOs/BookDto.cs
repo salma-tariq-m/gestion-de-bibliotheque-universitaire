@@ -1,15 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace LibraryApi.DTOs
 {
     public class BookDto
     {
-        [Required]
-        [StringLength(100)]
-        public string Title { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string Author { get; set; }
+        public string Titre { get; set; } = string.Empty;
+        public string Auteur { get; set; } = string.Empty;
+        public int Quantite { get; set; }
+        public int Annee { get; set; }
+        
     }
 }

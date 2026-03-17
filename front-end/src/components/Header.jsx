@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <header className="header">
 
-      <h1 className="logo">📚 Bibliothèque Admin</h1>
+      <h1 className="logo"> </h1>
 
       <div className="header-right">
         <button className="logout-btn" onClick={handleLogout}>

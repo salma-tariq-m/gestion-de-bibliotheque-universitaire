@@ -13,14 +13,14 @@ namespace LibraryApi.Services
             _repository = repository;
         }
 
-        public async Task<List<Book>> GetAllBooks() => await _repository.GetAllAsync();
+        public async Task<List<Livre>> GetAllBooks() => await _repository.GetAllAsync();
 
         public async Task CreateBook(BookDto dto)
         {
             // Logique métier : par exemple, vérifier que la quantité n'est pas négative
             if (dto.Quantite < 0) throw new Exception("La quantité ne peut pas être négative");
 
-            var book = new Book
+            var book = new Livre
             {
                 Titre = dto.Titre,
                 Auteur = dto.Auteur,

@@ -13,24 +13,24 @@ namespace LibraryApi.Repositories
             _context = context;
         }
 
-        public async Task<List<Book>> GetAllAsync() => await _context.Books.ToListAsync();
+        public async Task<List<Livre>> GetAllAsync() => await _context.Books.ToListAsync();
 
-        public async Task<Book?> GetByIdAsync(int id) => await _context.Books.FindAsync(id);
+        public async Task<Livre?> GetByIdAsync(int id) => await _context.Books.FindAsync(id);
 
-        public async Task AddAsync(Book book)
+        public async Task AddAsync(Livre book)
         {
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Book book)
+        public async Task UpdateAsync(Livre book)
         {
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
         }
 
       
-        public async Task DeleteAsync(Book book)
+        public async Task DeleteAsync(Livre book)
         {
             Console.WriteLine($"bookrepository : {book}");
             _context.Books.Remove(book);

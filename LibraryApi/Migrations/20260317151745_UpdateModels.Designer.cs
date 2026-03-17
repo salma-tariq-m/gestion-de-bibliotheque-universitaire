@@ -4,6 +4,7 @@ using LibraryApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryApi.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20260317151745_UpdateModels")]
+    partial class UpdateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +170,9 @@ namespace LibraryApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CategorieId_Categorie")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id_Categorie")
                         .HasColumnType("int");
 
@@ -179,7 +185,7 @@ namespace LibraryApi.Migrations
 
                     b.HasKey("Id_Livre");
 
-                    b.HasIndex("Id_Categorie");
+                    b.HasIndex("CategorieId_Categorie");
 
                     b.ToTable("Books");
                 });
@@ -212,9 +218,7 @@ namespace LibraryApi.Migrations
                 {
                     b.HasOne("Categorie", "Categorie")
                         .WithMany("Livres")
-                        .HasForeignKey("Id_Categorie")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategorieId_Categorie");
 
                     b.Navigation("Categorie");
                 });

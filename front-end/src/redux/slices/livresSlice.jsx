@@ -17,11 +17,14 @@ export const addLivre = createAsyncThunk("livres/addLivre", async (livre) => {
 });
 
 // Modifier un livre
-export const updateLivre = createAsyncThunk("livres/updateLivre", async ({ id, livre }) => {
-  const response = await axios.put(`${API_URL}/${id}`, livre);
-  return response.data;
-});
 
+export const updateLivre = createAsyncThunk(
+  "livres/updateLivre",
+  async ({ id, livre }) => {
+    const response = await axios.put(`${API_URL}/${id}`, livre);
+    return response.data;
+  }
+);
 // Supprimer un livre
 export const deleteLivre = createAsyncThunk("livres/deleteLivre", async (id) => {
   const url = `${API_URL}/${id}`;
@@ -46,10 +49,9 @@ const livresSlice = createSlice({
 
       // updateLivre
       .addCase(updateLivre.fulfilled, (state, action) => {
-        const index = state.livres.findIndex(l => l.id === action.payload.id);
-        if (index !== -1) state.livres[index] = action.payload;
-      })
-
+      const index = state.livres.findIndex(l => l.id_Livre === action.payload.id_Livre);
+      if (index !== -1) state.livres[index] = action.payload;})
+      
       // deleteLivre
       .addCase(deleteLivre.fulfilled, (state, action) => {
         state.livres = state.livres.filter(l => l.id !== action.payload);

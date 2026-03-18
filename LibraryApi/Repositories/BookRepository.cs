@@ -1,7 +1,7 @@
 using LibraryApi.Data;
 using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
-
+using LibraryApi.DTOs;
 namespace LibraryApi.Repositories
 {
     public class BookRepository
@@ -23,11 +23,6 @@ namespace LibraryApi.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Livre book)
-        {
-            _context.Books.Update(book);
-            await _context.SaveChangesAsync();
-        }
 
       
         public async Task DeleteAsync(Livre book)
@@ -35,6 +30,30 @@ namespace LibraryApi.Repositories
             Console.WriteLine($"bookrepository : {book}");
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
+        }
+
+        // Mettre à jour un livre
+        public async Task UpdateAsync(Livre livre)
+        {
+            _context.Books.Update(livre);
+            await _context.SaveChangesAsync();
+        }
+
+         public async Task<List<BookWithCategorieDto>> GetAllWithCategorieDtoAsync()
+        {
+            return await _context.Books
+                .Include(b => b.Categorie)
+                .Select(b => new BookWithCategorieDto
+                {
+                    Id_Livre = b.Id_Livre,
+                    Titre = b.Titre,
+                    Auteur = b.Auteur,
+                    Quantite = b.Quantite,
+                    Annee = b.Annee,
+                    Id_Categorie = b.Id_Categorie,
+                    NomCategorie = b.Categorie.NomCategorie
+                })
+                .ToListAsync();
         }
     }
 }

@@ -12,12 +12,17 @@ namespace LibraryApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Livre>().HasKey(b => b.Id_Livre);
+            base.OnModelCreating(modelBuilder);
+
+            // Map le DbSet sur la table existante
+            modelBuilder.Entity<Categorie>().ToTable("Categorie");
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Livre> Books { get; set; }
         public DbSet<Etudiant> Etudiants { get; set; }
         public DbSet<Emprunt> Emprunts { get; set; }
+        public DbSet<Categorie> Categorie { get; set; } // <== ici le nom correspond à ta table SQL
 
 
 

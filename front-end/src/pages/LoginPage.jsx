@@ -2,129 +2,86 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdmin } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Importation de Framer Motion
+import "../css/login.css";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { error, loading } = useSelector((state) => state.auth);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     const resultAction = await dispatch(loginAdmin({ email, password }));
-
     if (loginAdmin.fulfilled.match(resultAction)) {
       navigate("/dashboard");
     }
   };
 
   return (
-    <>
-    
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>📚 Bibliothèque</h1>
-        <h3 style={styles.subtitle}>Connexion Bibliothécaire</h3>
+    <div className="login-container">
+      {/* Éléments de background animés */}
+      <motion.div 
+        className="bg-circle one"
+        animate={{ y: [0, 50, 0], x: [0, 30, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
+      <motion.div 
+        className="bg-circle two"
+        animate={{ y: [0, -60, 0], x: [0, -40, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Carte de Login avec animation d'entrée */}
+      <motion.div 
+        className="login-card"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h1 className="login-title">📚 Bibliothèque</h1>
+        <h3 className="login-subtitle">Connexion Administrateur</h3>
 
         <form onSubmit={handleLogin}>
-
-          <div style={styles.field}>
+          <div className="form-group">
             <label>Email</label>
             <input
-              style={styles.input}
               type="email"
-              placeholder="Entrer votre email"
+              placeholder="votre@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          <div style={styles.field}>
+          <div className="form-group">
             <label>Mot de passe</label>
             <input
-              style={styles.input}
               type="password"
-              placeholder="Entrer votre mot de passe"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          {error && <p style={styles.error}>{error}</p>}
+          {error && <motion.p initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="error-text">{error}</motion.p>}
 
-          <button style={styles.button} type="submit" disabled={loading}>
-            {loading ? "Connexion..." : "Se connecter"}
-          </button>
-
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="login-button" 
+            type="submit" 
+            disabled={loading}
+          >
+            {loading ? "Chargement..." : "Se connecter"}
+          </motion.button>
         </form>
-      </div>
+      </motion.div>
     </div>
-    </>
   );
-};
-
-const styles = {
-
-  container: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "linear-gradient(135deg, #4facfe, #00f2fe)"
-  },
-
-  card: {
-    background: "white",
-    padding: "40px",
-    borderRadius: "10px",
-    width: "350px",
-    boxShadow: "0 5px 20px rgba(0,0,0,0.2)"
-  },
-
-  title: {
-    textAlign: "center",
-    marginBottom: "5px"
-  },
-
-  subtitle: {
-    textAlign: "center",
-    marginBottom: "30px",
-    color: "gray"
-  },
-
-  field: {
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "15px"
-  },
-
-  input: {
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    marginTop: "5px"
-  },
-
-  button: {
-    width: "100%",
-    padding: "10px",
-    border: "none",
-    borderRadius: "5px",
-    background: "#007bff",
-    color: "white",
-    fontSize: "16px",
-    cursor: "pointer"
-  },
-
-  error: {
-    color: "red",
-    marginBottom: "10px"
-  }
 };
 
 export default Login;

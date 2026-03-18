@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEmprunts, validerEmprunt, refuserEmprunt, retournerEmprunt } from "../redux/slices/empruntsSlice";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-
+import "../css/emprunt.css"
 const EmpruntsPage = () => {
   
   const dispatch = useDispatch();
@@ -23,54 +23,74 @@ const EmpruntsPage = () => {
   const handleRetourner = (id) => { dispatch(retournerEmprunt(id)); };
 
   return (
-    <div>
-      <Header />
+    <div className="app-layout">
       <Sidebar />
-      <div style={{ marginLeft: "220px", padding: "20px" }}>
-        <h2>Gestion des Emprunts</h2>
-        <input
-            type="text"
-            placeholder="Rechercher par étudiant ou livre"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ marginBottom: "10px", width: "300px" }}
-        />
-        {loading && <p>Chargement...</p>}
-        {error && <p style={{ color: "red" }}>Erreur : {error}</p>}
-        <table border="1" cellPadding="10">
-          <thead>
-            <tr>
-              <th>Étudiant</th>
-              <th>Livre</th>
-              <th>Date Emprunt</th>
-              <th>Date Retour</th>
-              <th>Statut</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {empruntsFiltres.map((emprunt) => (
-              <tr key={emprunt.id}>
-                <td>{emprunt.etudiantNom}</td>
-                <td>{emprunt.livreTitre}</td>
-                <td>{emprunt.dateEmprunt}</td>
-                <td>{emprunt.dateRetour || "-"}</td>
-                <td>{emprunt.statut}</td>
-                <td>
-                  {emprunt.statut === "En attente" && (
-                    <>
-                      <button onClick={() => handleValider(emprunt.id)}>Valider</button>{" "}
-                      <button onClick={() => handleRefuser(emprunt.id)}>Refuser</button>
-                    </>
-                  )}
-                  {emprunt.statut === "Emprunté" && (
-                    <button onClick={() => handleRetourner(emprunt.id)}>Retourner</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="main-content">
+        <Header />
+        <main className="content-container">
+          <div className="page-header">
+            <div>
+              <h1>Gestion des Emprunts</h1>
+              <p>Validez les demandes et suivez les retours de livres.</p>
+            </div>
+          </div>
+
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="🔍 Rechercher un étudiant ou un livre..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          <div className="card table-card">
+            {loading ? (
+              <div className="status-msg">Chargement des données...</div>
+            ) : error ? (
+              <div className="error-msg">⚠️ Erreur : {error}</div>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Étudiant</th>
+                    <th>Livre</th>
+                    <th>Date Emprunt</th>
+                    <th>Date Retour</th>
+                    <th>Statut</th>
+                    <th className="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {empruntsFiltres.map((emprunt) => (
+                    <tr key={emprunt.id}>
+                      <td className="font-bold">{emprunt.etudiantNom}</td>
+                      <td>{emprunt.livreTitre}</td>
+                      <td>{new Date(emprunt.dateEmprunt).toLocaleDateString()}</td>
+                      <td>{emprunt.dateRetour ? new Date(emprunt.dateRetour).toLocaleDateString() : "-"}</td>
+                      <td>
+                        <span className={`status-badge ${emprunt.statut.toLowerCase().replace(/\s/g, '-')}`}>
+                          {emprunt.statut}
+                        </span>
+                      </td>
+                      <td className="actions-cell">
+                        {emprunt.statut === "En attente" && (
+                          <div className="btn-group">
+                            <button className="btn-action btn-check" onClick={() => handleValider(emprunt.id)}>✓ Valider</button>
+                            <button className="btn-action btn-cross" onClick={() => handleRefuser(emprunt.id)}>✕ Refuser</button>
+                          </div>
+                        )}
+                        {emprunt.statut === "Emprunté" && (
+                          <button className="btn-action btn-return" onClick={() => handleRetourner(emprunt.id)}>↩ Retourner</button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </main>
       </div>
     </div>
   );

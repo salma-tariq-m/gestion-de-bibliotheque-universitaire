@@ -17,7 +17,8 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookRepository>();
 builder.Services.AddScoped<BookService>();
-
+builder.Services.AddScoped<CategorieRepository>();
+builder.Services.AddScoped<CategorieService>();
 
 // 1️⃣ Ajouter le service CORS
 builder.Services.AddCors(options =>

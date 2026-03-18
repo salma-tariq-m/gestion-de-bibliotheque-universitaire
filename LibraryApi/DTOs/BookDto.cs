@@ -6,6 +6,7 @@ namespace LibraryApi.DTOs
         public string Auteur { get; set; } = string.Empty;
         public int Quantite { get; set; }
         public int Annee { get; set; }
-        
+        public int Id_Categorie { get; set; }
+        public string NomCategorie { get; set; } = string.Empty;
     }
 }

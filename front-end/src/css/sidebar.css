@@ -1,39 +1,84 @@
 .sidebar {
-    width: 230px;
+    width: 260px;
     height: 100vh;
+    /* Toute la hauteur de l'écran */
+    background-color: #1a202c;
+    /* Bleu très foncé */
+    color: #a0aec0;
+    display: flex;
+    flex-direction: column;
     position: fixed;
+    /* Reste fixe à gauche */
     left: 0;
     top: 0;
-    background: #24334c;
+    padding: 20px 0;
+    transition: all 0.3s ease;
 }
 
-.logo {
+
+/* Titre en haut de la sidebar */
+
+.sidebar-brand {
+    padding: 20px 25px;
+    color: white;
     text-align: center;
-    margin-bottom: 40px;
-    font-size: 22px;
+    border-bottom: 1px solid #2d3748;
+    margin-bottom: 20px;
 }
 
-.sidebar ul {
+.sidebar-brand h3 span {
+    color: #4299e1;
+    /* Bleu clair pour le contraste */
+}
+
+
+/* Navigation */
+
+.sidebar-nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.sidebar ul li {
-    margin: 15px 0;
+.sidebar-nav li {
+    margin: 5px 15px;
 }
 
-.sidebar ul li a {
-    text-decoration: none;
-    color: #cbd5f5;
-    font-size: 16px;
+.sidebar-nav a {
     display: block;
-    padding: 10px 15px;
+    padding: 12px 15px;
+    color: #cbd5e0;
+    text-decoration: none;
     border-radius: 8px;
-    transition: 0.3s;
+    font-weight: 500;
+    transition: all 0.2s;
 }
 
-.sidebar ul li a:hover {
-    background: #3b82f6;
-    color: white;
+
+/* Effet Hover */
+
+.sidebar-nav a:hover {
+    background-color: #2d3748;
+    color: #fff;
     transform: translateX(5px);
+}
+
+
+/* État Actif (Lien de la page où l'on se trouve) */
+
+.sidebar-nav li.active a {
+    background-color: #3182ce;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Footer Sidebar */
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.75rem;
+    border-top: 1px solid #2d3748;
 }

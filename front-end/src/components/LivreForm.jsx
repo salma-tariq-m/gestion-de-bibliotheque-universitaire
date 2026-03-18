@@ -1,202 +1,127 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "../css/form.css"
+const LivreForm = ({ initialData, onSubmit, onCancel }) => {
+  const [formData, setFormData] = useState(
+    initialData || { titre: '', auteur: '', quantite: 0, annee: 0, id_categorie: '' }
+  );
+  const [categories, setCategories] = useState([]);
 
-import { useDispatch } from "react-redux";
+  // Charger les catégories depuis le backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://localhost:5136/api/categories");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Erreur lors du chargement des catégories :", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
-import { addLivre } from "../redux/slices/livresSlice";
+  // Pré-remplir le formulaire si modification
+  useEffect(() => {
+    if (initialData) setFormData(initialData);
+  }, [initialData]);
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
 
-const LivreForm = ({ onCancel }) => {
+  return (
+    <div className="form-container">
+      <h2 className="form-title">
+        {initialData ? "📝 Modifier le livre" : "📚 Ajouter un nouveau livre"}
+      </h2>
+      
+      <form onSubmit={handleSubmit} className="modern-form">
+        {/* Titre occupe toute la largeur */}
+        <div className="form-group full-width">
+          <label>Titre du livre</label>
+          <input
+            name="titre"
+            value={formData.titre}
+            onChange={handleChange}
+            placeholder="Ex: Le Petit Prince"
+            required
+          />
+        </div>
 
-const dispatch = useDispatch();
+        {/* Auteur et Catégorie sur la même ligne */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Auteur</label>
+            <input
+              name="auteur"
+              value={formData.auteur}
+              onChange={handleChange}
+              placeholder="Nom de l'auteur"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Catégorie</label>
+            <select
+              name="id_categorie"
+              value={formData.id_categorie || ''}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Choisir --</option>
+              {categories.map(cat => (
+                <option key={cat.id_Categorie} value={cat.id_Categorie}>
+                  {cat.nomCategorie} 
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
+        {/* Quantité et Année sur la même ligne */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Quantité en stock</label>
+            <input
+              name="quantite"
+              type="number"
+              value={formData.quantite}
+              onChange={handleChange}
+              min="0"
+            />
+          </div>
+          <div className="form-group">
+            <label>Année de publication</label>
+            <input
+              name="annee"
+              type="number"
+              value={formData.annee}
+              onChange={handleChange}
+              placeholder="Ex: 2024"
+            />
+          </div>
+        </div>
 
-
-// État initial avec des chaînes vides
-
-const [livre, setLivre] = useState({
-
-titre: "",
-
-auteur: "",
-
-quantite: "",
-
-annee: ""
-
-});
-
-
-
-const handleChange = (e) => {
-
-const { name, value } = e.target;
-
-setLivre((prev) => ({
-
-...prev,
-
-[name]: value // On garde la valeur telle quelle (chaîne) pour l'input
-
-}));
-
+        <div className="form-actions">
+          <button type="button" className="btn-cancel" onClick={onCancel}>
+            Annuler
+          </button>
+          <button type="submit" className="btn-submit">
+            {initialData ? "Enregistrer les modifications" : "Ajouter à la bibliothèque"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
-
-
-
-const handleSubmit = (e) => {
-
-e.preventDefault();
-
-
-// On envoie les données en convertissant les nombres au moment du dispatch
-
-dispatch(addLivre({
-
-...livre,
-
-annee: parseInt(livre.annee, 10),
-
-quantite: parseInt(livre.quantite, 10)
-
-}));
-
-
-
-// Réinitialisation du formulaire après envoi
-
-setLivre({ titre: "", auteur: "", quantite: "", annee: "" });
-
-};
-
-
-
-return (
-
-<form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-
-<div>
-
-<label>Titre : </label>
-
-<input
-
-type="text"
-
-name="titre"
-
-placeholder="Titre du livre"
-
-value={livre.titre || ""}
-
-onChange={handleChange}
-
-required
-
-/>
-
-</div>
-
-<br />
-
-
-
-<div>
-
-<label>Auteur : </label>
-
-<input
-
-type="text"
-
-name="auteur"
-
-placeholder="Nom de l'auteur"
-
-value={livre.auteur || ""}
-
-onChange={handleChange}
-
-required
-
-/>
-
-</div>
-
-<br />
-
-
-
-<div>
-
-<label>Année : </label>
-
-<input
-
-type="number"
-
-name="annee"
-
-placeholder="Année de parution"
-
-value={livre.annee || ""}
-
-onChange={handleChange}
-
-required
-
-/>
-
-</div>
-
-<br />
-
-
-
-<div>
-
-<label>Quantité : </label>
-
-<input
-
-type="number"
-
-name="quantite"
-
-placeholder="Quantité en stock"
-
-value={livre.quantite || ""}
-
-onChange={handleChange}
-
-required
-
-/>
-
-</div>
-
-<br />
-
-
-
-<button type="submit">Enregistrer</button>{" "}
-
-{onCancel && (
-
-<button type="button" onClick={onCancel}>
-
-Annuler
-
-</button>
-
-)}
-
-</form>
-
-);
-
-};
-
 
 
 export default LivreForm;

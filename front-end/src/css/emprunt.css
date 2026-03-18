@@ -1,0 +1,95 @@
+/* Statuts des emprunts */
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.en-attente {
+    background-color: #fef3c7;
+    /* Jaune */
+    color: #92400e;
+}
+
+.status-badge.emprunté {
+    background-color: #dbeafe;
+    /* Bleu */
+    color: #1e40af;
+}
+
+.status-badge.retourné {
+    background-color: #dcfce7;
+    /* Vert */
+    color: #166534;
+}
+
+.status-badge.refusé {
+    background-color: #fee2e2;
+    /* Rouge */
+    color: #991b1b;
+}
+
+
+/* Boutons d'action */
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-check {
+    background-color: #22c55e;
+    color: white;
+}
+
+.btn-check:hover {
+    background-color: #16a34a;
+}
+
+.btn-cross {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-cross:hover {
+    background-color: #dc2626;
+}
+
+.btn-return {
+    background-color: #6366f1;
+    /* Indigo */
+    color: white;
+    float: right;
+}
+
+.btn-return:hover {
+    background-color: #4f46e5;
+}
+
+
+/* Messages d'état */
+
+.status-msg,
+.error-msg {
+    padding: 40px;
+    text-align: center;
+    color: #64748b;
+}
+
+.error-msg {
+    color: #dc2626;
+}

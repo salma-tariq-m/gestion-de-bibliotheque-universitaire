@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-public class Categorie
+namespace LibraryApi.Models
 {
-    [Key]
-    public int Id_Categorie { get; set; }
-    public string NomCategorie { get; set; } = string.Empty;
+    public class Categorie
+    {
+        public int Id_Categorie { get; set; }
+        public string NomCategorie { get; set; } = string.Empty;
 
-    public List<Livre> Livres { get; set; } = new List<Livre>();
+        // Liste des livres de cette catégorie
+        public ICollection<Livre> Livres { get; set; } = new List<Livre>();
+    }
 }

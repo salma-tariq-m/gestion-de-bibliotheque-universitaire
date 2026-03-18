@@ -1,20 +1,13 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LibraryApi.Models
+namespace LibraryApi.DTOs
 {
-    public class Livre
+    public class BookWithCategorieDto
     {
         public int Id_Livre { get; set; }
         public string Titre { get; set; } = string.Empty;
         public string Auteur { get; set; } = string.Empty;
         public int Quantite { get; set; }
         public int Annee { get; set; }
-
-        // Foreign key
         public int Id_Categorie { get; set; }
-
-        // Propriété de navigation
-        [ForeignKey("Id_Categorie")]
-        public Categorie Categorie { get; set; } = null!;
+        public string NomCategorie { get; set; } = string.Empty; // juste pour afficher
     }
 }

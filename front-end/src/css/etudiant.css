@@ -1,0 +1,21 @@
+/* À ajouter dans ton fichier global si ce n'est pas déjà fait */
+
+.text-right {
+    text-align: right;
+}
+
+.actions-cell {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+
+/* Style spécifique pour différencier l'email */
+
+td:nth-child(2) {
+    color: #64748b;
+    font-family: monospace;
+    font-size: 0.9rem;
+}

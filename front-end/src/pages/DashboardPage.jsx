@@ -1,25 +1,108 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import axios from "axios";
+import { Bar, Pie } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import "../css/dashboard.css"
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const DashboardPage = () => {
+  const [stats, setStats] = useState({
+    totalBooks: 0,
+    borrowedBooks: 0,
+    pendingRequests: 0,
+    monthlyBorrows: [],
+    availableBooks: 0
+  });
+
+  useEffect(() => {
+    // Exemple d'appel à ton backend
+    axios.get("https://ton-backend/api/dashboard")
+      .then(res => {
+        setStats(res.data);
+      })
+      .catch(err => {
+        console.error("Erreur lors de la récupération des données", err);
+      });
+  }, []);
+
+  const barData = {
+    labels: stats.monthlyBorrows.map(m => m.month),
+    datasets: [{
+      label: "Emprunts",
+      data: stats.monthlyBorrows.map(m => m.count),
+      backgroundColor: "#3b82f6", // Bleu moderne
+      borderRadius: 6,
+    }],
+  };
+
+  const pieData = {
+    labels: ["Disponibles", "Empruntés"],
+    datasets: [{
+      data: [stats.availableBooks, stats.borrowedBooks],
+      backgroundColor: ["#10b981", "#f59e0b"], // Vert et Orange modernes
+      borderWidth: 0,
+    }],
+  };
+
   return (
-    <div>
-      <Header />
+    <div className="app-layout">
       <Sidebar />
-      <div style={{ marginLeft: "220px", padding: "20px" }}>
-        <h2>Bienvenue sur le Dashboard</h2>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div style={{ background: "#17a2b8", color: "white", padding: "20px", borderRadius: "5px" }}>
-            Nombre de livres : 
+      <div className="main-content">
+        <Header />
+        <main className="content-container">
+          <div className="page-header">
+            <div>
+              <h1>Tableau de bord</h1>
+              <p>Aperçu en temps réel de l'activité de la bibliothèque.</p>
+            </div>
           </div>
-          <div style={{ background: "#28a745", color: "white", padding: "20px", borderRadius: "5px" }}>
-            Emprunts en cours : 
+
+          {/* Section des compteurs (Stat Cards) */}
+          <div className="stats-grid">
+            <div className="stat-card blue">
+              <div className="stat-icon">📚</div>
+              <div className="stat-info">
+                <h3>{stats.totalBooks}</h3>
+                <p>Total Livres</p>
+              </div>
+            </div>
+
+            <div className="stat-card green">
+              <div className="stat-icon">🔄</div>
+              <div className="stat-info">
+                <h3>{stats.borrowedBooks}</h3>
+                <p>Emprunts en cours</p>
+              </div>
+            </div>
+
+            <div className="stat-card orange">
+              <div className="stat-icon">⏳</div>
+              <div className="stat-info">
+                <h3>{stats.pendingRequests}</h3>
+                <p>Demandes en attente</p>
+              </div>
+            </div>
           </div>
-          <div style={{ background: "#ffc107", color: "white", padding: "20px", borderRadius: "5px" }}>
-            Demandes en attente : 
+
+          {/* Section des Graphiques */}
+          <div className="charts-grid">
+            <div className="card chart-card main-chart">
+              <h3>📈 Volume des emprunts mensuels</h3>
+              <div className="chart-wrapper">
+                <Bar data={barData} options={{ responsive: true, maintainAspectRatio: false }} />
+              </div>
+            </div>
+
+            <div className="card chart-card side-chart">
+              <h3>📊 État du stock</h3>
+              <div className="chart-wrapper">
+                <Pie data={pieData} />
+              </div>
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

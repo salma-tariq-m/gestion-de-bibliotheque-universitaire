@@ -1,8 +1,6 @@
 using LibraryApi.Data;
 using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LibraryApi.Repositories
 {
@@ -15,7 +13,13 @@ namespace LibraryApi.Repositories
             _context = context;
         }
 
-        // GET: tous les emprunts avec info étudiant et livre
+        public async Task<List<Emprunt>> GetAllWithIncludes()
+        {
+            return await _context.Emprunts
+                .Include(e => e.Etudiant)
+                .Include(e => e.Livre)
+                .ToListAsync();
+        }
         public async Task<List<Emprunt>> GetAllAsync()
         {
             return await _context.Emprunts
@@ -24,7 +28,6 @@ namespace LibraryApi.Repositories
                 .ToListAsync();
         }
 
-        // GET: emprunt par Id
         public async Task<Emprunt?> GetByIdAsync(int id)
         {
             return await _context.Emprunts
@@ -33,24 +36,13 @@ namespace LibraryApi.Repositories
                 .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
         }
 
-        // POST: ajouter un emprunt
         public async Task<Emprunt> AddAsync(Emprunt emprunt)
         {
-            // vérifier livre disponible
-            var livre = await _context.Books.FindAsync(emprunt.Id_Livre);
-            if (livre == null || livre.Quantite <= 0)
-                throw new InvalidOperationException("Livre non disponible.");
-
             await _context.Emprunts.AddAsync(emprunt);
-
-            // réduire la quantité du livre
-            livre.Quantite--;
-
             await _context.SaveChangesAsync();
             return emprunt;
         }
 
-        // PUT: mettre à jour un emprunt
         public async Task<Emprunt> UpdateAsync(Emprunt emprunt)
         {
             _context.Emprunts.Update(emprunt);
@@ -58,23 +50,37 @@ namespace LibraryApi.Repositories
             return emprunt;
         }
 
-        // DELETE: supprimer un emprunt
         public async Task<bool> DeleteAsync(int id)
         {
-            var emprunt = await _context.Emprunts
-                .Include(e => e.Livre)
-                .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
-
-            if (emprunt == null)
-                return false;
-
-            // remettre le livre en stock
-            if (emprunt.Livre != null)
-                emprunt.Livre.Quantite++;
+            var emprunt = await _context.Emprunts.FindAsync(id);
+            if (emprunt == null) return false;
 
             _context.Emprunts.Remove(emprunt);
             await _context.SaveChangesAsync();
             return true;
+        }
+        
+        public async Task<Etudiant?> GetEtudiantByCEF(int cef)
+        {
+            return await _context.Etudiants
+                .FirstOrDefaultAsync(e => e.CEF == cef);
+        }
+
+        public async Task<Livre?> GetLivreByTitre(string titre)
+        {
+            return await _context.Books
+                .FirstOrDefaultAsync(l => l.Titre == titre);
+        }
+
+        public async Task<bool> IsLivreDejaEmprunte(int livreId)
+        {
+            return await _context.Emprunts
+                .AnyAsync(e => e.Id_Livre == livreId && e.DateRetourReelle == null);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

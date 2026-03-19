@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryApi.Models
 {
     public class Categorie
     {
+        [Key]
         public int Id_Categorie { get; set; }
         public string NomCategorie { get; set; } = string.Empty;
 

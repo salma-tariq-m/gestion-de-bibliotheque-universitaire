@@ -1,6 +1,5 @@
 using LibraryApi.Data;
 using LibraryApi.DTOs;
-using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.Services
@@ -54,6 +53,22 @@ namespace LibraryApi.Services
             _context.Etudiants.Remove(etudiant);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<Etudiant?> UpdateStudent(int id, EtudiantDto dto)
+        {
+            var etudiant = await _context.Etudiants.FindAsync(id);
+
+            if (etudiant == null)
+                return null;
+
+            etudiant.Nom = dto.Nom;
+            etudiant.Prenom = dto.Prenom;
+            etudiant.Email = dto.Email;
+            etudiant.Id_Fillier = dto.Id_Fillier;
+
+            await _context.SaveChangesAsync();
+
+            return etudiant;
         }
     }
 }

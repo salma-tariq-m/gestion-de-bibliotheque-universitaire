@@ -1,4 +1,4 @@
-/* À ajouter dans ton fichier global si ce n'est pas déjà fait */
+/* etudiant.css redesigned */
 
 .text-right {
     text-align: right;
@@ -8,14 +8,17 @@
     text-align: right;
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
+    gap: 12px;
 }
 
-
 /* Style spécifique pour différencier l'email */
-
 td:nth-child(2) {
-    color: #64748b;
-    font-family: monospace;
+    color: var(--accent-primary);
+    font-family: 'Inter', monospace;
     font-size: 0.9rem;
+}
+
+.table-card {
+    padding: 0;
+    overflow-x: auto;
 }

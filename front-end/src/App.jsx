@@ -8,16 +8,16 @@ import EmpruntsPage from "./pages/EmpruntsPage";
 function App() {
   return (
     <>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/etudiants" element={<EtudiantsPage />} />
-        <Route path="/livres" element={<LivresPage />} />
-        <Route path="/emprunts" element={<EmpruntsPage />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/etudiants" element={<EtudiantsPage />} />
+          <Route path="/livres" element={<LivresPage />} />
+          <Route path="/emprunts" element={<EmpruntsPage />} />
 
-      </Routes>
-    </Router></>
+        </Routes>
+      </Router></>
   );
 }
 

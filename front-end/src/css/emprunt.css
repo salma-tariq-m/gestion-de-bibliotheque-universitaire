@@ -1,40 +1,41 @@
-/* Statuts des emprunts */
+/* emprunt.css redesigned for global dark theme */
 
 .status-badge {
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
 }
 
 .status-badge.en-attente {
-    background-color: #fef3c7;
-    /* Jaune */
-    color: #92400e;
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border-color: rgba(245, 158, 11, 0.2);
 }
 
 .status-badge.emprunté {
-    background-color: #dbeafe;
-    /* Bleu */
-    color: #1e40af;
+    background-color: rgba(56, 189, 248, 0.1);
+    color: var(--accent-primary);
+    border-color: rgba(56, 189, 248, 0.2);
 }
 
 .status-badge.retourné {
-    background-color: #dcfce7;
-    /* Vert */
-    color: #166534;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border-color: rgba(16, 185, 129, 0.2);
 }
 
 .status-badge.refusé {
-    background-color: #fee2e2;
-    /* Rouge */
-    color: #991b1b;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.2);
 }
 
-
 /* Boutons d'action */
-
 .btn-group {
     display: flex;
     gap: 8px;
@@ -42,54 +43,66 @@
 }
 
 .btn-action {
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
     border: none;
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .btn-check {
-    background-color: #22c55e;
-    color: white;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .btn-check:hover {
-    background-color: #16a34a;
+    background-color: var(--success);
+    color: white;
+    transform: translateY(-1px);
 }
 
 .btn-cross {
-    background-color: #ef4444;
-    color: white;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .btn-cross:hover {
-    background-color: #dc2626;
+    background-color: var(--danger);
+    color: white;
+    transform: translateY(-1px);
 }
 
 .btn-return {
-    background-color: #6366f1;
-    /* Indigo */
-    color: white;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.2);
     float: right;
 }
 
 .btn-return:hover {
-    background-color: #4f46e5;
+    background-color: #6366f1;
+    color: white;
+    transform: translateY(-1px);
 }
-
 
 /* Messages d'état */
-
 .status-msg,
 .error-msg {
-    padding: 40px;
+    padding: 60px 40px;
     text-align: center;
-    color: #64748b;
+    font-size: 1.1rem;
+    color: var(--text-muted);
 }
 
 .error-msg {
-    color: #dc2626;
+    color: var(--danger);
+}
+
+.table-card {
+    padding: 0;
+    overflow-x: auto;
 }

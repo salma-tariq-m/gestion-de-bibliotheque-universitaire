@@ -1,74 +1,119 @@
 .header {
-    height: 70px;
-    background-color: #ffffff;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    /* Ombre subtile pour l'effet de profondeur */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #edf2f7;
+    z-index: 90;
+    border-bottom: 1px solid var(--border-color);
 }
 
-
-/* Style du Logo */
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin: 0;
+.header-left .logo {
+    display: none; 
 }
-
-.logo span {
-    color: #3182ce;
-    /* Bleu pro */
-}
-
-
-/* Partie Droite */
 
 .header-right {
     display: flex;
     align-items: center;
+    margin-left: auto;
 }
 
 .user-info {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
 }
 
 .user-role {
     font-size: 0.85rem;
-    color: #718096;
-    font-weight: 500;
-    background: #f7fafc;
-    padding: 5px 12px;
+    color: var(--accent-primary);
+    font-weight: 600;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 6px 16px;
     border-radius: 20px;
 }
 
-
-/* Bouton Logout */
-
 .logout-btn {
-    background-color: #feb2b2;
-    /* Rouge très clair */
-    color: #c53030;
-    /* Rouge foncé */
-    border: none;
-    padding: 8px 18px;
-    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 20px;
+    border-radius: 10px;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logout-btn:hover {
-    background-color: #fc8181;
+    background: var(--danger);
     color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     transform: translateY(-1px);
+}
+
+@media (max-width: 1024px) {
+    .header-left .logo {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+    .header-left .logo span {
+        color: var(--accent-primary);
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0 20px;
+        height: 60px;
+    }
+    
+    .user-info {
+        gap: 12px;
+    }
+    
+    
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .header-left .logo {
+        font-size: 1.1rem;
+    }
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
+    color: var(--text-main);
+}
+
+.theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
 }

@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/etudiants";
+const API_URL = "http://localhost:5136/api/etudiants";
 
 // Récupérer tous les étudiants
 export const fetchEtudiants = createAsyncThunk("etudiants/fetchEtudiants", async () => {
-  const res = await axios.get(API_URL);
-  return res.data;
+
+  const response = await axios.get(API_URL);
+  return response.data;
 });
 
 // Ajouter un étudiant
@@ -18,15 +19,28 @@ export const addEtudiant = createAsyncThunk("etudiants/addEtudiant", async (etud
 // Modifier un étudiant
 export const updateEtudiant = createAsyncThunk(
   "etudiants/updateEtudiant",
-  async ({ id, etudiant }) => {
-    const res = await axios.put(`${API_URL}/${id}`, etudiant);
-    return res.data;
+  async ({ id, etudiant }, { rejectWithValue }) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5136/api/etudiants/${id}`,
+        etudiant
+      );
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "Erreur lors de la mise à jour"
+      );
+    }
   }
 );
 
 // Supprimer un étudiant
+
 export const deleteEtudiant = createAsyncThunk("etudiants/deleteEtudiant", async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+  const url = `${API_URL}/${id}`;
+  console.log("Appel API DELETE sur :", url);
+  await axios.delete(url);
   return id;
 });
 

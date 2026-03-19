@@ -1,84 +1,134 @@
 .sidebar {
     width: 260px;
     height: 100vh;
-    /* Toute la hauteur de l'écran */
-    background-color: #1a202c;
-    /* Bleu très foncé */
-    color: #a0aec0;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-muted);
     display: flex;
     flex-direction: column;
     position: fixed;
-    /* Reste fixe à gauche */
     left: 0;
     top: 0;
-    padding: 20px 0;
+    z-index: 100;
     transition: all 0.3s ease;
 }
 
-
-/* Titre en haut de la sidebar */
-
 .sidebar-brand {
-    padding: 20px 25px;
-    color: white;
+    padding: 30px 25px;
+    background: transparent;
     text-align: center;
-    border-bottom: 1px solid #2d3748;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
 }
 
-.sidebar-brand h3 span {
-    color: #4299e1;
-    /* Bleu clair pour le contraste */
+.sidebar-brand h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
 }
 
-
-/* Navigation */
+.sidebar-brand h3 span {
+    color: var(--accent-primary);
+}
 
 .sidebar-nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 16px; /* give some padding around items */
 }
 
 .sidebar-nav li {
-    margin: 5px 15px;
+    margin-bottom: 8px;
 }
 
 .sidebar-nav a {
-    display: block;
-    padding: 12px 15px;
-    color: #cbd5e0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    color: var(--text-muted);
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
-
-
-/* Effet Hover */
 
 .sidebar-nav a:hover {
-    background-color: #2d3748;
-    color: #fff;
-    transform: translateX(5px);
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--text-main);
+    transform: translateX(4px);
 }
-
-
-/* État Actif (Lien de la page où l'on se trouve) */
 
 .sidebar-nav li.active a {
-    background-color: #3182ce;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-
-/* Footer Sidebar */
 
 .sidebar-footer {
     margin-top: auto;
-    padding: 20px;
+    padding: 24px;
     text-align: center;
-    font-size: 0.75rem;
-    border-top: 1px solid #2d3748;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border-color);
+    color: #64748b;
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 100%;
+        height: 70px;
+        bottom: 0;
+        top: auto;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+        padding: 0;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar-brand, .sidebar-footer {
+        display: none;
+    }
+    
+    .sidebar-nav {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sidebar-nav ul {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0;
+        flex: 1;
+    }
+    
+    .sidebar-nav a {
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px 4px;
+        font-size: 0.75rem;
+        border-radius: 8px;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .sidebar-nav a:hover {
+        transform: none;
+        background-color: transparent;
+        color: var(--accent-primary);
+    }
 }

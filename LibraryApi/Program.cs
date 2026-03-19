@@ -15,10 +15,19 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
+
 builder.Services.AddScoped<BookRepository>();
 builder.Services.AddScoped<BookService>();
+
 builder.Services.AddScoped<CategorieRepository>();
 builder.Services.AddScoped<CategorieService>();
+
+builder.Services.AddScoped<EtudiantRepository>();
+builder.Services.AddScoped<EtudiantService>();
+
+builder.Services.AddScoped<EmpruntRepository>();
+builder.Services.AddScoped<EmpruntService>();
+
 
 // 1️⃣ Ajouter le service CORS
 builder.Services.AddCors(options =>

@@ -42,5 +42,18 @@ namespace LibraryApi.Controllers
 
             return Ok(new { message = "Étudiant supprimé avec succès !" });
         }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] EtudiantDto dto)
+        {
+            if (dto == null)
+                return BadRequest("Données invalides");
+
+            var etudiant = await _service.UpdateStudent(id, dto);
+
+            if (etudiant == null)
+                return NotFound(new { message = "Étudiant non trouvé" });
+
+            return Ok(new { message = "Étudiant modifié avec succès" });
+        }
     }
 }

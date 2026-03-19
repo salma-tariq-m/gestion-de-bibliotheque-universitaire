@@ -42,7 +42,7 @@ const LivreForm = ({ initialData, onSubmit, onCancel }) => {
       <h2 className="form-title">
         {initialData ? "📝 Modifier le livre" : "📚 Ajouter un nouveau livre"}
       </h2>
-      
+
       <form onSubmit={handleSubmit} className="modern-form">
         {/* Titre occupe toute la largeur */}
         <div className="form-group full-width">
@@ -79,7 +79,7 @@ const LivreForm = ({ initialData, onSubmit, onCancel }) => {
               <option value="">-- Choisir --</option>
               {categories.map(cat => (
                 <option key={cat.id_Categorie} value={cat.id_Categorie}>
-                  {cat.nomCategorie} 
+                  {cat.nomCategorie}
                 </option>
               ))}
             </select>

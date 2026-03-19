@@ -13,14 +13,10 @@ namespace LibraryApi.Services
         {
             _repository = repository;
         }
-
-        // Récupérer un livre par ID
         public async Task<Livre?> GetBookById(int id_livre)
         {
             return await _repository.GetByIdAsync(id_livre);
         }
-
-        // Récupérer tous les livres avec le nom de la catégorie
         public async Task<List<BookWithCategorieDto>> GetAllBooks()
         {
             return await _repository.GetAllWithCategorieDtoAsync();

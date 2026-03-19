@@ -9,7 +9,7 @@ const Sidebar = () => {
       <div className="sidebar-brand">
         <h3>BIBLIO<span>SOFT</span></h3>
       </div>
-      
+
       <nav className="sidebar-nav">
         <ul>
           <li className={location.pathname === "/dashboard" ? "active" : ""}>
@@ -26,7 +26,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-      
+
       <div className="sidebar-footer">
         <p>© 2026 Admin Panel</p>
       </div>

@@ -1,76 +1,84 @@
 using LibraryApi.DTOs;
 using LibraryApi.Models;
+using LibraryApi.Repositories;
 using Microsoft.EntityFrameworkCore;
-using LibraryApi.Data;
-namespace LibraryApi.Services
+
+public class EmpruntService
 {
-    public class EmpruntService
+    private readonly EmpruntRepository _repository;
+
+    public EmpruntService(EmpruntRepository repository)
     {
-        private readonly LibraryContext _context;
+        _repository = repository;
+    }
 
-        public EmpruntService(LibraryContext context)
+    // ✅ GET ALL
+    public async Task<List<EmpruntDto>> GetAllEmprunts()
+    {
+        var emprunts = await _repository.GetAllWithIncludes();
+
+        return emprunts.Select(e => new EmpruntDto
         {
-            _context = context;
-        }
+            Id_Emprunt = e.Id_Emprunt,
+            EtudiantNom = e.Etudiant!.Nom + " " + e.Etudiant.Prenom,
+            EtudiantCEF = e.Etudiant.CEF,
+            LivreTitre = e.Livre!.Titre,
+            DateEmprunt = e.Date_Emprunt,
+            DateRetourPrevue = e.DateRetourPrevue,
+            DateRetourReelle = e.DateRetourReelle,
+            Statut = e.DateRetourReelle != null ? "Retourné" : "Emprunté"
+        }).ToList();
+    }
 
-        // GET: tous les emprunts avec nom étudiant et titre livre
-        public async Task<List<EmpruntDto>> GetAllEmprunts()
-        {
-            var emprunts = await _context.Emprunts
-                .Include(e => e.Etudiant)
-                .Include(e => e.Livre)
-                .Select(e => new EmpruntDto
-                {
-                    DateEmprunt = e.Date_Emprunt,
-                    DateRetourPrevue = e.DateRetourPrevue,
-                    EtudiantNom = e.Etudiant.Nom,
-                    LivreTitre = e.Livre.Titre
-                })
-                .ToListAsync();
+    // ✅ CREATE
+public async Task<string> CreateEmprunt(CreateEmpruntDto dto)
+{
+    var etudiant = await _repository.GetEtudiantByCEF(dto.EtudiantCEF);
+    if (etudiant == null)
+        return "Étudiant introuvable";
 
-            return emprunts;
-        }
+    var livre = await _repository.GetLivreByTitre(dto.LivreTitre);
+    if (livre == null)
+        return "Livre introuvable";
 
-        // POST: ajouter un nouvel emprunt
-        public async Task<Emprunt> CreateEmprunt(EmpruntDto dto)
-        {
-            // Vérifier disponibilité du livre
-            var livre = await _context.Books.FindAsync(dto.LivreId);
-            if (livre == null || livre.Quantite <= 0)
-                throw new InvalidOperationException("Livre non disponible.");
+    if (livre.Quantite <= 0)
+        return "Livre en rupture de stock";
 
-            var emprunt = new Emprunt
-            {
-                Id_Etudiant = dto.EtudiantId,
-                Id_Livre = dto.LivreId,
-                Date_Emprunt = dto.DateEmprunt,
-                DateRetourPrevue = dto.DateRetourPrevue
-            };
+    var dejaEmprunte = await _repository.IsLivreDejaEmprunte(livre.Id_Livre);
+    if (dejaEmprunte)
+        return "Ce livre est déjà emprunté";
 
-            _context.Emprunts.Add(emprunt);
-            livre.Quantite--; // réduire quantité
-            await _context.SaveChangesAsync();
+    var emprunt = new Emprunt
+    {
+        Id_etudiant = etudiant.Id_etudiant,
+        Id_Livre = livre.Id_Livre,
+        Date_Emprunt = dto.DateEmprunt,
+        DateRetourPrevue = dto.DateRetourPrevue
+    };
 
-            return emprunt;
-        }
+    await _repository.AddAsync(emprunt);
 
-        // DELETE: supprimer / retourner un emprunt
-        public async Task<bool> DeleteEmprunt(int id)
-        {
-            var emprunt = await _context.Emprunts
-                .Include(e => e.Livre)
-                .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
+    livre.Quantite -= 1;
 
-            if (emprunt == null)
-                return false;
+    await _repository.SaveAsync();
 
-            // remettre le livre en stock
-            emprunt.Livre.Quantite++;
+    return "Emprunt créé avec succès";
+}
+    // ✅ RETOURNER
+    public async Task<bool> RetournerEmprunt(int id)
+    {
+        var emprunt = await _repository.GetByIdAsync(id);
+        if (emprunt == null) return false;
 
-            _context.Emprunts.Remove(emprunt);
-            await _context.SaveChangesAsync();
+        emprunt.DateRetourReelle = DateTime.Now;
 
-            return true;
-        }
+        await _repository.UpdateAsync(emprunt);
+        return true;
+    }
+
+    // ✅ DELETE
+    public async Task<bool> DeleteEmprunt(int id)
+    {
+        return await _repository.DeleteAsync(id);
     }
 }

@@ -11,11 +11,15 @@ namespace LibraryApi.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Livre>().HasKey(b => b.Id_Livre);
             base.OnModelCreating(modelBuilder);
 
-            // Map le DbSet sur la table existante
-            modelBuilder.Entity<Categorie>().ToTable("Categorie");
+            modelBuilder.Entity<Livre>().HasKey(b => b.Id_Livre);
+
+            modelBuilder.Entity<Categorie>(entity =>
+            {
+                entity.ToTable("Categorie");
+                entity.HasKey(c => c.Id_Categorie); 
+            });
         }
 
         public DbSet<User> Users { get; set; }

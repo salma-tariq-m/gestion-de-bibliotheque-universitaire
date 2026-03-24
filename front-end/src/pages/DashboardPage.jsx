@@ -17,8 +17,7 @@ const DashboardPage = () => {
   });
 
   useEffect(() => {
-    // Exemple d'appel à ton backend
-    axios.get("https://ton-backend/api/dashboard")
+    axios.get("http://localhost:5136/api/dashboard")
       .then(res => {
         setStats(res.data);
       })

@@ -75,7 +75,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 20px;
+    margin: 0 3PX 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -155,7 +155,22 @@
 .form-group input:not(:placeholder-shown) + .input-icon {
     color: #38bdf8;
 }
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.input-wrapper svg {
+  position: absolute;
+  right: 10px;
+  transition: 0.3s;
+}
+/* 👇 Quand l'input est focus */
+.input-wrapper:focus-within svg {
+  opacity: 0;
+  transform: translateX(10px);
+}
 .error-text {
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.2);

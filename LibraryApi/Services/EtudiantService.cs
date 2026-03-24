@@ -13,17 +13,16 @@ namespace LibraryApi.Services
             _context = context;
         }
 
-        // GET: Tous les étudiants
         public async Task<List<Etudiant>> GetAllStudents()
         {
             return await _context.Etudiants.ToListAsync();
         }
 
-        // POST: Créer un nouvel étudiant
         public async Task<Etudiant> CreateStudent(EtudiantDto dto)
         {
             var etudiant = new Etudiant
             {
+                Cef=dto.Cef,
                 Nom = dto.Nom,
                 Prenom = dto.Prenom,
                 Email = dto.Email,
@@ -40,13 +39,12 @@ namespace LibraryApi.Services
         public async Task<bool> DeleteStudent(int id)
         {
             var etudiant = await _context.Etudiants
-                .Include(e => e.Emprunts) // si tu as une relation Emprunt
+                .Include(e => e.Emprunts) 
                 .FirstOrDefaultAsync(e => e.Id_etudiant == id);
 
             if (etudiant == null)
                 return false;
 
-            // Vérifier si l’étudiant a des emprunts actifs
             if (etudiant.Emprunts != null && etudiant.Emprunts.Any(e => e.DateRetourReelle == null))
                 throw new InvalidOperationException("Impossible de supprimer un étudiant ayant des emprunts actifs.");
 
@@ -60,7 +58,7 @@ namespace LibraryApi.Services
 
             if (etudiant == null)
                 return null;
-
+            etudiant.Cef = dto.Cef;
             etudiant.Nom = dto.Nom;
             etudiant.Prenom = dto.Prenom;
             etudiant.Email = dto.Email;

@@ -90,7 +90,7 @@ const Login = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            Bibliothèque Pro
+            Bibliothèque
           </motion.h1>
           <motion.p
             className="login-subtitle"
@@ -98,7 +98,7 @@ const Login = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            Connexion au panneau d'administration
+            Connexion
           </motion.p>
         </div>
 

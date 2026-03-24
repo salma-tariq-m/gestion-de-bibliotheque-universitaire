@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/form.css"
 const LivreForm = ({ initialData, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState(
-    initialData || { titre: '', auteur: '', quantite: 0, annee: 0, id_categorie: '' }
-  );
+ const [formData, setFormData] = useState(
+  initialData || { titre: '', auteur: '', quantite: 0, annee: 0, id_categorie: 0 }
+);
   const [categories, setCategories] = useState([]);
 
   // Charger les catégories depuis le backend
@@ -26,15 +26,21 @@ const LivreForm = ({ initialData, onSubmit, onCancel }) => {
   }, [initialData]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const { name, value } = e.target;
+
+  setFormData({
+    ...formData,
+    [name]:
+      name === "id_categorie" || name === "quantite" || name === "annee"
+        ? Number(value)
+        : value
+  });
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
+    console.log(formData);
   };
 
   return (

@@ -11,7 +11,7 @@ namespace LibraryApi.DTOs
     {
         public int Id_Emprunt { get; set; }
         public string EtudiantNom { get; set; } = string.Empty;
-        public int EtudiantCEF { get; set; }
+        public string EtudiantCEF { get; set; }= string.Empty;
         public string LivreTitre { get; set; } = string.Empty;
         public DateTime DateEmprunt { get; set; }
         public DateTime DateRetourPrevue { get; set; }

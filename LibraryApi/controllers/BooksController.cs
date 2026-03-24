@@ -15,7 +15,6 @@ namespace LibraryApi.Controllers
             _service = service;
         }
 
-        // GET : tous les livres avec nom de catégorie
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -23,7 +22,6 @@ namespace LibraryApi.Controllers
             return Ok(books);
         }
 
-        // POST : ajouter un livre
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookDto dto)
         {
@@ -32,8 +30,6 @@ namespace LibraryApi.Controllers
             await _service.CreateBook(dto);
             return Ok(new { message = "Livre ajouté avec succès !" });
         }
-
-        // PUT : modifier un livre
         [HttpPut("{id_livre:int}")]
         public async Task<IActionResult> UpdateBook(int id_livre, [FromBody] BookDto dto)
         {
@@ -45,7 +41,6 @@ namespace LibraryApi.Controllers
             return Ok(new { message = "Livre modifié avec succès" });
         }
 
-        // DELETE : supprimer un livre
         [HttpDelete("{id_livre:int}")]
         public async Task<IActionResult> DeleteBook(int id_livre)
         {

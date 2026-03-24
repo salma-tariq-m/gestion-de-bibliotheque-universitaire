@@ -7,6 +7,7 @@ import LivreForm from "../components/LivreForm";
 import { Book, Plus, Search, Edit2, Trash2, Library, Loader2, AlertCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/livres.css"
+import TotalBook from "../components/totalBook";
 
 const LivresPage = () => {
   const dispatch = useDispatch();
@@ -135,6 +136,7 @@ const LivresPage = () => {
                 <tr>
                   <th>Titre du Livre</th>
                   <th>Auteur</th>
+                  <th>Categorie</th>
                   <th>Statut / Stock</th>
                   <th>Année</th>
                   <th className="text-right">Actions</th>
@@ -177,8 +179,9 @@ const LivresPage = () => {
                         </div>
                       </td>
                       <td>{livre.auteur}</td>
+                      <td>{livre.nomCategorie}</td>
                       <td>
-                        <span className={`badge ${livre.quantite > 0 ? 'badge-success' : 'badge-danger'}`}>
+                        <span className={`badge ${livre.quantite > 5 ? 'badge-success' : 'badge-danger'}`}>
                           {livre.quantite > 0 ? (
                             <>
                               <span className="status-dot dot-success"></span>

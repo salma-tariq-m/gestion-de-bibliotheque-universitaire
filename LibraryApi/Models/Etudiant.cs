@@ -5,7 +5,7 @@ public class Etudiant
 {
     [Key]
     public int Id_etudiant { get; set; }
-    public int CEF {get;set;} 
+    public string Cef { get; set; } = string.Empty;
     public string Prenom { get; set; } = string.Empty;
     public string Nom { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

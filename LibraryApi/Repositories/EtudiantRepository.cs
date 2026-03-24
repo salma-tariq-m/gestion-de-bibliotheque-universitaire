@@ -3,7 +3,7 @@ using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using LibraryApi.DTOs;
 namespace LibraryApi.Repositories
 {
     public class EtudiantRepository
@@ -37,9 +37,17 @@ namespace LibraryApi.Repositories
         }
 
         // PUT: mettre à jour un étudiant
-        public async Task<Etudiant> UpdateAsync(Etudiant etudiant)
+       public async Task<Etudiant?> UpdateStudent(int id, EtudiantDto dto)
         {
-            _context.Etudiants.Update(etudiant);
+            var etudiant = await _context.Etudiants.FindAsync(id);
+            if (etudiant == null) return null;
+
+            etudiant.Cef = dto.Cef;         
+            etudiant.Nom = dto.Nom;
+            etudiant.Prenom = dto.Prenom;
+            etudiant.Email = dto.Email;
+            etudiant.Id_Fillier = dto.Id_Fillier;
+
             await _context.SaveChangesAsync();
             return etudiant;
         }

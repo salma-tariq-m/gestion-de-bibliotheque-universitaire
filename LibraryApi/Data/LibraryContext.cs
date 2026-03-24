@@ -9,6 +9,13 @@ namespace LibraryApi.Data
             : base(options)
         {
         }
+//         protected override void OnModelCreating(ModelBuilder modelBuilder)
+// {
+//     modelBuilder.Entity<Etudiant>()
+//         .HasOne(e => e.Fillier)
+//         .WithMany(f => f.Etudiants)
+//         .HasForeignKey(e => e.Id_Fillier);
+// }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,8 +33,10 @@ namespace LibraryApi.Data
         public DbSet<Livre> Books { get; set; }
         public DbSet<Etudiant> Etudiants { get; set; }
         public DbSet<Emprunt> Emprunts { get; set; }
-        public DbSet<Categorie> Categorie { get; set; } // <== ici le nom correspond à ta table SQL
+        public DbSet<Categorie> Categorie { get; set; } 
+        public DbSet<Fillier> Fillier { get; set; } // <== ici le nom correspond à ta table SQL
 
+        
 
 
     }

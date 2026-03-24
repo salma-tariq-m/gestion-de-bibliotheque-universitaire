@@ -14,11 +14,11 @@ namespace LibraryApi.Controllers
             _service = service;
         }
 
-        // [HttpGet]
-        // public IActionResult GetDashboard()
-        // {
-        //     var data = _service.GetDashboardData();
-        //     return Ok(data);
-        // }
+        [HttpGet]
+        public IActionResult GetDashboard()
+        {
+            var data = _service.GetDashboardData();
+            return Ok(data);
+        }
     }
 }

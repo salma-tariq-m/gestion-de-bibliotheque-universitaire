@@ -1,178 +1,98 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginAdmin } from "../redux/slices/authSlice";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FiMail, FiLock, FiArrowRight, FiShield } from "react-icons/fi";
 import "../css/login.css";
+import bgImage from "/image.png";
 
-// SVG Icons
-const MailIcon = () => (
-  <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="2" />
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-  </svg>
-);
+export default function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false);
 
-const LockIcon = () => (
-  <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
-
-const ShieldIcon = () => (
-  <svg className="login-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-  </svg>
-);
-
-const AlertIcon = () => (
-  <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="12" y1="8" x2="12" y2="12" />
-    <line x1="12" y1="16" x2="12.01" y2="16" />
-  </svg>
-);
-
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { error, loading } = useSelector((state) => state.auth);
-
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    const resultAction = await dispatch(loginAdmin({ email, password }));
-    if (loginAdmin.fulfilled.match(resultAction)) {
-      navigate("/dashboard");
-    }
+    setIsLoading(true);
+    // Simulation de connexion
+    setTimeout(() => setIsLoading(false), 2000);
   };
 
   return (
     <div className="login-container">
-      {/* Dynamic Ambient Background Elements */}
-      <motion.div
-        className="bg-glow glow-primary"
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="bg-glow glow-secondary"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-      />
-      <motion.div
-        className="bg-glow glow-accent"
-        animate={{ scale: [0.8, 1, 0.8], opacity: [0.2, 0.3, 0.2] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      />
+      <div className="login-card">
+        
+        {/* SECTION GAUCHE : Identité du système */}
+        <div className="left-panel">
+          <img src={bgImage} alt="Fond" id="bg-img" />
+          
+          <div className="hero-content">
+            <h1>Espace <br /> <span>Bibliothécaire.</span></h1>
+            <p>
+              Interface sécurisée de gestion des ressources académiques 
+              et du catalogue universitaire.
+            </p>
+          </div>
 
-      {/* Login Card */}
-      <motion.div
-        className="login-card"
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="login-header">
-          <motion.div
-            className="login-icon-wrapper"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.3 }}
-          >
-            <ShieldIcon />
-          </motion.div>
-          <motion.h1
-            className="login-title"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            Bibliothèque
-          </motion.h1>
-          <motion.p
-            className="login-subtitle"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            Connexion
-          </motion.p>
+          <div className="bottom-info">
+            <nav className="footer-nav">
+              <span>ADMINISTRATION CENTRALE</span>
+            </nav>
+          </div>
         </div>
 
-        <form onSubmit={handleLogin}>
-          <motion.div
-            className="form-group"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <label>Adresse e-mail</label>
-            <div className="input-wrapper">
-              <input
-                type="email"
-                placeholder="votre.email@exemple.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <MailIcon />
-            </div>
-          </motion.div>
+        {/* SECTION DROITE : Connexion */}
+        <motion.div 
+          className="right-panel"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="form-wrapper">
+            <h2>Connexion</h2>
+            <p className="subtitle">Accédez à votre console de gestion</p>
 
-          <motion.div
-            className="form-group"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <label>Mot de passe</label>
-            <div className="input-wrapper">
-              <input
-                type="password"
-                placeholder="••••••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <LockIcon />
-            </div>
-          </motion.div>
+            <form onSubmit={handleLogin}>
+              <div className="input-group">
+                <label>IDENTIFIANT PROFESSIONNEL</label>
+                <div className="input-wrapper">
+                  <input type="email" placeholder="nom@universite.ma" required />
+                  <FiMail className="input-icon" />
+                </div>
+              </div>
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, height: 0, scale: 0.9 }}
-              animate={{ opacity: 1, height: "auto", scale: 1 }}
-              className="error-text"
-            >
-              <AlertIcon />
-              <span>{error}</span>
-            </motion.div>
-          )}
+              <div className="input-group">
+                <div className="label-row">
+                  <label>MOT DE PASSE</label>
+                  <span className="forgot-link">Oublié ?</span>
+                </div>
+                <div className="input-wrapper">
+                  <input type="password" placeholder="••••••••" required />
+                  <FiLock className="input-icon" />
+                </div>
+              </div>
+              <motion.button 
+                type="submit"
+                className="submit-btn"
+                disabled={isLoading}
+                whileHover={!isLoading ? { backgroundColor: "#004ecc" } : {}}
+                whileTap={!isLoading ? { scale: 0.98 } : {}}
+              >
+                {isLoading ? (
+                  <motion.div 
+                    className="spinner"
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  />
+                ) : (
+                  <>Accéder à la console <FiArrowRight /></>
+                )}
+              </motion.button>
+            </form>
 
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="login-button"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <div className="spinner"></div>
-                <span>Connexion en cours...</span>
-              </>
-            ) : (
-              "Se connecter"
-            )}
-          </motion.button>
-        </form>
-      </motion.div>
+            <p className="legal-notice">
+              <FiShield /> Accès restreint. Les activités de cette session 
+              sont enregistrées pour l'audit de sécurité.
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}

@@ -28,6 +28,8 @@ builder.Services.AddScoped<EtudiantService>();
 builder.Services.AddScoped<FillierRepository>();
 builder.Services.AddScoped<FillierService>();
 
+builder.Services.AddScoped<DashboardRepository>();
+builder.Services.AddScoped<DashboardService>();
 // builder.Services.AddScoped<EmpruntRepository>();
 // builder.Services.AddScoped<EmpruntService>();
 

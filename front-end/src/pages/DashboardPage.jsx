@@ -17,21 +17,21 @@ const DashboardPage = () => {
   });
 
   useEffect(() => {
+    // Remplacer par ton URL réelle
     axios.get("http://localhost:5136/api/dashboard")
-      .then(res => {
-        setStats(res.data);
-      })
-      .catch(err => {
-        console.error("Erreur lors de la récupération des données", err);
-      });
+      .then(res => setStats(res.data))
+      .catch(err => console.error("Erreur API:", err));
   }, []);
 
+  // Sécurité : on s'assure que monthlyBorrows est bien un tableau avant le map
+  const borrowsData = stats.monthlyBorrows || [];
+
   const barData = {
-    labels: stats.monthlyBorrows.map(m => m.month),
+    labels: borrowsData.map(m => m.month),
     datasets: [{
       label: "Emprunts",
-      data: stats.monthlyBorrows.map(m => m.count),
-      backgroundColor: "#3b82f6", // Bleu moderne
+      data: borrowsData.map(m => m.count),
+      backgroundColor: "#3b82f6",
       borderRadius: 6,
     }],
   };
@@ -40,7 +40,7 @@ const DashboardPage = () => {
     labels: ["Disponibles", "Empruntés"],
     datasets: [{
       data: [stats.availableBooks, stats.borrowedBooks],
-      backgroundColor: ["#10b981", "#f59e0b"], // Vert et Orange modernes
+      backgroundColor: ["#10b981", "#f59e0b"],
       borderWidth: 0,
     }],
   };

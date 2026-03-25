@@ -1,40 +1,24 @@
-using LibraryApi.DTOs;
-using LibraryApi.Models; 
-using LibraryApi.Data;
-namespace LibraryApi.Services
+public interface IDashboardService
 {
-    public class DashboardService
+    Task<DashboardDto> GetDashboardStats();
+}
+
+public class DashboardService : IDashboardService
+{
+    private readonly IDashboardRepository _repo;
+    public DashboardService(IDashboardRepository repo) => _repo = repo;
+
+    public async Task<DashboardDto> GetDashboardStats()
     {
-        private readonly LibraryContext _context;
-
-        public DashboardService(LibraryContext context)
-        {
-            _context = context;
-        }
-
-    //     public DashboardDto GetDashboardData()
-    //     {
-    //         var totalBooks = _context.Books.Count();
-    //         var borrowedBooks = _context.Books.Count(b => b.IsBorrowed);
-    //         var pendingRequests = _context.Requests.Count(r => r.Status == "Pending");
-    //         var availableBooks = totalBooks - borrowedBooks;
-
-    //         var monthlyBorrows = _context.Borrows
-    //         .GroupBy(b => b.DateBorrowed.ToDateTime(TimeOnly.MinValue).Month) // <- conversion DateOnly -> DateTime
-    //         .Select(g => new MonthlyBorrow
-    //         {
-    //             Month = new DateTime(2026, g.Key, 1).ToString("MMM"),
-    //             Count = g.Count()
-    //         })
-    //         .ToList();
-    //         return new DashboardDto
-    //         {
-    //             TotalBooks = totalBooks,
-    //             BorrowedBooks = borrowedBooks,
-    //             PendingRequests = pendingRequests,
-    //             AvailableBooks = availableBooks,
-    //             MonthlyBorrows = monthlyBorrows
-    //         };
-    //     }
-     }
+        var total = await _repo.GetTotalBooksCount();
+        var borrowed = await _repo.GetBorrowedBooksCount();
+        
+        return new DashboardDto {
+            TotalBooks = total,
+            BorrowedBooks = borrowed,
+            PendingRequests = await _repo.GetPendingRequestsCount(),
+            AvailableBooks = total - borrowed, // Logique métier ici
+            MonthlyBorrows = await _repo.GetMonthlyBorrows(6)
+        };
+    }
 }

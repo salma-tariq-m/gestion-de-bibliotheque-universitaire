@@ -318,3 +318,15 @@ C:\Users\us\Desktop\salma\gestion-de-bibliotheque-universitaire\LibraryApi\obj\D
 C:\Users\us\Desktop\salma\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.pdb
 C:\Users\us\Desktop\salma\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.genruntimeconfig.cache
 C:\Users\us\Desktop\salma\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\ref\LibraryApi.dll
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.csproj.AssemblyReference.cache
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.AssemblyInfoInputs.cache
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.AssemblyInfo.cs
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.csproj.CoreCompileInputs.cache
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.sourcelink.json
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.dll
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\refint\LibraryApi.dll
+C:\Users\Usuari\Desktop\githubWork\gestion-de-bibliotheque-universitaire\LibraryApi\obj\Debug\net10.0\LibraryApi.pdb

@@ -1,24 +1,18 @@
-using LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace LibraryApi.Controllers
+
+[Route("api/[controller]")]
+[ApiController]
+public class DashboardController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DashboardController : ControllerBase
+    private readonly IDashboardService _service;
+    public DashboardController(IDashboardService service) => _service = service;
+
+    [HttpGet]
+    public async Task<ActionResult<DashboardDto>> Get()
     {
-        private readonly DashboardService _service;
-
-        public DashboardController(DashboardService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet]
-        public IActionResult GetDashboard()
-        {
-            var data = _service.GetDashboardData();
-            return Ok(data);
-        }
+        return Ok(await _service.GetDashboardStats());
     }
 }
+    

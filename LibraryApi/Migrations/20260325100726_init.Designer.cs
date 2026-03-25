@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryApi.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20260317153913_Update")]
-    partial class Update
+    [Migration("20260325100726_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace LibraryApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Categorie", b =>
+            modelBuilder.Entity("LibraryApi.Models.Categorie", b =>
                 {
                     b.Property<int>("Id_Categorie")
                         .ValueGeneratedOnAdd()
@@ -39,10 +39,10 @@ namespace LibraryApi.Migrations
 
                     b.HasKey("Id_Categorie");
 
-                    b.ToTable("Categorie");
+                    b.ToTable("Categorie", (string)null);
                 });
 
-            modelBuilder.Entity("Emprunt", b =>
+            modelBuilder.Entity("LibraryApi.Models.Emprunt", b =>
                 {
                     b.Property<int>("Id_Emprunt")
                         .ValueGeneratedOnAdd()
@@ -59,34 +59,31 @@ namespace LibraryApi.Migrations
                     b.Property<DateTime>("Date_Emprunt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EtudiantId_etudiant")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_Etudiant")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id_Livre")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LivreId_Livre")
+                    b.Property<int>("Id_etudiant")
                         .HasColumnType("int");
 
                     b.HasKey("Id_Emprunt");
 
-                    b.HasIndex("EtudiantId_etudiant");
+                    b.HasIndex("Id_Livre");
 
-                    b.HasIndex("LivreId_Livre");
+                    b.HasIndex("Id_etudiant");
 
-                    b.ToTable("Emprunts");
+                    b.ToTable("Emprunt", (string)null);
                 });
 
-            modelBuilder.Entity("Etudiant", b =>
+            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
                 {
                     b.Property<int>("Id_etudiant")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_etudiant"));
+
+                    b.Property<int>("Cef")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -100,20 +97,24 @@ namespace LibraryApi.Migrations
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id_etudiant");
 
                     b.HasIndex("FillierId_Fillier");
 
-                    b.ToTable("Etudiants");
+                    b.HasIndex("Id_Fillier");
+
+                    b.ToTable("Etudiant", (string)null);
                 });
 
-            modelBuilder.Entity("Fillier", b =>
+            modelBuilder.Entity("LibraryApi.Models.Fillier", b =>
                 {
                     b.Property<int>("Id_Fillier")
                         .ValueGeneratedOnAdd()
@@ -127,35 +128,10 @@ namespace LibraryApi.Migrations
 
                     b.HasKey("Id_Fillier");
 
-                    b.ToTable("Fillier");
+                    b.ToTable("Fillier", (string)null);
                 });
 
-            modelBuilder.Entity("LibraryApi.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Livre", b =>
+            modelBuilder.Entity("LibraryApi.Models.Livre", b =>
                 {
                     b.Property<int>("Id_Livre")
                         .ValueGeneratedOnAdd()
@@ -184,36 +160,71 @@ namespace LibraryApi.Migrations
 
                     b.HasIndex("Id_Categorie");
 
-                    b.ToTable("Books");
+                    b.ToTable("Livre", (string)null);
                 });
 
-            modelBuilder.Entity("Emprunt", b =>
+            modelBuilder.Entity("LibraryApi.Models.User", b =>
                 {
-                    b.HasOne("Etudiant", "Etudiant")
-                        .WithMany("Emprunts")
-                        .HasForeignKey("EtudiantId_etudiant");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("Livre", "Livre")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("LibraryApi.Models.Emprunt", b =>
+                {
+                    b.HasOne("LibraryApi.Models.Livre", "Livre")
+                        .WithMany()
+                        .HasForeignKey("Id_Livre")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibraryApi.Models.Etudiant", "Etudiant")
                         .WithMany("Emprunts")
-                        .HasForeignKey("LivreId_Livre");
+                        .HasForeignKey("Id_etudiant")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Etudiant");
 
                     b.Navigation("Livre");
                 });
 
-            modelBuilder.Entity("Etudiant", b =>
+            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
                 {
-                    b.HasOne("Fillier", "Fillier")
-                        .WithMany("Etudiants")
+                    b.HasOne("LibraryApi.Models.Fillier", "Fillier")
+                        .WithMany()
                         .HasForeignKey("FillierId_Fillier");
+
+                    b.HasOne("LibraryApi.Models.Fillier", null)
+                        .WithMany("Etudiants")
+                        .HasForeignKey("Id_Fillier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Fillier");
                 });
 
-            modelBuilder.Entity("Livre", b =>
+            modelBuilder.Entity("LibraryApi.Models.Livre", b =>
                 {
-                    b.HasOne("Categorie", "Categorie")
+                    b.HasOne("LibraryApi.Models.Categorie", "Categorie")
                         .WithMany("Livres")
                         .HasForeignKey("Id_Categorie")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -222,24 +233,19 @@ namespace LibraryApi.Migrations
                     b.Navigation("Categorie");
                 });
 
-            modelBuilder.Entity("Categorie", b =>
+            modelBuilder.Entity("LibraryApi.Models.Categorie", b =>
                 {
                     b.Navigation("Livres");
                 });
 
-            modelBuilder.Entity("Etudiant", b =>
+            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
                 {
                     b.Navigation("Emprunts");
                 });
 
-            modelBuilder.Entity("Fillier", b =>
+            modelBuilder.Entity("LibraryApi.Models.Fillier", b =>
                 {
                     b.Navigation("Etudiants");
-                });
-
-            modelBuilder.Entity("Livre", b =>
-                {
-                    b.Navigation("Emprunts");
                 });
 #pragma warning restore 612, 618
         }

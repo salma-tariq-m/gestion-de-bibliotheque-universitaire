@@ -15,7 +15,7 @@ namespace LibraryApi.Repositories
 
         public async Task<List<Fillier>> GetAllAsync()
         {
-            return await _context.Fillier.ToListAsync(); // Assurez-vous que DbSet s'appelle Filliers
+            return await _context.Filliers.ToListAsync(); // Assurez-vous que DbSet s'appelle Filliers
         }
     }
 }

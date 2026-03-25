@@ -10,7 +10,7 @@ export const loginAdmin = createAsyncThunk(
         email,
         password,
       });
-      return response.data; // { message, email, role }
+      return response.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || { message: "Erreur serveur" });
     }

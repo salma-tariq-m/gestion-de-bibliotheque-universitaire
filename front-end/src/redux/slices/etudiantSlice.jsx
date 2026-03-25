@@ -3,63 +3,91 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5136/api/etudiants";
 
-// Récupérer tous les étudiants
-export const fetchEtudiants = createAsyncThunk("etudiants/fetchEtudiants", async () => {
+// GET
+export const fetchEtudiants = createAsyncThunk(
+  "etudiants/fetchEtudiants",
+  async () => {
+    const res = await axios.get(API_URL);
+    return res.data;
+  }
+);
 
-  const response = await axios.get(API_URL);
-  return response.data;
-});
+// ADD
+export const addEtudiant = createAsyncThunk(
+  "etudiants/addEtudiant",
+  async (etudiant) => {
+    const res = await axios.post(API_URL, etudiant);
+    return res.data;
+  }
+);
 
-// Ajouter un étudiant
-export const addEtudiant = createAsyncThunk("etudiants/addEtudiant", async (etudiant) => {
-  const res = await axios.post(API_URL, etudiant);
-  return res.data;
-});
-
-// Modifier un étudiant
+// UPDATE
 export const updateEtudiant = createAsyncThunk(
   "etudiants/updateEtudiant",
   async ({ id, etudiant }, { rejectWithValue }) => {
     try {
-      const res = await axios.put(
-        `http://localhost:5136/api/etudiants/${id}`,
-        etudiant
-      );
-
+      const res = await axios.put(`${API_URL}/${id}`, etudiant);
       return res.data;
     } catch (err) {
-      return rejectWithValue(
-        err.response?.data || "Erreur lors de la mise à jour"
-      );
+      console.log(err.response?.data);
+      return rejectWithValue(err.response?.data || "Erreur");
     }
   }
 );
 
-// Supprimer un étudiant
-
-export const deleteEtudiant = createAsyncThunk("etudiants/deleteEtudiant", async (id) => {
-  const url = `${API_URL}/${id}`;
-  console.log("Appel API DELETE sur :", url);
-  await axios.delete(url);
-  return id;
-});
+// DELETE
+export const deleteEtudiant = createAsyncThunk(
+  "etudiants/deleteEtudiant",
+  async (id) => {
+    await axios.delete(`${API_URL}/${id}`);
+    return id;
+  }
+);
 
 const etudiantsSlice = createSlice({
   name: "etudiants",
-  initialState: { etudiants: [], loading: false, error: null },
+  initialState: {
+    etudiants: [],
+    loading: false,
+    error: null
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEtudiants.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(fetchEtudiants.fulfilled, (state, action) => { state.loading = false; state.etudiants = action.payload; })
-      .addCase(fetchEtudiants.rejected, (state, action) => { state.loading = false; state.error = action.error.message; })
-      .addCase(addEtudiant.fulfilled, (state, action) => { state.etudiants.push(action.payload); })
-      .addCase(updateEtudiant.fulfilled, (state, action) => {
-        const index = state.etudiants.findIndex(e => e.id === action.payload.id);
-        if (index !== -1) state.etudiants[index] = action.payload;
+
+      // GET
+      .addCase(fetchEtudiants.pending, (state) => {
+        state.loading = true;
       })
+      .addCase(fetchEtudiants.fulfilled, (state, action) => {
+        state.loading = false;
+        state.etudiants = action.payload;
+      })
+      .addCase(fetchEtudiants.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // ADD
+      .addCase(addEtudiant.fulfilled, (state, action) => {
+        state.etudiants.push(action.payload);
+      })
+
+      // UPDATE
+      .addCase(updateEtudiant.fulfilled, (state, action) => {
+        const index = state.etudiants.findIndex(
+          (e) => e.id_etudiant === action.payload.id_etudiant
+        );
+        if (index !== -1) {
+          state.etudiants[index] = action.payload;
+        }
+      })
+
+      // DELETE
       .addCase(deleteEtudiant.fulfilled, (state, action) => {
-        state.etudiants = state.etudiants.filter(e => e.id !== action.payload);
+        state.etudiants = state.etudiants.filter(
+          (e) => e.id_etudiant !== action.payload
+        );
       });
   },
 });

@@ -16,7 +16,7 @@ namespace LibraryApi.Repositories
         // Récupérer toutes les catégories
         public async Task<List<Categorie>> GetAllAsync()
         {
-            return await _context.Categorie.ToListAsync(); // <== correspond au DbSet
+            return await _context.Categories.ToListAsync(); // <== correspond au DbSet
         }
     }
 }

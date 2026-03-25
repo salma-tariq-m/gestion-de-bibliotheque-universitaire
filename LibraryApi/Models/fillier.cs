@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-public class Fillier
+namespace LibraryApi.Models
 {
-    [Key]
-    public int Id_Fillier { get; set; }
-    public string NomFillier { get; set; } = string.Empty;
+    public class Fillier
+    {
+        [Key]
+        public int Id_Fillier { get; set; }
+        public string NomFillier { get; set; } = string.Empty;
+        public List<Etudiant> Etudiants { get; set; } = new List<Etudiant>();
+    }
 
-    public List<Etudiant> Etudiants { get; set; } = new List<Etudiant>();
 }

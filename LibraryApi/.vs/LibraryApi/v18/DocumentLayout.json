@@ -1,0 +1,508 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\services\\empruntservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:services\\empruntservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\dtos\\empruntdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:dtos\\empruntdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\controllers\\empruntscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:controllers\\empruntscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\dtos\\etudiantdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:dtos\\etudiantdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\empruntrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\empruntrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\emprunt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\emprunt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\controllers\\etudiantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:controllers\\etudiantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\etudiantrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\etudiantrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\etudiant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\etudiant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\services\\etudiantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:services\\etudiantservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\bookrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\dtos\\fillierdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:dtos\\fillierdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\dtos\\bookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:dtos\\bookdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\fillierrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\fillierrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Migrations\\20260325100726_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260325100726_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\dashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\dashboardrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:services\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\data\\librarycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:data\\librarycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\repositories\\categorierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:repositories\\categorierepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\fillier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\fillier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\models\\categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:models\\categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|c:\\users\\us\\desktop\\salmaprojet\\gestion-de-bibliotheque-universitaire\\libraryapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D8702C00-4C6C-DB2F-1210-F7577BDB4928}|LibraryApi.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmpruntRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\EmpruntRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\EmpruntRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\EmpruntRepository.cs",
+              "RelativeToolTip": "Repositories\\EmpruntRepository.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwCUAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T15:11:15.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmpruntsController.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\EmpruntsController.cs",
+              "RelativeDocumentMoniker": "controllers\\EmpruntsController.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\EmpruntsController.cs",
+              "RelativeToolTip": "controllers\\EmpruntsController.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAADwvw0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T15:07:18.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EmpruntService.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\EmpruntService.cs",
+              "RelativeDocumentMoniker": "Services\\EmpruntService.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\EmpruntService.cs",
+              "RelativeToolTip": "Services\\EmpruntService.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T15:04:27.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EmpruntDto.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\EmpruntDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\EmpruntDto.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\EmpruntDto.cs",
+              "RelativeToolTip": "DTOs\\EmpruntDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAowA4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T15:03:27.988Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EtudiantService.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\EtudiantService.cs",
+              "RelativeDocumentMoniker": "Services\\EtudiantService.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\EtudiantService.cs",
+              "RelativeToolTip": "Services\\EtudiantService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAIwCQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T13:53:15.187Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EtudiantRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\EtudiantRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\EtudiantRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\EtudiantRepository.cs",
+              "RelativeToolTip": "Repositories\\EtudiantRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:47:58.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EtudiantDto.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\EtudiantDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\EtudiantDto.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\EtudiantDto.cs",
+              "RelativeToolTip": "DTOs\\EtudiantDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:32:11.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BookRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\BookRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\BookRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\BookRepository.cs",
+              "RelativeToolTip": "Repositories\\BookRepository.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAADwvyMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T13:51:39.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "D:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "D:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAAAMVAAAAAAAAAAAnwBIVAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2026-03-25T09:45:15.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EtudiantController.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\EtudiantController.cs",
+              "RelativeDocumentMoniker": "controllers\\EtudiantController.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\EtudiantController.cs",
+              "RelativeToolTip": "controllers\\EtudiantController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:26:01.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Etudiant.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Etudiant.cs",
+              "RelativeDocumentMoniker": "Models\\Etudiant.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Etudiant.cs",
+              "RelativeToolTip": "Models\\Etudiant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:54:43.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Emprunt.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Emprunt.cs",
+              "RelativeDocumentMoniker": "Models\\Emprunt.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Emprunt.cs",
+              "RelativeToolTip": "Models\\Emprunt.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:57:08.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "20260325100726_init.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Migrations\\20260325100726_init.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260325100726_init.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Migrations\\20260325100726_init.cs",
+              "RelativeToolTip": "Migrations\\20260325100726_init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T10:07:27.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\controllers\\DashboardController.cs",
+              "RelativeToolTip": "controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:11:47.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DashboardRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\DashboardRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\DashboardRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\DashboardRepository.cs",
+              "RelativeToolTip": "Repositories\\DashboardRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:12:09.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "DashboardService.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\DashboardService.cs",
+              "RelativeDocumentMoniker": "Services\\DashboardService.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Services\\DashboardService.cs",
+              "RelativeToolTip": "Services\\DashboardService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:12:18.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAEwFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:53:28.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BookDto.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\BookDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\BookDto.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\BookDto.cs",
+              "RelativeToolTip": "DTOs\\BookDto.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAYwAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:33:49.082Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FillierDto.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\FillierDto.cs",
+              "RelativeDocumentMoniker": "DTOs\\FillierDto.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\DTOs\\FillierDto.cs",
+              "RelativeToolTip": "DTOs\\FillierDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T11:34:24.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FillierRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\FillierRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\FillierRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\FillierRepository.cs",
+              "RelativeToolTip": "Repositories\\FillierRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAhwA8AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T10:06:37.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CategorieRepository.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\CategorieRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\CategorieRepository.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Repositories\\CategorieRepository.cs",
+              "RelativeToolTip": "Repositories\\CategorieRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAIA1wBIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T10:06:17.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "LibraryContext.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Data\\LibraryContext.cs",
+              "RelativeDocumentMoniker": "Data\\LibraryContext.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Data\\LibraryContext.cs",
+              "RelativeToolTip": "Data\\LibraryContext.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAYwA4AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:55:18.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "book.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\book.cs",
+              "RelativeDocumentMoniker": "Models\\book.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\book.cs",
+              "RelativeToolTip": "Models\\book.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAswAwAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:54:36.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:55:55.873Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Fillier.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Fillier.cs",
+              "RelativeDocumentMoniker": "Models\\Fillier.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\Fillier.cs",
+              "RelativeToolTip": "Models\\Fillier.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:54:59.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "categorie.cs",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\categorie.cs",
+              "RelativeDocumentMoniker": "Models\\categorie.cs",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\Models\\categorie.cs",
+              "RelativeToolTip": "Models\\categorie.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T09:55:04.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-25T09:53:33.128Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

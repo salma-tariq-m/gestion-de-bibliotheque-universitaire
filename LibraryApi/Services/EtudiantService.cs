@@ -1,72 +1,37 @@
-using LibraryApi.Data;
-using LibraryApi.DTOs;
-using Microsoft.EntityFrameworkCore;
+using LibraryApi.Models;
 
-namespace LibraryApi.Services
+public class EtudiantService
 {
-    public class EtudiantService
+    private readonly EtudiantRepository _repo;
+
+    public EtudiantService(EtudiantRepository repo)
     {
-        private readonly LibraryContext _context;
-
-        public EtudiantService(LibraryContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<List<Etudiant>> GetAllStudents()
-        {
-            return await _context.Etudiants.ToListAsync();
-        }
-
-        public async Task<Etudiant> CreateStudent(EtudiantDto dto)
-        {
-            var etudiant = new Etudiant
-            {
-                Cef=dto.Cef,
-                Nom = dto.Nom,
-                Prenom = dto.Prenom,
-                Email = dto.Email,
-                Id_Fillier = dto.Id_Fillier
-            };
-
-            _context.Etudiants.Add(etudiant);
-            await _context.SaveChangesAsync();
-
-            return etudiant;
-        }
-
-        // DELETE: Supprimer un étudiant par Id
-        public async Task<bool> DeleteStudent(int id)
-        {
-            var etudiant = await _context.Etudiants
-                .Include(e => e.Emprunts) 
-                .FirstOrDefaultAsync(e => e.Id_etudiant == id);
-
-            if (etudiant == null)
-                return false;
-
-            if (etudiant.Emprunts != null && etudiant.Emprunts.Any(e => e.DateRetourReelle == null))
-                throw new InvalidOperationException("Impossible de supprimer un étudiant ayant des emprunts actifs.");
-
-            _context.Etudiants.Remove(etudiant);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        public async Task<Etudiant?> UpdateStudent(int id, EtudiantDto dto)
-        {
-            var etudiant = await _context.Etudiants.FindAsync(id);
-
-            if (etudiant == null)
-                return null;
-            etudiant.Cef = dto.Cef;
-            etudiant.Nom = dto.Nom;
-            etudiant.Prenom = dto.Prenom;
-            etudiant.Email = dto.Email;
-            etudiant.Id_Fillier = dto.Id_Fillier;
-
-            await _context.SaveChangesAsync();
-
-            return etudiant;
-        }
+        _repo = repo;
     }
+
+    public async Task<List<Etudiant>> GetAll()
+        => await _repo.GetAll();
+
+    public async Task<Etudiant?> GetById(int id)
+        => await _repo.GetById(id);
+
+    public async Task Add(Etudiant e)
+        => await _repo.Add(e);
+
+    public async Task Update(int id, Etudiant e)
+    {
+        var existing = await _repo.GetById(id);
+        if (existing == null) return;
+
+        existing.Nom = e.Nom;
+        existing.Prenom = e.Prenom;
+        existing.Email = e.Email;
+        existing.Cef = e.Cef;
+        existing.Id_Fillier = e.Id_Fillier;
+
+        await _repo.Update(existing);
+    }
+
+    public async Task Delete(int id)
+        => await _repo.Delete(id);
 }

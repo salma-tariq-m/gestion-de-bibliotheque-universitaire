@@ -160,7 +160,7 @@ const EtudiantsPage = () => {
                 >
                   {etudiantsFiltres.map((etudiant) => (
                     <motion.tr variants={itemVariants} key={etudiant.id_etudiant}>
-                      <td>{etudiant.CEF}</td>
+                      <td>{etudiant.cef}</td>
                       <td className="font-bold">
                         <div className="book-cell">
                           <div className="book-icon-bg">
@@ -170,7 +170,7 @@ const EtudiantsPage = () => {
                         </div>
                       </td>
                       <td>{etudiant.email}</td>
-                      <td>{etudiant.fillier || "-"}</td>
+                      <td>{etudiant.fillier?.nomFillier}</td>
                       <td className="actions-cell">
                         <button
                           className="btn-icon edit-icon"

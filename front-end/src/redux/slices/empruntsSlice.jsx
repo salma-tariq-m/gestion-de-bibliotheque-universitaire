@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5136/api/emprunts";
+const API_URL = "http://localhost:5136/api/emprunt";
 
 // 🔹 Récupérer tous les emprunts
 export const fetchEmprunts = createAsyncThunk(

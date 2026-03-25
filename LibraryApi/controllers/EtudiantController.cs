@@ -1,61 +1,78 @@
-using LibraryApi.DTOs;
-using LibraryApi.Services;
+using LibraryApi.Data;
+using LibraryApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace LibraryApi.Controllers
+[ApiController]
+[Route("api/etudiant")]
+public class EtudiantController : ControllerBase
 {
-    [ApiController]
-    [Route("api/etudiants")]
-    public class EtudiantsController : ControllerBase
+    private readonly EtudiantService _service;
+    private readonly LibraryContext _context;
+
+    public EtudiantController(EtudiantService service, LibraryContext context)
     {
-        private readonly EtudiantService _service;
+        _service = service;
+        _context = context; 
+    }
 
-        public EtudiantsController(EtudiantService service)
-        {
-            _service = service;
-        }
 
-        // GET: api/etudiants
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var students = await _service.GetAllStudents();
-            return Ok(students);
-        }
+    // GET ALL
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var etudiants = await _context.Etudiants
+            .Include(e => e.Fillier) // مهم باش fillier يجي مع etudiant
+            .ToListAsync();
 
-        // POST: api/etudiants
-        [HttpPost]
-        public async Task<IActionResult> Post(EtudiantDto dto)
-        {
-            await _service.CreateStudent(dto);
-            return Ok(new { message = "Étudiant ajouté !" });
-        }
+        return Ok(etudiants);
+    }
 
-        // DELETE: api/etudiants/5
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var success = await _service.DeleteStudent(id);
+    // GET BY ID
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var etudiant = await _service.GetById(id);
+        if (etudiant == null) return NotFound();
+        return Ok(etudiant);
+    }
 
-            if (!success)
-                return NotFound(new { message = "Étudiant non trouvé." });
+    // CREATE
+    [HttpPost]
+    public async Task<IActionResult> Create(Etudiant e)
+    {
+        await _service.Add(e);
+        return Ok(e);
+    }
 
-            return Ok(new { message = "Étudiant supprimé avec succès !" });
-        }
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] EtudiantDto dto)
-        {
-            if (dto == null)
-                return BadRequest("Données invalides");
+    // UPDATE
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, Etudiant e)
+    {
+        var existing = await _context.Etudiants.FindAsync(id);
+        if (existing == null) return NotFound();
 
-            var etudiant = await _service.UpdateStudent(id, dto);
+        existing.Cef = e.Cef;
+        existing.Nom = e.Nom;
+        existing.Prenom = e.Prenom;
+        existing.Email = e.Email;
+        existing.Id_Fillier = e.Id_Fillier;
 
-            if (etudiant == null)
-                return NotFound(new { message = "Étudiant non trouvé" });
+        await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Étudiant modifié avec succès" });
-        }
+        // هاد السطر مهم باش Fillier يجي مرفق
+        var updated = await _context.Etudiants
+            .Include(et => et.Fillier)
+            .FirstOrDefaultAsync(et => et.Id_etudiant == id);
 
-        
+        return Ok(updated);
+    }
+
+    // DELETE
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _service.Delete(id);
+        return Ok();
     }
 }

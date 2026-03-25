@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { addEtudiant } from "../redux/slices/etudiantSlice";
+import { addEtudiant, updateEtudiant } from "../redux/slices/etudiantSlice";
 
-const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
+const EtudiantForm = ({ initialData = {}, onCancel }) => {
   const dispatch = useDispatch();
 
-  // State de l'étudiant
   const [etudiant, setEtudiant] = useState({
-    CEF: initialData.CEF || "",
+    cef: initialData.cef || "",
     nom: initialData.nom || "",
     prenom: initialData.prenom || "",
     email: initialData.email || "",
-    fillier: initialData.fillier || ""  // correspond à la fillière choisie
+    id_Fillier: initialData.id_Fillier || ""
   });
 
-  // State des fillières
   const [fillier, setFillier] = useState([]);
 
-  // Charger les fillières depuis le backend
   useEffect(() => {
     const fetchFilliers = async () => {
       try {
@@ -31,7 +28,6 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
     fetchFilliers();
   }, []);
 
-  // Gestion du changement des champs
   const handleChange = (e) => {
     setEtudiant({
       ...etudiant,
@@ -39,17 +35,27 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
     });
   };
 
-  // Soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSubmit) {
-      // Si un callback onSubmit est passé (modification)
-      onSubmit(etudiant);
-    } else {
-      // Sinon on ajoute via Redux
-      dispatch(addEtudiant(etudiant));
-    }
 
+    const dataToSend = {
+      cef: etudiant.cef,
+      nom: etudiant.nom,
+      prenom: etudiant.prenom,
+      email: etudiant.email,
+      id_Fillier: Number(etudiant.id_Fillier)
+    };
+
+    if (initialData.id_etudiant) {
+      // UPDATE
+      dispatch(updateEtudiant({
+        id: initialData.id_etudiant,
+        etudiant: dataToSend
+      }));
+    } else {
+      // CREATE
+      dispatch(addEtudiant(dataToSend));
+    }
   };
 
   return (
@@ -65,9 +71,9 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
           <label>CEF</label>
           <input
             type="text"
-            name="CEF"
+            name="cef"
             placeholder="CEF"
-            value={etudiant.CEF}
+            value={etudiant.cef}
             onChange={handleChange}
             required
           />
@@ -86,6 +92,7 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
               required
             />
           </div>
+
           <div className="form-group">
             <label>Prénom</label>
             <input
@@ -99,12 +106,12 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
           </div>
         </div>
 
-        {/* Filliere */}
+        {/* Filière */}
         <div className="form-group">
-          <label>Filliere</label>
+          <label>Filière</label>
           <select
-            name="fillier"
-            value={etudiant.fillier || ""}
+            name="id_Fillier"
+            value={etudiant.id_Fillier || ""}
             onChange={handleChange}
             required
           >
@@ -133,10 +140,15 @@ const EtudiantForm = ({ initialData = {}, onSubmit, onCancel }) => {
         {/* Boutons */}
         <div className="form-actions">
           {onCancel && (
-            <button type="button" className="btn-cancel" onClick={onCancel}>
+            <button
+              type="button"
+              className="btn-cancel"
+              onClick={onCancel}
+            >
               Annuler
             </button>
           )}
+
           <button type="submit" className="btn-submit">
             {initialData.id_etudiant ? "Mettre à jour" : "Enregistrer"}
           </button>

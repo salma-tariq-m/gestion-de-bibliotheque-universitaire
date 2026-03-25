@@ -1,16 +1,30 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-public class Etudiant
+namespace LibraryApi.Models
 {
-    [Key]
-    public int Id_etudiant { get; set; }
-    public string Cef { get; set; } = string.Empty;
-    public string Prenom { get; set; } = string.Empty;
-    public string Nom { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public int Id_Fillier { get; set; }
-    public Fillier? Fillier { get; set; }
+    public class Etudiant
+    {
+        [Key]
+        public int Id_etudiant { get; set; }
 
-    public List<Emprunt> Emprunts { get; set; } = new List<Emprunt>();
+        [Required]
+        public string Cef { get; set; } 
+
+        [Required]
+        [StringLength(100)]
+        public string Nom { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Prenom { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public int Id_Fillier { get; set; }
+        public virtual ICollection<Emprunt>? Emprunts { get; set; }
+        public Fillier? Fillier { get; set; }
+    }
 }

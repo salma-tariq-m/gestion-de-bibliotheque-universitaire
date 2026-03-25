@@ -1,115 +1,52 @@
-// using LibraryApi.DTOs;
-// using LibraryApi.Models;
-// using LibraryApi.Repositories;
-// using Microsoft.EntityFrameworkCore;
+using LibraryApi.Data;
+using LibraryApi.DTOs;
+using LibraryApi.Models;
+using LibraryApi.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-// public class EmpruntService
-// {
-//     private readonly EmpruntRepository _repository;
+public class EmpruntService
+{
+    private readonly LibraryContext _context;
 
-//     public EmpruntService(EmpruntRepository repository)
-//     {
-//         _repository = repository;
-//     }
+    public EmpruntService(LibraryContext context)
+    {
+        _context = context;
+    }
 
-//     // ✅ GET ALL EMPRUNTS
-//     public async Task<List<EmpruntDto>> GetAllEmprunts()
-//     {
-//         var emprunts = await _repository.GetAllWithIncludes();
+    public async Task<EmpruntDto?> CreateEmpruntAsync(CreateEmpruntDto dto)
+    {
+        var etudiant = await _context.Etudiants.FirstOrDefaultAsync(e => e.Cef== dto.EtudiantCEF);
+        if (etudiant == null) return null; 
 
-//         return emprunts.Select(e => new EmpruntDto
-//         {
-//             Id_Emprunt = e.Id_Emprunt,
-//             EtudiantNom = e.Etudiant != null ? e.Etudiant.Nom + " " + e.Etudiant.Prenom : "Inconnu",
-//             EtudiantCEF = e.Etudiant?.Cef ?? 0,
-//             LivreTitre = e.Livre != null ? e.Livre.Titre : "Inconnu",
-//             DateEmprunt = e.Date_Emprunt,
-//             DateRetourPrevue = e.DateRetourPrevue,
-//             DateRetourReelle = e.DateRetourReelle,
-//             Statut = e.DateRetourReelle != null ? "Retourné" : "Emprunté"
-//         }).ToList();
-//     }
+        var livre = await _context.Books.FirstOrDefaultAsync(l => l.Titre == dto.LivreTitre);
+        if (livre == null) return null; 
 
-//     // ✅ CREATE EMPRUNT
-//     public async Task<string> CreateEmprunt(CreateEmpruntDto dto)
-//     {
-//         // Récupération de l'étudiant
-//         var etudiant = await _repository.GetEtudiantByCEF(dto.EtudiantCEF);
-//         if (etudiant == null)
-//             return "Étudiant introuvable";
+        // Créer l'emprunt
+        var emprunt = new Emprunt
+        {
+            Id_etudiant = etudiant.Id_etudiant,
+            Id_Livre = livre.Id_Livre,
+            Date_Emprunt = dto.DateEmprunt,
+            DateRetourPrevue = dto.DateRetourPrevue,
+            DateRetourReelle = null
+        };
 
-//         // Récupération du livre
-//         var livre = await _repository.GetLivreByTitre(dto.LivreTitre);
-//         if (livre == null)
-//             return "Livre introuvable";
+        _context.Emprunts.Add(emprunt);
+        await _context.SaveChangesAsync();
 
-//         // Vérification de la quantité
-//         if (livre.Quantite <= 0)
-//             return "Livre en rupture de stock";
+        // Retourner le DTO
+        var result = new EmpruntDto
+        {
+            Id_Emprunt = emprunt.Id_Emprunt,
+            EtudiantNom = $"{etudiant.Prenom} {etudiant.Nom}",
+            EtudiantCef = etudiant.Cef.ToString(),
+            LivreTitre = livre.Titre,
+            DateEmprunt = emprunt.Date_Emprunt,
+            DateRetourPrevue = emprunt.DateRetourPrevue,
+            DateRetourReelle = emprunt.DateRetourReelle,
+            Statut = "En cours"
+        };
 
-//         // Vérification si l'étudiant a déjà emprunté ce livre et pas encore retourné
-//         var dejaEmprunte = await _repository.IsLivreDejaEmprunte(livre.Id_Livre, etudiant.Id_etudiant);
-//         if (dejaEmprunte)
-//             return "Ce livre est déjà emprunté par cet étudiant";
-
-//         // Création de l'emprunt
-//         var emprunt = new Emprunt
-//         {
-//             Id_etudiant = etudiant.Id_etudiant, // il faut l'ajouter pour la FK
-//             Id_Livre = livre.Id_Livre,
-//             Date_Emprunt = dto.DateEmprunt,
-//             DateRetourPrevue = dto.DateRetourPrevue
-//         };
-
-//         await _repository.AddAsync(emprunt);
-
-//         // Décrémentation de la quantité du livre
-//         livre.Quantite -= 1;
-
-//         await _repository.SaveAsync();
-
-//         return "Emprunt créé avec succès";
-//     }
-
-//     // ✅ RETOURNER EMPRUNT
-//     public async Task<bool> RetournerEmprunt(int id)
-//     {
-//         var emprunt = await _repository.GetByIdAsync(id);
-//         if (emprunt == null) return false;
-
-//         // Mise à jour de la date de retour
-//         emprunt.DateRetourReelle = DateTime.Now;
-
-//         // Récupérer le livre pour incrémenter la quantité
-//         var livre = await _repository.GetLivreById(emprunt.Id_Livre);
-//         if (livre != null)
-//         {
-//             livre.Quantite += 1;
-//         }
-
-//         await _repository.UpdateAsync(emprunt);
-//         await _repository.SaveAsync();
-//         return true;
-//     }
-
-//     // ✅ DELETE EMPRUNT
-//     public async Task<bool> DeleteEmprunt(int id)
-//     {
-//         var emprunt = await _repository.GetByIdAsync(id);
-//         if (emprunt == null) return false;
-
-//         // Restaurer la quantité du livre si l'emprunt n'était pas retourné
-//         if (emprunt.DateRetourReelle == null)
-//         {
-//             var livre = await _repository.GetLivreById(emprunt.Id_Livre);
-//             if (livre != null)
-//             {
-//                 livre.Quantite += 1;
-//             }
-//         }
-
-//         await _repository.DeleteAsync(id);
-//         await _repository.SaveAsync();
-//         return true;
-//     }
-// }
+        return result;
+    }
+}

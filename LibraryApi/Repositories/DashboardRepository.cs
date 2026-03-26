@@ -1,40 +1,47 @@
-// using Microsoft.EntityFrameworkCore; // Nécessaire pour CountAsync et ToListAsync
-// using LibraryApi.Data; // Remplacez par le namespace réel de votre LibraryContext
-// using LibraryApi.Models; // Remplacez par le namespace de vos DTOs et Modèles
+using LibraryApi.Data;
+using LibraryApi.Models;
+using Microsoft.EntityFrameworkCore;
+using LibraryApi.DTOs;
+public class DashboardRepository
+{
+    private readonly LibraryContext _context;
 
-// namespace LibraryApi.Repositories
-// {
-//     // 1. On renomme l'interface avec un "I"
-//     public interface IDashboardRepository
-//     {
-//         Task<int> GetTotalBooksCount();
-//         Task<int> GetBorrowedBooksCount();
-//         Task<int> GetPendingRequestsCount();
-//         Task<List<MonthlyBorrowDto>> GetMonthlyBorrows(int months);
-//     }
+    public DashboardRepository(LibraryContext context)
+    {
+        _context = context;
+    }
 
-//     // 2. La classe implémente l'interface IDashboardRepository
-//     public class DashboardRepository : IDashboardRepository
-//     {
-//         private readonly LibraryContext _context;
+    public async Task<int> GetTotalBooks()
+    {
+        return await _context.Books.CountAsync();
+    }
 
-//         public DashboardRepository(LibraryContext context)
-//         {
-//             _context = context;
-//         }
+    // ✅ Emprunts en cours (مازال ما ترجعوش)
+    public async Task<int> GetBorrowedBooks()
+    {
+        return await _context.Emprunts
+            .Where(e => e.DateRetourReelle == null)
+            .CountAsync();
+    }
 
-//         public async Task<int> GetTotalBooksCount() => await _context.Books.CountAsync();
+    // ✅ demandes en attente (حسب statut)
+    public async Task<int> GetPendingRequests()
+    {
+        return await _context.Emprunts
+            .Where(e => e.Statut == "En attente")
+            .CountAsync();
+    }
 
-
-//         public async Task<List<MonthlyBorrowDto>> GetMonthlyBorrows(int months)
-//         {
-//             return await _context.Emprunts
-//                 .Where(e => e.DateEmprunt >= DateTime.Now.AddMonths(-months))
-//                 .GroupBy(e => new { e.DateEmprunt.Year, e.DateEmprunt.Month })
-//                 .Select(g => new MonthlyBorrowDto {
-//                     Month = $"{g.Key.Month}/{g.Key.Year}",
-//                     Count = g.Count()
-//                 }).ToListAsync();
-//         }
-//     }
-// }
+    // ✅ stats par mois
+    public async Task<List<MonthlyBorrowDto>> GetMonthlyBorrows()
+    {
+        return await _context.Emprunts
+            .GroupBy(e => e.Date_Emprunt.Month)
+            .Select(g => new MonthlyBorrowDto
+            {
+                Month = g.Key.ToString(),
+                Count = g.Count()
+            })
+            .ToListAsync();
+    }
+}

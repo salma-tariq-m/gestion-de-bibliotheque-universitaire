@@ -4,6 +4,7 @@ public class DashboardDto
     public int BorrowedBooks { get; set; }
     public int PendingRequests { get; set; }
     public int AvailableBooks { get; set; }
+
     public List<MonthlyBorrowDto> MonthlyBorrows { get; set; } = new();
 }
 

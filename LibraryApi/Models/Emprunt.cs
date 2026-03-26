@@ -14,7 +14,8 @@ namespace LibraryApi.Models
         public Livre? Livre { get; set; }
         public int Id_Livre { get; set; }
         public DateTime Date_Emprunt { get; set; }
-        public DateTime DateRetourPrevue { get; set; } // date prévue
-        public DateTime? DateRetourReelle { get; set; } // date réelle, nullable si pas encore retourné
+        public DateTime DateRetourPrevue { get; set; } 
+        public DateTime? DateRetourReelle { get; set; } 
+        public string Statut { get; set; } = string.Empty;
     }
 }

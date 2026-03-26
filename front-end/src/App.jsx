@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import EtudiantsPage from "./pages/EtudiantsPage";
 import LivresPage from "./pages/livresPage";
 import EmpruntsPage from "./pages/EmpruntsPage";
+import BlacklistPage from "./pages/RetardPage";
 function App() {
   return (
     <>
@@ -15,7 +16,7 @@ function App() {
           <Route path="/etudiants" element={<EtudiantsPage />} />
           <Route path="/livres" element={<LivresPage />} />
           <Route path="/emprunts" element={<EmpruntsPage />} />
-
+          <Route path="/retards" element={<BlacklistPage />} />
         </Routes>
       </Router></>
   );

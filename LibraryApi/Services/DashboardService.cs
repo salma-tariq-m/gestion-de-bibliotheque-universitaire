@@ -1,32 +1,46 @@
-// using LibraryApi.Repositories; // Pour trouver IDashboardRepository
-// using LibraryApi.Models;       // Pour trouver DashboardDto
+using Microsoft.EntityFrameworkCore;
+using LibraryApi.Data;
+using LibraryApi.Models;
+using LibraryApi.DTOs;
+public class DashboardService
+{
+    private readonly LibraryContext _context;
 
-// namespace LibraryApi.Services
-// {
-//     public interface IDashboardService
-//     {
-//         Task<DashboardDto> GetDashboardStats();
-//     }
+    public DashboardService(LibraryContext context)
+    {
+        _context = context;
+    }
 
-//     public class DashboardService : IDashboardService
-//     {
-//         private readonly IDashboardRepository _repo;
+    public async Task<DashboardDto> GetDashboardData()
+    {
+        var totalBooks = await _context.Books.CountAsync();
 
-//         // L'injection de dépendance utilise maintenant le bon nom d'interface
-//         public DashboardService(IDashboardRepository repo) => _repo = repo;
+        var borrowedBooks = await _context.Emprunts
+            .Where(e => e.DateRetourReelle == null)
+            .CountAsync();
 
-//         public async Task<DashboardDto> GetDashboardStats()
-//         {
-//             var total = await _repo.GetTotalBooksCount();
-//             var borrowed = await _repo.GetBorrowedBooksCount();
-            
-//             return new DashboardDto {
-//                 TotalBooks = total,
-//                 BorrowedBooks = borrowed,
-//                 PendingRequests = await _repo.GetPendingRequestsCount(),
-//                 AvailableBooks = total - borrowed, // Calcul logique métier
-//                 MonthlyBorrows = await _repo.GetMonthlyBorrows(6)
-//             };
-//         }
-//     }
-// }
+        var pendingRequests = await _context.Emprunts
+            .Where(e => e.Statut == "En attente")
+            .CountAsync();
+
+        var availableBooks = totalBooks - borrowedBooks;
+
+        var monthlyBorrows = await _context.Emprunts
+            .GroupBy(e => e.Date_Emprunt.Month)
+            .Select(g => new MonthlyBorrowDto
+            {
+                Month = g.Key.ToString(),
+                Count = g.Count()
+            })
+            .ToListAsync();
+
+        return new DashboardDto
+        {
+            TotalBooks = totalBooks,
+            BorrowedBooks = borrowedBooks,
+            PendingRequests = pendingRequests,
+            AvailableBooks = availableBooks,
+            MonthlyBorrows = monthlyBorrows
+        };
+    }
+}

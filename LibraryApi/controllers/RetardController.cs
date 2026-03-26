@@ -9,7 +9,6 @@ namespace LibraryApi.Controllers
     public class RetardController : ControllerBase
     {
         private readonly RetardService _service;
-
         public RetardController(RetardService service)
         {
             _service = service;

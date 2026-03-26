@@ -21,7 +21,9 @@ const EtudiantsPage = () => {
     e.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => { dispatch(fetchEtudiants()); }, [dispatch]);
+  useEffect(() => { 
+    console.log(etudiants)
+    dispatch(fetchEtudiants()); }, [dispatch]);
 
   const handleAdd = (etudiant) => {
     dispatch(addEtudiant(etudiant));
@@ -170,7 +172,7 @@ const EtudiantsPage = () => {
                         </div>
                       </td>
                       <td>{etudiant.email}</td>
-                      <td>{etudiant.fillier?.nomFillier}</td>
+                      <td>{etudiant.Fillier?.nomFillier || "—"}</td>
                       <td className="actions-cell">
                         <button
                           className="btn-icon edit-icon"

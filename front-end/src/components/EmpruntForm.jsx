@@ -1,33 +1,30 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { BookOpen, AlertCircle, Loader2 } from "lucide-react";
-import "../css/form.css"
+import { createEmprunt } from "../redux/slices/empruntsSlice";
+import "../css/form.css";
 
 const CreateEmprunt = ({ onSuccess }) => {
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
-    etudiantCEF: "",
-    livreTitre: "",
-    dateEmprunt: "",
-    dateRetourPrevue: ""
+    EtudiantCEF: "",
+    LivreTitre: "",
+    DateEmprunt: "",
+    DateRetourPrevue: ""
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setMessage(null);
 
-    // 🔹 validation simple
-    if (!form.etudiantCEF || !form.livreTitre || !form.dateEmprunt || !form.dateRetourPrevue) {
+    if (!form.EtudiantCEF || !form.LivreTitre || !form.DateEmprunt || !form.DateRetourPrevue) {
       setMessage({ type: "error", text: "Tous les champs sont obligatoires" });
       return;
     }
@@ -35,33 +32,26 @@ const CreateEmprunt = ({ onSuccess }) => {
     try {
       setLoading(true);
 
-      const res = await axios.post("http://localhost:5136/api/emprunts", form);
+      await dispatch(createEmprunt({
+        EtudiantCEF: form.EtudiantCEF.toString(),
+        LivreTitre: form.LivreTitre,
+        DateEmprunt: form.DateEmprunt,
+        DateRetourPrevue: form.DateRetourPrevue
+      })).unwrap();
 
-      setMessage({ type: "success", text: res.data.message });
+      setMessage({ type: "success", text: "Emprunt créé avec succès !" });
+      setForm({ EtudiantCEF: "", LivreTitre: "", DateEmprunt: "", DateRetourPrevue: "" });
 
-      // reset form
-      setForm({
-        etudiantCEF: "",
-        livreTitre: "",
-        dateEmprunt: "",
-        dateRetourPrevue: ""
-      });
-
-      // refresh table
       if (onSuccess) onSuccess();
-
     } catch (err) {
-      setMessage({
-        type: "error",
-        text: err.response?.data?.message || "Erreur serveur"
-      });
+      setMessage({ type: "error", text: err || "Erreur serveur" });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="card form-card shadow-lg mb-6 border border-blue-500/20"
       initial={{ opacity: 0, height: 0, scale: 0.98 }}
       animate={{ opacity: 1, height: "auto", scale: 1 }}
@@ -87,20 +77,20 @@ const CreateEmprunt = ({ onSuccess }) => {
               <label>CEF Étudiant</label>
               <input
                 type="number"
-                name="etudiantCEF"
-                value={form.etudiantCEF}
+                name="EtudiantCEF"
+                value={form.EtudiantCEF}
                 onChange={handleChange}
                 placeholder="Ex: 123456"
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>Titre du livre</label>
               <input
                 type="text"
-                name="livreTitre"
-                value={form.livreTitre}
+                name="LivreTitre"
+                value={form.LivreTitre}
                 onChange={handleChange}
                 placeholder="Ex: React Guide"
                 required
@@ -113,19 +103,19 @@ const CreateEmprunt = ({ onSuccess }) => {
               <label>Date d'emprunt</label>
               <input
                 type="date"
-                name="dateEmprunt"
-                value={form.dateEmprunt}
+                name="DateEmprunt"
+                value={form.DateEmprunt}
                 onChange={handleChange}
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>Date retour prévue</label>
               <input
                 type="date"
-                name="dateRetourPrevue"
-                value={form.dateRetourPrevue}
+                name="DateRetourPrevue"
+                value={form.DateRetourPrevue}
                 onChange={handleChange}
                 required
               />
@@ -149,7 +139,6 @@ const CreateEmprunt = ({ onSuccess }) => {
               )}
             </button>
           </div>
-
         </form>
       </div>
     </motion.div>

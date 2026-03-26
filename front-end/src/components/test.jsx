@@ -7,61 +7,44 @@ const EtudiantForm = ({ initialData = {}, onCancel }) => {
   const dispatch = useDispatch();
 
   const [etudiant, setEtudiant] = useState({
-    Cef: "",
-    Nom: "",
-    Prenom: "",
-    Email: "",
-    Id_Fillier: ""
+    Cef: initialData.Cef || "",
+    Nom: initialData.Nom || "",
+    Prenom: initialData.Prenom || "",
+    Email: initialData.Email || "",
+    Id_Fillier: initialData.Id_Fillier || ""
   });
 
   const [fillier, setFillier] = useState([]);
-  
-  useEffect(() => {
-    setEtudiant({
-      Cef: initialData.Cef || "",
-      Nom: initialData.Nom || "",
-      Prenom: initialData.Prenom || "",
-      Email: initialData.Email || "",
-      Id_Fillier: initialData.Id_Fillier || ""
-    });
-  }, [initialData]);
 
   useEffect(() => {
-    const fetchFilliers = async () => {
-      try {
-        const res = await axios.get("http://localhost:5136/api/fillier");
-        setFillier(res.data);
-      } catch (err) {
-        console.error("Erreur lors du chargement des fillières :", err);
-      }
-    };
-    fetchFilliers();
+    axios.get("http://localhost:5136/api/fillier")
+      .then(res => setFillier(res.data))
+      .catch(err => console.error(err));
   }, []);
 
-  const handleChange = (e) => {
-    setEtudiant({
-      ...etudiant,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = e => {
+    setEtudiant({...etudiant, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    const dataToSend = { ...etudiant, Id_Fillier: Number(etudiant.Id_Fillier) };
+    const dataToSend = {
+        ...etudiant,
+         Id_Fillier: Number(etudiant.Id_Fillier)
+        };
     if(initialData.id_etudiant){
-      dispatch(updateEtudiant({ id: initialData.id_etudiant, etudiant: dataToSend }));
+      dispatch(updateEtudiant({id: initialData.id_etudiant, etudiant: dataToSend}));
     } else {
       dispatch(addEtudiant(dataToSend));
     }
   };
 
   return (
-    <div className="form-container">
+    <div className="etudiant-form-container">
       <h2 className="form-title">
         {initialData.id_etudiant ? "Modifier l'Étudiant" : "Nouvel Étudiant"}
       </h2>
-
-      <form onSubmit={handleSubmit} className="modern-form">
+      <form className="etudiant-form" onSubmit={handleSubmit}>
 
         <div className="form-group">
           <label className="form-label">CEF</label>
@@ -105,6 +88,19 @@ const EtudiantForm = ({ initialData = {}, onCancel }) => {
         </div>
 
         <div className="form-group">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            name="Email"
+            value={etudiant.Email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="form-input"
+            required
+          />
+        </div>
+
+        <div className="form-group">
           <label className="form-label">Filière</label>
           <select
             name="Id_Fillier"
@@ -120,33 +116,15 @@ const EtudiantForm = ({ initialData = {}, onCancel }) => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            name="Email"
-            value={etudiant.Email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="form-input"
-            required
-          />
-        </div>
-
         <div className="form-actions">
+          <button type="submit" className="btn-submit">
+            {initialData.id_etudiant ? "Modifier" : "Ajouter"}
+          </button>
           {onCancel && (
-            <button
-              type="button"
-              className="btn-cancel"
-              onClick={onCancel}
-            >
+            <button type="button" className="btn-cancel" onClick={onCancel}>
               Annuler
             </button>
           )}
-
-          <button type="submit" className="btn-submit">
-            {initialData.id_etudiant ? "Mettre à jour" : "Enregistrer"}
-          </button>
         </div>
 
       </form>

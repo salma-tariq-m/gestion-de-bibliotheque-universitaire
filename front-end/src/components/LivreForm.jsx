@@ -46,7 +46,7 @@ const LivreForm = ({ initialData, onSubmit, onCancel }) => {
   return (
     <div className="form-container">
       <h2 className="form-title">
-        {initialData ? "📝 Modifier le livre" : "📚 Ajouter un nouveau livre"}
+        {initialData ? " Modifier le livre" : " Ajouter un nouveau livre"}
       </h2>
 
       <form onSubmit={handleSubmit} className="modern-form">

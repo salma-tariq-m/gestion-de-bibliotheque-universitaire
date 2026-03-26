@@ -8,19 +8,19 @@ namespace LibraryApi.Models
         public int Id_etudiant { get; set; }
 
         [Required]
-        public string Cef { get; set; } 
+        public string Cef { get; set; } = string.Empty;
+        
+        [Required]
+        [StringLength(100)]
+        public string Nom { get; set; }= string.Empty;
 
         [Required]
         [StringLength(100)]
-        public string Nom { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string Prenom { get; set; }
+        public string Prenom { get; set; }= string.Empty;
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; }= string.Empty;
 
         [Required]
         public int Id_Fillier { get; set; }

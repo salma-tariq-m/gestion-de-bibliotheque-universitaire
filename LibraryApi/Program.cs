@@ -28,10 +28,13 @@ builder.Services.AddScoped<EtudiantService>();
 builder.Services.AddScoped<FillierRepository>();
 builder.Services.AddScoped<FillierService>();
 
+builder.Services.AddScoped<RetardRepository>();
+builder.Services.AddScoped<RetardService>();
+
 // builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 // builder.Services.AddScoped<IDashboardService, DashboardService>();
-// builder.Services.AddScoped<EmpruntRepository>();
-// builder.Services.AddScoped<EmpruntService>();
+builder.Services.AddScoped<EmpruntRepository>();
+builder.Services.AddScoped<EmpruntService>();
 
 
 // 1️⃣ Ajouter le service CORS

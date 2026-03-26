@@ -18,11 +18,20 @@ public class EtudiantController : ControllerBase
 
 
     // GET ALL
+    // Controller
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var etudiants = await _context.Etudiants
-            .Include(e => e.Fillier) // مهم باش fillier يجي مع etudiant
+            .Include(e => e.Fillier) // inclure Fillier
+            .Select(e => new EtudiantDto {
+                Cef = e.Cef,
+                Nom = e.Nom,
+                Prenom = e.Prenom,
+                Email = e.Email,
+                Id_Fillier = e.Id_Fillier,
+                NomFillier = e.Fillier != null ? e.Fillier.NomFillier : ""
+            })
             .ToListAsync();
 
         return Ok(etudiants);
@@ -60,7 +69,6 @@ public class EtudiantController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        // هاد السطر مهم باش Fillier يجي مرفق
         var updated = await _context.Etudiants
             .Include(et => et.Fillier)
             .FirstOrDefaultAsync(et => et.Id_etudiant == id);

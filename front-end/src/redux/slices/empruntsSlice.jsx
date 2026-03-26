@@ -23,6 +23,24 @@ export const fetchEmprunts = createAsyncThunk(
   }
 );
 
+export const createEmprunt = createAsyncThunk(
+  "emprunts/createEmprunt",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(API_URL, data);
+      return {
+        id: res.data.id_Emprunt,
+        etudiantNom: res.data.etudiant.nom,
+        livreTitre: res.data.livre.titre,
+        dateEmprunt: res.data.date_Emprunt,
+        dateRetour: res.data.dateRetourReelle,
+        statut: res.data.dateRetourReelle ? "Retourné" : "En attente"
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Erreur serveur");    }
+  }
+);
+
 // 🔹 Valider un emprunt
 export const validerEmprunt = createAsyncThunk(
   "emprunts/validerEmprunt",
@@ -58,6 +76,21 @@ const empruntsSlice = createSlice({
       .addCase(fetchEmprunts.pending, state => { state.loading = true; state.error = null; })
       .addCase(fetchEmprunts.fulfilled, (state, action) => { state.loading = false; state.emprunts = action.payload; })
       .addCase(fetchEmprunts.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      
+      .addCase(createEmprunt.pending, state => { state.loading = true; state.error = null; })
+     .addCase(createEmprunt.fulfilled, (state, action) => {
+        state.loading = false;
+        state.emprunts.push({
+          id: action.payload.Id_Emprunt,
+          etudiantNom: action.payload.EtudiantNom,
+          livreTitre: action.payload.LivreTitre,
+          dateEmprunt: action.payload.Date_Emprunt,
+          dateRetour: action.payload.DateRetourReelle,
+          statut: action.payload.DateRetourReelle ? "Retourné" : "En attente"
+        });
+      })
+      .addCase(createEmprunt.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+
       .addCase(validerEmprunt.fulfilled, (state, action) => {
         const emprunt = state.emprunts.find(e => e.id === action.payload);
         if (emprunt) emprunt.statut = "Emprunté";

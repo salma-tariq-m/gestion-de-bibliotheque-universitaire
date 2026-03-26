@@ -13,13 +13,32 @@ public class EmpruntService
         _context = context;
     }
 
+    public async Task<List<EmpruntDto>> GetAllEmpruntsAsync()
+    {
+        var emprunts = await _context.Emprunts
+            .Include(e => e.Etudiant)
+            .Include(e => e.Livre)
+            .ToListAsync();
+
+        return emprunts.Select(e => new EmpruntDto
+        {
+            Id_Emprunt = e.Id_Emprunt,
+            EtudiantNom = $"{e.Etudiant.Prenom} {e.Etudiant.Nom}",
+            EtudiantCef = e.Etudiant.Cef.ToString(),
+            LivreTitre = e.Livre.Titre,
+            DateEmprunt = e.Date_Emprunt,
+            DateRetourPrevue = e.DateRetourPrevue,
+            DateRetourReelle = e.DateRetourReelle,
+            Statut = e.DateRetourReelle == null ? "En cours" : "Terminé"
+        }).ToList();
+    }
     public async Task<EmpruntDto?> CreateEmpruntAsync(CreateEmpruntDto dto)
     {
-        var etudiant = await _context.Etudiants.FirstOrDefaultAsync(e => e.Cef== dto.EtudiantCEF);
-        if (etudiant == null) return null; 
+        var etudiant = await _context.Etudiants
+            .FirstOrDefaultAsync(e => e.Cef.Trim() == dto.EtudiantCEF.Trim());
 
-        var livre = await _context.Books.FirstOrDefaultAsync(l => l.Titre == dto.LivreTitre);
-        if (livre == null) return null; 
+        var livre = await _context.Books
+            .FirstOrDefaultAsync(l => l.Titre.ToLower().Trim() == dto.LivreTitre.ToLower().Trim());
 
         // Créer l'emprunt
         var emprunt = new Emprunt

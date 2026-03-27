@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, LogOut } from "lucide-react";
 import "../css/header.css"; 
 
 const Header = () => {
@@ -40,12 +40,12 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <header className="header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div className="header-left">
         <h1 className="logo">Biblio<span>Admin</span></h1>
       </div>
       <div className="header-right">
-        <div className="user-info">
+        <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button 
             className="theme-toggle" 
             onClick={toggleTheme} 
@@ -53,8 +53,12 @@ const Header = () => {
           >
             {isDarkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
           </button>
-          <button className="logout-btn" onClick={handleLogout}>
-            Se déconnecter
+          <button 
+            className="logout-btn" 
+            onClick={handleLogout}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            <LogOut size={16} /> Se déconnecter
           </button>
         </div>
       </div>

@@ -74,18 +74,16 @@ const LivresPage = () => {
               </div>
               <div>
                 <h1>Catalogue des Livres</h1>
-                <p>Gérez l'inventaire complet de votre bibliothèque.</p>
               </div>
             </div>
             <button
               className={`btn-primary ${showForm ? 'btn-close' : ''} header-btn`}
               onClick={() => { setShowForm(!showForm); setEditLivre(null); }}
             >
-              {showForm ? <><X className="w-5 h-5"/> Fermer</> : <><Plus className="w-5 h-5"/> Ajouter un Livre</>}
+              {showForm ? <><X className="w-5 h-5"/> </> : <><Plus className="w-5 h-5"/> Ajouter un Livre</>}
             </button>
           </div>
 
-          {/* Formulaire animé */}
           <AnimatePresence>
             {showForm && (
               <motion.div 

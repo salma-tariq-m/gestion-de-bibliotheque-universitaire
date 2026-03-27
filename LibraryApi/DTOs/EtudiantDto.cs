@@ -1,5 +1,6 @@
 public class EtudiantDto
 {
+    public int Id_etudiant { get; set; } 
     public string Cef { get; set; } = string.Empty;
     public string Nom { get; set; } = string.Empty;
     public string Prenom { get; set; } = string.Empty;

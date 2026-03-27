@@ -31,8 +31,9 @@ builder.Services.AddScoped<FillierService>();
 builder.Services.AddScoped<RetardRepository>();
 builder.Services.AddScoped<RetardService>();
 
-// builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-// builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<DashboardRepository>();
+builder.Services.AddScoped<DashboardService>();
+
 builder.Services.AddScoped<EmpruntRepository>();
 builder.Services.AddScoped<EmpruntService>();
 

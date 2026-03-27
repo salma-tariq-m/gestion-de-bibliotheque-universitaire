@@ -15,7 +15,7 @@ public class EmpruntController : ControllerBase
         _context = context;
     }
 
-    //  GET ALL
+    // GET ALL
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -27,58 +27,110 @@ public class EmpruntController : ControllerBase
                 Id_Emprunt = e.Id_Emprunt,
                 EtudiantCef = e.Etudiant.Cef,
                 EtudiantNom = e.Etudiant.Nom,
+                EtudiantPrenom = e.Etudiant.Prenom,
                 LivreTitre = e.Livre.Titre,
                 DateEmprunt = e.Date_Emprunt,
                 DateRetourPrevue = e.DateRetourPrevue,
-                DateRetourReelle = e.DateRetourReelle
+                DateRetourReelle = e.DateRetourReelle,
+                Statut = string.IsNullOrEmpty(e.Statut) ? "En attente" : e.Statut
             })
             .ToListAsync();
 
         return Ok(emprunts);
     }
 
-//  CREATE
+    // CREATE
     [HttpPost]
-public async Task<IActionResult> Create(EmpruntDto dto)
-{
-    var etudiant = await _context.Etudiants
-        .Where(e => e.Cef.Trim() == dto.EtudiantCef.Trim())
-        .FirstOrDefaultAsync();
-    if (etudiant == null)
-        return BadRequest(new { message = "Étudiant introuvable" });
-
-    var livre = await _context.Books
-        .Where(l => l.Titre.Trim() == dto.LivreTitre.Trim())
-        .FirstOrDefaultAsync(); 
-
-    if (livre == null)
-        return BadRequest(new { message = "Livre introuvable" });
-
-    if (dto.DateRetourPrevue <= dto.DateEmprunt)
-        return BadRequest(new { message = "Date retour invalide" });
-
-    var emprunt = new Emprunt
+    public async Task<IActionResult> Create(EmpruntDto dto)
     {
-        Id_etudiant = etudiant.Id_etudiant,
-        Id_Livre = livre.Id_Livre,
-        Date_Emprunt = dto.DateEmprunt,
-        DateRetourPrevue = dto.DateRetourPrevue
-    };
+        if (string.IsNullOrWhiteSpace(dto.EtudiantCef))
+            return BadRequest(new { message = "CEF obligatoire" });
 
-    _context.Emprunts.Add(emprunt);
-    await _context.SaveChangesAsync();
+        if (string.IsNullOrWhiteSpace(dto.LivreTitre))
+            return BadRequest(new { message = "Titre livre obligatoire" });
 
-    var resultDto = new
+        var etudiant = await _context.Etudiants
+            .FirstOrDefaultAsync(e => e.Cef.Trim().ToLower() == dto.EtudiantCef.Trim().ToLower());
+
+        if (etudiant == null)
+            return BadRequest(new { message = "Étudiant introuvable" });
+
+        var livre = await _context.Books
+            .FirstOrDefaultAsync(l => l.Titre.Trim().ToLower() == dto.LivreTitre.Trim().ToLower());
+
+        if (livre == null)
+            return BadRequest(new { message = "Livre introuvable" });
+
+        if (livre.Quantite <= 0)
+            return BadRequest(new { message = "Quantite insuffisant" });
+
+        var emprunt = new Emprunt
+        {
+            Id_etudiant = etudiant.Id_etudiant,
+            Id_Livre = livre.Id_Livre,
+            Date_Emprunt = dto.DateEmprunt,
+            DateRetourPrevue = dto.DateRetourPrevue,
+            Statut = "En attente"
+        };
+
+        _context.Emprunts.Add(emprunt);
+        livre.Quantite -= 1; // Décrémenter le Quantite
+        await _context.SaveChangesAsync();
+
+        return Ok(new EmpruntDto
+        {
+            Id_Emprunt = emprunt.Id_Emprunt,
+            EtudiantCef = etudiant.Cef,
+            EtudiantNom = etudiant.Nom,
+            EtudiantPrenom = etudiant.Prenom,
+            LivreTitre = livre.Titre,
+            DateEmprunt = emprunt.Date_Emprunt,
+            DateRetourPrevue = emprunt.DateRetourPrevue,
+            DateRetourReelle = emprunt.DateRetourReelle,
+            Statut = emprunt.Statut
+        });
+    }
+
+    // VALIDER
+    [HttpPut("valider/{id}")]
+    public async Task<IActionResult> Valider(int id)
     {
-        Id_Emprunt = emprunt.Id_Emprunt,
-        EtudiantNom = etudiant.Nom,
-        LivreTitre = livre.Titre,
-        Date_Emprunt = emprunt.Date_Emprunt,
-        DateRetourPrevue = emprunt.DateRetourPrevue,
-        DateRetourReelle = emprunt.DateRetourReelle
-    };
+        var emprunt = await _context.Emprunts
+            .Include(e => e.Livre)
+            .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
 
-    return Ok(resultDto);
-}
+        if (emprunt == null)
+            return NotFound(new { message = "Emprunt introuvable" });
 
+        if (emprunt.Statut == "Emprunté")
+            return BadRequest(new { message = "Emprunt déjà validé" });
+
+        emprunt.Statut = "Emprunté";
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Emprunt validé" });
+    }
+
+    // RETOURNER
+    [HttpPut("retourner/{id}")]
+    public async Task<IActionResult> Retourner(int id)
+    {
+        var emprunt = await _context.Emprunts
+            .Include(e => e.Livre)
+            .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
+
+        if (emprunt == null)
+            return NotFound(new { message = "Emprunt introuvable" });
+
+        if (emprunt.Statut != "Emprunté")
+            return BadRequest(new { message = "Emprunt non validé" });
+
+        emprunt.Statut = "Retourné";
+        emprunt.DateRetourReelle = DateTime.Now;
+        emprunt.Livre.Quantite += 1; // Remettre le stock
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Emprunt retourné" });
+    }
 }

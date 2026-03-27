@@ -1,7 +1,7 @@
 using LibraryApi.Data;
-using LibraryApi.Models;
-using Microsoft.EntityFrameworkCore;
 using LibraryApi.DTOs;
+using Microsoft.EntityFrameworkCore;
+
 public class DashboardRepository
 {
     private readonly LibraryContext _context;
@@ -11,12 +11,13 @@ public class DashboardRepository
         _context = context;
     }
 
+    // 📚 Total books (عدد العناوين)
     public async Task<int> GetTotalBooks()
     {
         return await _context.Books.CountAsync();
     }
 
-    // ✅ Emprunts en cours (مازال ما ترجعوش)
+    // 🔄 Emprunts en cours
     public async Task<int> GetBorrowedBooks()
     {
         return await _context.Emprunts
@@ -24,7 +25,7 @@ public class DashboardRepository
             .CountAsync();
     }
 
-    // ✅ demandes en attente (حسب statut)
+    // ⏳ En attente
     public async Task<int> GetPendingRequests()
     {
         return await _context.Emprunts
@@ -32,14 +33,23 @@ public class DashboardRepository
             .CountAsync();
     }
 
-    // ✅ stats par mois
+    // 📦 Stock total (Quantite)
+    public async Task<int> GetAvailableBooks()
+    {
+        return await _context.Books
+            .SumAsync(l => l.Quantite);
+    }
+
+    // 📊 Stat par mois
     public async Task<List<MonthlyBorrowDto>> GetMonthlyBorrows()
     {
         return await _context.Emprunts
             .GroupBy(e => e.Date_Emprunt.Month)
             .Select(g => new MonthlyBorrowDto
             {
-                Month = g.Key.ToString(),
+                Month = System.Globalization.CultureInfo
+                    .CurrentCulture.DateTimeFormat
+                    .GetAbbreviatedMonthName(g.Key),
                 Count = g.Count()
             })
             .ToListAsync();

@@ -13,20 +13,22 @@ public class RetardRepository
     }
 
     public async Task<List<RetardDto>> GetRetards()
-    {
-        var today = DateTime.Now;
+{
+    var today = DateTime.Now;
 
-        return await _context.Emprunts
-            .Where(e => e.DateRetourReelle == null && e.DateRetourPrevue < today)
-            .Select(e => new RetardDto
-            {
-                Id_Emprunt = e.Id_Emprunt,
-                EtudiantNom = e.Etudiant.Nom,
-                EtudiantCef = e.Etudiant.Cef.ToString(),
-                LivreTitre = e.Livre.Titre,
-                DateRetourPrevue = e.DateRetourPrevue,
-                JoursRetard = (today - e.DateRetourPrevue).Days
-            })
-            .ToListAsync();
-    }
+    return await _context.Emprunts
+        .Include(e => e.Etudiant)
+        .Include(e => e.Livre)
+        .Where(e => e.DateRetourReelle == null && e.DateRetourPrevue < today)
+        .Select(e => new RetardDto
+        {
+            Id_Emprunt = e.Id_Emprunt,
+            EtudiantNom = e.Etudiant.Nom,
+            EtudiantCef = e.Etudiant.Cef.ToString(),
+            LivreTitre = e.Livre.Titre,
+            DateRetourPrevue = e.DateRetourPrevue,
+            JoursRetard = (today - e.DateRetourPrevue).Days
+        })
+        .ToListAsync();
+}
 }

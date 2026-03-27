@@ -3,105 +3,145 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5136/api/emprunt";
 
-// 🔹 Récupérer tous les emprunts
+const mapEmprunt = (e) => ({
+  id: e.id_Emprunt,
+  etudiantNom: e.etudiantNom,
+  etudiantPrenom: e.etudiantPrenom,
+  etudiantCef: e.etudiantCef,
+  livreTitre: e.livreTitre,
+  dateEmprunt: e.dateEmprunt,
+  dateRetourPrevue: e.dateRetourPrevue,
+  dateRetourReelle: e.dateRetourReelle,
+  statut: e.statut || e.Statut || "En attente"
+});
+
 export const fetchEmprunts = createAsyncThunk(
   "emprunts/fetchEmprunts",
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(API_URL);
-      return res.data.map(e => ({
-        id: e.id_Emprunt,
-        etudiantNom: e.etudiant.nom,
-        livreTitre: e.livre.titre,
-        dateEmprunt: e.date_Emprunt,
-        dateRetour: e.dateRetourReelle,
-        statut: e.dateRetourReelle ? "Retourné" : "En attente"
-      }));
+      return res.data.map(mapEmprunt); 
     } catch (err) {
-      return rejectWithValue(err.response?.data || "Erreur réseau");
+      return rejectWithValue(
+        err.response?.data?.message || "Erreur serveur"
+      );
     }
   }
 );
 
+
+// ============================
+// 🔹 CREATE
+// ============================
 export const createEmprunt = createAsyncThunk(
   "emprunts/createEmprunt",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(API_URL, data);
-      return {
-        id: res.data.id_Emprunt,
-        etudiantNom: res.data.etudiant.nom,
-        livreTitre: res.data.livre.titre,
-        dateEmprunt: res.data.date_Emprunt,
-        dateRetour: res.data.dateRetourReelle,
-        statut: res.data.dateRetourReelle ? "Retourné" : "En attente"
-      };
+      return mapEmprunt(res.data); // ✅ mapping
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Erreur serveur");    }
+      return rejectWithValue(
+        err.response?.data?.message || "Erreur serveur"
+      );
+    }
   }
 );
 
-// 🔹 Valider un emprunt
+
+// ============================
+// 🔹 VALIDER (optionnel)
+// ============================
 export const validerEmprunt = createAsyncThunk(
   "emprunts/validerEmprunt",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.put(`${API_URL}/${id}`);
+      await axios.put(`${API_URL}/valider/${id}`);
       return id;
     } catch (err) {
-      return rejectWithValue(err.response?.data || "Erreur réseau");
+      return rejectWithValue(err.response?.data?.message ||"Erreur validation");
     }
   }
 );
 
-// 🔹 Retourner un emprunt
+
+// ============================
+// 🔹 RETOURNER (optionnel)
+// ============================
 export const retournerEmprunt = createAsyncThunk(
   "emprunts/retournerEmprunt",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.put(`${API_URL}/${id}`);
+      await axios.put(`${API_URL}/retourner/${id}`);
       return id;
     } catch (err) {
-      return rejectWithValue(err.response?.data || "Erreur réseau");
+      return rejectWithValue(err.response?.data?.message ||"Erreur retour");
     }
   }
 );
 
+
+// ============================
+// 🧠 SLICE
+// ============================
 const empruntsSlice = createSlice({
   name: "emprunts",
-  initialState: { emprunts: [], loading: false, error: null },
+  initialState: {
+    emprunts: [],
+    loading: false,
+    error: null
+  },
   reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchEmprunts.pending, state => { state.loading = true; state.error = null; })
-      .addCase(fetchEmprunts.fulfilled, (state, action) => { state.loading = false; state.emprunts = action.payload; })
-      .addCase(fetchEmprunts.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
-      
-      .addCase(createEmprunt.pending, state => { state.loading = true; state.error = null; })
-     .addCase(createEmprunt.fulfilled, (state, action) => {
-        state.loading = false;
-        state.emprunts.push({
-          id: action.payload.Id_Emprunt,
-          etudiantNom: action.payload.EtudiantNom,
-          livreTitre: action.payload.LivreTitre,
-          dateEmprunt: action.payload.Date_Emprunt,
-          dateRetour: action.payload.DateRetourReelle,
-          statut: action.payload.DateRetourReelle ? "Retourné" : "En attente"
-        });
-      })
-      .addCase(createEmprunt.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
+  extraReducers: (builder) => {
+    builder
+
+      // 🔄 FETCH
+      .addCase(fetchEmprunts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchEmprunts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.emprunts = action.payload;
+      })
+      .addCase(fetchEmprunts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+
+      // ➕ CREATE
+      .addCase(createEmprunt.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createEmprunt.fulfilled, (state, action) => {
+        state.loading = false;
+        state.emprunts.unshift(action.payload); // add first
+      })
+      .addCase(createEmprunt.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+
+      // ✅ VALIDER
       .addCase(validerEmprunt.fulfilled, (state, action) => {
         const emprunt = state.emprunts.find(e => e.id === action.payload);
-        if (emprunt) emprunt.statut = "Emprunté";
+        if (emprunt) {
+          emprunt.statut = "Emprunté";
+        }
       })
+
+
+      // 🔁 RETOURNER
       .addCase(retournerEmprunt.fulfilled, (state, action) => {
         const emprunt = state.emprunts.find(e => e.id === action.payload);
         if (emprunt) {
           emprunt.statut = "Retourné";
-          emprunt.dateRetour = new Date().toISOString();
+          emprunt.dateRetourReelle = new Date().toISOString();
         }
       });
+
   }
 });
 

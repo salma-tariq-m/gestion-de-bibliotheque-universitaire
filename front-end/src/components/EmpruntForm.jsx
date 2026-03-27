@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { motion } from "framer-motion";
-import { BookOpen, AlertCircle, Loader2 } from "lucide-react";
 import { createEmprunt } from "../redux/slices/empruntsSlice";
+import { motion } from "framer-motion";
+import { BookOpen, AlertCircle, Loader2, User, Book, Calendar, CalendarClock, X } from "lucide-react";
 import "../css/form.css";
 
-const CreateEmprunt = ({ onSuccess }) => {
+const CreateEmprunt = ({ onSuccess, onCancel }) => {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    EtudiantCEF: "",
-    LivreTitre: "",
-    DateEmprunt: "",
-    DateRetourPrevue: ""
+    etudiantCef: "",
+    livreTitre: "",
+    dateEmprunt: "",
+    dateRetourPrevue: ""
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(null);
 
-    if (!form.EtudiantCEF || !form.LivreTitre || !form.DateEmprunt || !form.DateRetourPrevue) {
+    if (!form.etudiantCef || !form.livreTitre || !form.dateEmprunt || !form.dateRetourPrevue) {
       setMessage({ type: "error", text: "Tous les champs sont obligatoires" });
       return;
     }
@@ -33,18 +35,28 @@ const CreateEmprunt = ({ onSuccess }) => {
       setLoading(true);
 
       await dispatch(createEmprunt({
-        EtudiantCEF: form.EtudiantCEF.toString(),
-        LivreTitre: form.LivreTitre,
-        DateEmprunt: form.DateEmprunt,
-        DateRetourPrevue: form.DateRetourPrevue
+        EtudiantCef: form.etudiantCef,
+        LivreTitre: form.livreTitre.trim(),
+        DateEmprunt: new Date(form.dateEmprunt).toISOString(),
+        DateRetourPrevue: new Date(form.dateRetourPrevue).toISOString()
       })).unwrap();
 
       setMessage({ type: "success", text: "Emprunt créé avec succès !" });
-      setForm({ EtudiantCEF: "", LivreTitre: "", DateEmprunt: "", DateRetourPrevue: "" });
+
+      setForm({
+        etudiantCef: "",
+        livreTitre: "",
+        dateEmprunt: "",
+        dateRetourPrevue: ""
+      });
 
       if (onSuccess) onSuccess();
+
     } catch (err) {
-      setMessage({ type: "error", text: err || "Erreur serveur" });
+      setMessage({
+        type: "error",
+        text: err || "Erreur serveur"
+      });
     } finally {
       setLoading(false);
     }
@@ -52,95 +64,112 @@ const CreateEmprunt = ({ onSuccess }) => {
 
   return (
     <motion.div
-      className="card form-card shadow-lg mb-6 border border-blue-500/20"
-      initial={{ opacity: 0, height: 0, scale: 0.98 }}
-      animate={{ opacity: 1, height: "auto", scale: 1 }}
-      exit={{ opacity: 0, height: 0, scale: 0.98 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={{ overflow: 'hidden' }}
+      className="card form-card shadow-lg mb-6 relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
     >
-      <div className="form-container">
-        <h2 className="form-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <BookOpen className="w-6 h-6 text-blue-500" /> Créer un emprunt
+      <div className="flex justify-between items-center border-b pb-4 mb-6 border-slate-100">
+        <h2 className="text-xl font-bold flex items-center gap-2 text-slate-800">
+          <BookOpen className="text-indigo-600" /> Nouvel Emprunt
         </h2>
-
-        {message && (
-          <div className={`mb-4 p-4 rounded-xl flex items-center ${message.type === "error" ? "bg-red-50 text-red-600 border border-red-200" : "bg-green-50 text-green-600 border border-green-200"}`}>
-            <AlertCircle className="inline mr-2 w-5 h-5 flex-shrink-0" />
-            <span className="font-medium">{message.text}</span>
-          </div>
+        {onCancel && (
+          <button 
+            type="button" 
+            onClick={onCancel}
+            className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500 hover:text-slate-800"
+            title="Fermer"
+          >
+            <X size={20} />
+          </button>
         )}
+      </div>
 
-        <form onSubmit={handleSubmit} className="modern-form">
-          <div className="form-row">
-            <div className="form-group">
-              <label>CEF Étudiant</label>
+      {message && (
+        <div className={`form-alert ${message.type === 'error' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-emerald-50 text-emerald-600 border-emerald-200'} p-4 rounded-xl border flex items-center gap-3 mb-6 font-medium`}>
+          <AlertCircle size={18} /> {message.text}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="modern-form">
+        <div className="form-grid">
+          <div className="form-group">
+            <label>CEF Étudiant</label>
+            <div className="input-with-icon">
+              <User className="input-icon-sm" size={18} />
               <input
                 type="number"
-                name="EtudiantCEF"
-                value={form.EtudiantCEF}
+                name="etudiantCef"
+                value={form.etudiantCef}
                 onChange={handleChange}
-                placeholder="Ex: 123456"
-                required
+                placeholder="Ex: 854619"
               />
             </div>
+          </div>
 
-            <div className="form-group">
-              <label>Titre du livre</label>
+          <div className="form-group">
+            <label>Titre du livre</label>
+            <div className="input-with-icon">
+              <Book className="input-icon-sm" size={18} />
               <input
                 type="text"
-                name="LivreTitre"
-                value={form.LivreTitre}
+                name="livreTitre"
+                value={form.livreTitre}
                 onChange={handleChange}
-                placeholder="Ex: React Guide"
-                required
+                placeholder="Nom complet du livre"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-grid">
+          <div className="form-group">
+            <label>Date de l'emprunt</label>
+            <div className="input-with-icon">
+              <Calendar className="input-icon-sm" size={18} />
+              <input
+                type="date"
+                name="dateEmprunt"
+                value={form.dateEmprunt}
+                onChange={handleChange}
               />
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Date d'emprunt</label>
+          <div className="form-group">
+            <label>Date de retour prévue</label>
+            <div className="input-with-icon">
+              <CalendarClock className="input-icon-sm" size={18} />
               <input
                 type="date"
-                name="DateEmprunt"
-                value={form.DateEmprunt}
+                name="dateRetourPrevue"
+                value={form.dateRetourPrevue}
                 onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Date retour prévue</label>
-              <input
-                type="date"
-                name="DateRetourPrevue"
-                value={form.DateRetourPrevue}
-                onChange={handleChange}
-                required
               />
             </div>
           </div>
+        </div>
 
-          <div className="form-actions" style={{ marginTop: '12px', paddingTop: '20px' }}>
-            <button
-              type="submit"
-              className="btn-submit w-full"
-              style={{ padding: '14px 24px', fontSize: '1rem', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              disabled={loading}
+        <div className="form-actions mt-6 pt-6 border-t border-slate-100 flex justify-end gap-3">
+          {onCancel && (
+            <button 
+              type="button" 
+              className="btn-cancel px-5 py-2.5 rounded-xl border font-medium text-slate-600 hover:bg-slate-50 transition" 
+              onClick={onCancel}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="loading-spinner inline mr-2 w-5 h-5" style={{ margin: 0, marginRight: '8px', color: 'white' }} />
-                  Création en cours...
-                </>
-              ) : (
-                "Valider l'emprunt"
-              )}
+              Annuler
             </button>
-          </div>
-        </form>
-      </div>
+          )}
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="btn-submit px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition shadow-md shadow-indigo-200 flex items-center gap-2"
+          >
+            {loading ? <Loader2 className="animate-spin" size={18} /> : <span>Créer l'emprunt</span>}
+          </button>
+        </div>
+
+      </form>
     </motion.div>
   );
 };

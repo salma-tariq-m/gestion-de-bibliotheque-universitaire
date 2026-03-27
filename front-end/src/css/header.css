@@ -1,17 +1,18 @@
 .header {
     height: 80px;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 0 48px;
+    box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
     z-index: 90;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
 }
 
 .header-left .logo {
@@ -34,60 +35,66 @@
     font-size: 0.85rem;
     color: var(--accent-primary);
     font-weight: 600;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    background: var(--accent-light);
+    border: 1px solid rgba(79, 70, 229, 0.15);
     padding: 6px 16px;
     border-radius: 20px;
+    letter-spacing: 0.02em;
 }
 
 .logout-btn {
-    background: rgba(239, 68, 68, 0.1);
+    background: var(--bg-secondary);
     color: var(--danger);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    padding: 10px 20px;
-    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: 8px;
+    box-shadow: var(--shadow-sm);
 }
 
 .logout-btn:hover {
-    background: var(--danger);
-    color: white;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    background: var(--danger-bg);
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
 }
 
 @media (max-width: 1024px) {
     .header-left .logo {
-        display: block;
-        font-size: 1.2rem;
-        font-weight: 700;
+        display: flex;
+        font-size: 1.25rem;
+        font-weight: 800;
         color: var(--text-main);
+        align-items: center;
+        gap: 6px;
     }
     .header-left .logo span {
         color: var(--accent-primary);
+        background: var(--accent-light);
+        padding: 2px 6px;
+        border-radius: 6px;
     }
 }
 
 @media (max-width: 768px) {
     .header {
-        padding: 0 20px;
-        height: 60px;
+        padding: 0 24px;
+        height: 70px;
     }
     
     .user-info {
-        gap: 12px;
+        gap: 16px;
     }
     
-    
     .logout-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+        padding: 8px 12px;
+        font-size: 0.85rem;
     }
     
     .header-left .logo {
@@ -95,25 +102,22 @@
     }
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle Button (If used later) */
 .theme-toggle {
     background: transparent;
-    border: none;
+    border: 1px solid var(--border-color);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 8px;
     border-radius: 50%;
-    transition: background-color 0.3s ease;
-    margin-right: 8px;
+    transition: all 0.2s ease;
+    margin-right: 12px;
     color: var(--text-main);
 }
 
 .theme-toggle:hover {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='dark'] .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-sm);
 }

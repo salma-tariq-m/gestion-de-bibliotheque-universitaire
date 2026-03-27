@@ -3,44 +3,57 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5136/api/etudiant";
 
-// GET
+// 🔹 MAPPER
+const mapEtudiant = (e) => ({
+  id: e.id_etudiant,  
+  nom: e.nom,
+  prenom: e.prenom,
+  cef: e.cef
+});
 export const fetchEtudiants = createAsyncThunk(
   "etudiants/fetchEtudiants",
-  async () => {
-    const res = await axios.get(API_URL);
-    return res.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(API_URL);
+      return res.data.map(mapEtudiant); 
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Erreur serveur");
+    }
   }
 );
 
-// ADD
 export const addEtudiant = createAsyncThunk(
   "etudiants/addEtudiant",
-  async (etudiant) => {
-    const res = await axios.post(API_URL, etudiant);
-    return res.data;
+  async (etudiant, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(API_URL, etudiant);
+      return mapEtudiant(res.data);
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Erreur ajout");
+    }
   }
 );
-
-// UPDATE
 export const updateEtudiant = createAsyncThunk(
   "etudiants/updateEtudiant",
   async ({ id, etudiant }, { rejectWithValue }) => {
     try {
       const res = await axios.put(`${API_URL}/${id}`, etudiant);
-      return res.data;
+      return mapEtudiant(res.data);
     } catch (err) {
-      console.log(err.response?.data);
-      return rejectWithValue(err.response?.data || "Erreur");
+      return rejectWithValue(err.response?.data?.message || "Erreur update");
     }
   }
 );
 
-// DELETE
 export const deleteEtudiant = createAsyncThunk(
   "etudiants/deleteEtudiant",
-  async (id) => {
-    await axios.delete(`${API_URL}/${id}`);
-    return id;
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Erreur suppression");
+    }
   }
 );
 
@@ -54,40 +67,19 @@ const etudiantsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchEtudiants.pending, (state) => { state.loading = true; state.error = null; })
+      .addCase(fetchEtudiants.fulfilled, (state, action) => { state.loading = false; state.etudiants = action.payload; })
+      .addCase(fetchEtudiants.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
 
-      // GET
-      .addCase(fetchEtudiants.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchEtudiants.fulfilled, (state, action) => {
-        state.loading = false;
-        state.etudiants = action.payload;
-      })
-      .addCase(fetchEtudiants.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
+      .addCase(addEtudiant.fulfilled, (state, action) => { state.etudiants.push(action.payload); })
 
-      // ADD
-      .addCase(addEtudiant.fulfilled, (state, action) => {
-        state.etudiants.push(action.payload);
-      })
-
-      // UPDATE
       .addCase(updateEtudiant.fulfilled, (state, action) => {
-        const index = state.etudiants.findIndex(
-          (e) => e.id_etudiant === action.payload.id_etudiant
-        );
-        if (index !== -1) {
-          state.etudiants[index] = action.payload;
-        }
+        const index = state.etudiants.findIndex(e => e.id === action.payload.id);
+        if (index !== -1) state.etudiants[index] = action.payload;
       })
 
-      // DELETE
       .addCase(deleteEtudiant.fulfilled, (state, action) => {
-        state.etudiants = state.etudiants.filter(
-          (e) => e.id_etudiant !== action.payload
-        );
+        state.etudiants = state.etudiants.filter(e => e.id !== action.payload);
       });
   },
 });

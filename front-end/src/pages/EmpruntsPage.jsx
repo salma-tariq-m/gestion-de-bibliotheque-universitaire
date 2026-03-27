@@ -3,30 +3,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEmprunts, validerEmprunt, retournerEmprunt } from "../redux/slices/empruntsSlice";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import { ClipboardList, Search, CheckCircle, XCircle, CornerDownLeft, Loader2, FileText, AlertCircle } from "lucide-react";
-import { motion } from "framer-motion";
-import "../css/emprunt.css";
 import CreateEmprunt from "../components/EmpruntForm";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  BookOpen, Plus, Search, CheckCircle, RotateCcw, 
+  AlertCircle, X, Loader2, Library
+} from "lucide-react";
+import "../css/emprunt.css";
 
 const EmpruntsPage = () => {
   const dispatch = useDispatch();
   const { emprunts, loading, error } = useSelector(state => state.emprunts);
 
   const [search, setSearch] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
-  const empruntsFiltres = emprunts.filter(e =>
-    e.etudiantNom.toLowerCase().includes(search.toLowerCase()) ||
-    e.livreTitre.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    dispatch(fetchEmprunts());
+  }, [dispatch]);
+
+  const filtered = emprunts.filter(e =>
+    (e.etudiantNom || "").toLowerCase().includes(search.toLowerCase()) ||
+    (e.etudiantPrenom || "").toLowerCase().includes(search.toLowerCase()) ||
+    (e.livreTitre || "").toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => { dispatch(fetchEmprunts()); }, [dispatch]);
-
-  const handleValider = (id) => dispatch(validerEmprunt(id));
-  const handleRetourner = (id) => dispatch(retournerEmprunt(id));
-
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.05 }
+    }
   };
 
   const itemVariants = {
@@ -34,43 +42,87 @@ const EmpruntsPage = () => {
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   };
 
+  const getStatusBadgeClass = (statut) => {
+    if (!statut) return "status-badge";
+    const s = statut.toLowerCase();
+    if (s.includes("attente")) return "status-badge en-attente";
+    if (s.includes("emprunt")) return "status-badge emprunté";
+    if (s.includes("retour")) return "status-badge retourné";
+    if (s.includes("refus")) return "status-badge refusé";
+    return "status-badge";
+  };
+
   return (
     <div className="app-layout">
       <Sidebar />
       <div className="main-content">
         <Header />
+        
         <main className="content-container">
-       <CreateEmprunt onSuccess={() => dispatch(fetchEmprunts())} />
+          {/* Header Section */}
           <div className="page-header">
             <div className="page-header-content">
               <div className="header-icon-box">
-                <ClipboardList className="w-6 h-6" />
+                <BookOpen className="w-6 h-6" />
               </div>
               <div>
                 <h1>Gestion des Emprunts</h1>
-                <p>Validez les demandes et suivez les retours de livres.</p>
               </div>
             </div>
+            <button
+              className={`btn-primary ${showForm ? 'btn-close' : ''} header-btn`}
+              onClick={() => setShowForm(!showForm)}
+            >
+              {showForm ? (
+                <><X className="w-5 h-5"/></>
+              ) : (
+                <><Plus className="w-5 h-5"/> Ajouter un Emprunt</>
+              )}
+            </button>
           </div>
 
+          {/* Form Modal (Expandable) */}
+          <AnimatePresence>
+            {showForm && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0, scale: 0.98 }}
+                animate={{ opacity: 1, height: "auto", scale: 1 }}
+                exit={{ opacity: 0, height: 0, scale: 0.98 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="card form-card">
+                  <CreateEmprunt onSuccess={() => {
+                    dispatch(fetchEmprunts());
+                    setShowForm(false);
+                  }} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Controls Bar */}
           <div className="controls-bar">
-            <h3>{empruntsFiltres.length} Emprunt{empruntsFiltres.length !== 1 ? "s" : ""}</h3>
+            <h3>
+               {filtered.length} Emprunt{filtered.length !== 1 ? 's' : ''} trouvé{filtered.length !== 1 ? 's' : ''}
+            </h3>
             <div className="search-bar-modern">
               <Search className="search-icon w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher par étudiant ou livre..."
+                placeholder="Rechercher étudiant ou livre..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
           </div>
 
+          {/* Table Card */}
           <div className="card table-card glass-card">
             {error && (
-              <div className="error-msg">
-                <AlertCircle className="w-5 h-5 mb-2 mx-auto" />
-                <p>Erreur: {error}</p>
+              <div className="error-msg text-center my-4 py-8">
+                <AlertCircle className="w-6 h-6 mb-2 mx-auto text-red-500" />
+                <p className="text-red-500 font-medium">{error}</p>
               </div>
             )}
 
@@ -80,12 +132,12 @@ const EmpruntsPage = () => {
                   <th>Étudiant</th>
                   <th>Livre</th>
                   <th>Date Emprunt</th>
-                  <th>Date Retour</th>
+                  <th>Date Retour Prévue</th>
                   <th>Statut</th>
                   <th className="text-right">Actions</th>
                 </tr>
               </thead>
-
+              
               {loading ? (
                 <tbody>
                   <tr>
@@ -95,49 +147,79 @@ const EmpruntsPage = () => {
                     </td>
                   </tr>
                 </tbody>
-              ) : empruntsFiltres.length === 0 ? (
+              ) : filtered.length === 0 ? (
                 <tbody>
                   <tr>
                     <td colSpan="6" className="empty-state">
-                      <FileText className="empty-icon w-12 h-12" />
+                      <Library className="empty-icon" />
                       <p className="empty-title">Aucun emprunt trouvé</p>
+                      <p className="empty-desc">Essayez de modifier vos critères de recherche.</p>
                     </td>
                   </tr>
                 </tbody>
               ) : (
-                <motion.tbody variants={containerVariants} initial="hidden" animate="show">
-                  {empruntsFiltres.map((emprunt) => (
-                    <motion.tr variants={itemVariants} key={emprunt.id}>
-                      <td className="font-bold">{emprunt.etudiantNom}</td>
-                      <td>{emprunt.livreTitre}</td>
-                      <td>{new Date(emprunt.dateEmprunt).toLocaleDateString()}</td>
-                      <td>{emprunt.dateRetour ? new Date(emprunt.dateRetour).toLocaleDateString() : "-"}</td>
+                <motion.tbody
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                >
+                  {filtered.map((e) => (
+                    <motion.tr variants={itemVariants} key={e.id}>
+                      <td className="font-bold">
+                        {e.etudiantNom} {e.etudiantPrenom}
+                      </td>
                       <td>
-                        <span className={`status-badge ${emprunt.statut.toLowerCase().replace(/\s/g, '-')}`}>
-                          <span className="status-dot" style={{ backgroundColor: 'currentColor' }}></span>
-                          {emprunt.statut}
+                        <div className="book-cell">
+                          <div className="book-icon-bg">
+                            <BookOpen className="w-4 h-4" />
+                          </div>
+                          {e.livreTitre}
+                        </div>
+                      </td>
+                      <td>
+                        {e.dateEmprunt
+                          ? new Date(e.dateEmprunt).toLocaleDateString()
+                          : "-"}
+                      </td>
+                      <td>
+                        {e.dateRetourPrevue
+                          ? new Date(e.dateRetourPrevue).toLocaleDateString()
+                          : "-"}
+                      </td>
+                      <td>
+                        <span className={getStatusBadgeClass(e.statut)}>
+                          {e.statut || "N/A"}
                         </span>
                       </td>
-                      <td className="actions-cell">
-                        {emprunt.statut === "En attente" && (
-                          <div className="btn-group">
-                            <button className="btn-action btn-check" onClick={() => handleValider(emprunt.id)}>
-                              <CheckCircle className="w-4 h-4 mr-1 inline" /> Valider
-                            </button>
-                          </div>
-                        )}
-                        {emprunt.statut === "Emprunté" && (
-                          <button className="btn-action btn-return" onClick={() => handleRetourner(emprunt.id)}>
-                            <CornerDownLeft className="w-4 h-4 mr-1 inline" /> Retourner
-                          </button>
-                        )}
-                      </td>
+                     <td className="actions-cell">
+                      {console.log(e.statut === "En attente")}
+        {e.statut === "En attente" && (
+          <button 
+            className="btn-action bg-green-500"
+            onClick={() => dispatch(validerEmprunt(e.id))}
+            title="Valider"
+          >
+            <CheckCircle className="w-4 h-4 inline-block mr-1" /> Valider
+          </button>
+        )}
+        {e.statut === "Retourné" && (
+          <button 
+            className="btn-action btn-return"
+            onClick={() => dispatch(retournerEmprunt(e.id))}
+            title="Retourner"
+          >
+            <RotateCcw className="w-4 h-4 inline-block mr-1" /> Retourner
+          </button>
+        )}
+      </td>
+
                     </motion.tr>
                   ))}
                 </motion.tbody>
               )}
             </table>
           </div>
+
         </main>
       </div>
     </div>

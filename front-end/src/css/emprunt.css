@@ -43,50 +43,84 @@
 }
 
 .btn-action {
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  display: inline-flex; /* pour que l’icône + texte soit aligné */
+  align-items: center;
+  gap: 0.25rem; /* espace entre icône et texte */
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #e5e7eb; /* gris clair */
+  color: #111827;
+  transition: background 0.2s;
+}
+.bg-green-500{
+    background-color: #10b981;
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+.btn-action:hover {
+  background-color: #d1d5db; /* un peu plus foncé au hover */
 }
 
 .btn-check {
-    background-color: rgba(16, 185, 129, 0.1);
-    color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.btn-check:hover {
-    background-color: var(--success);
-    color: white;
-    transform: translateY(-1px);
-}
-
-.btn-cross {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-}
-
-.btn-cross:hover {
-    background-color: var(--danger);
-    color: white;
-    transform: translateY(-1px);
+  color: #10b981; /* vert */
 }
 
 .btn-return {
-    background-color: rgba(99, 102, 241, 0.1);
-    color: #818cf8;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    float: right;
+  color: #3b82f6; /* bleu */
+}
+
+.btn-check {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-check:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    filter: brightness(1.05);
+}
+
+.btn-check:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}
+
+.btn-cross {
+    background: linear-gradient(135deg, var(--danger), #DC2626);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.btn-cross:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    filter: brightness(1.05);
+}
+
+.btn-cross:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+}
+
+.btn-return {
+    background: linear-gradient(135deg, var(--accent-primary), #4338CA);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 .btn-return:hover {
-    background-color: #6366f1;
-    color: white;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    filter: brightness(1.05);
+}
+
+.btn-return:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
 }
 
 /* Messages d'état */

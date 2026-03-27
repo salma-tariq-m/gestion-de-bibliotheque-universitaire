@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 import EtudiantForm from "../components/EtudiantForm";
 import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import "../css/etudiant.css"
+import "../css/etudiant.css";
 
 const EtudiantsPage = () => {
   const dispatch = useDispatch();
@@ -16,14 +16,16 @@ const EtudiantsPage = () => {
   const [editEtudiant, setEditEtudiant] = useState(null);
   const [search, setSearch] = useState("");
 
+  // Filtrage par nom ou prenom
   const etudiantsFiltres = etudiants.filter(e =>
     e.nom.toLowerCase().includes(search.toLowerCase()) ||
-    e.email.toLowerCase().includes(search.toLowerCase())
+    e.prenom.toLowerCase().includes(search.toLowerCase()) ||
+    e.cef.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => { 
-    console.log(etudiants)
-    dispatch(fetchEtudiants()); }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchEtudiants());
+  }, [dispatch]);
 
   const handleAdd = (etudiant) => {
     dispatch(addEtudiant(etudiant));
@@ -42,13 +44,9 @@ const EtudiantsPage = () => {
     }
   };
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 }
-    }
+    show: { opacity: 1, transition: { staggerChildren: 0.05 } }
   };
 
   const itemVariants = {
@@ -62,15 +60,11 @@ const EtudiantsPage = () => {
       <div className="main-content">
         <Header />
         <main className="content-container">
-
           <div className="page-header">
             <div className="page-header-content">
-              <div className="header-icon-box">
-                <Users className="w-6 h-6" />
-              </div>
+              <div className="header-icon-box"><Users className="w-6 h-6" /></div>
               <div>
                 <h1>Gestion des Étudiants</h1>
-                <p>Gérez les membres inscrits à la bibliothèque.</p>
               </div>
             </div>
             <button
@@ -109,7 +103,7 @@ const EtudiantsPage = () => {
               <Search className="search-icon w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher par nom ou email..."
+                placeholder="Rechercher par nom, prénom ou CEF..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -129,8 +123,6 @@ const EtudiantsPage = () => {
                 <tr>
                   <th>CEF</th>
                   <th>Nom Complet</th>
-                  <th>Email</th>
-                  <th>Filière</th>
                   <th className="text-right">Actions</th>
                 </tr>
               </thead>
@@ -138,7 +130,7 @@ const EtudiantsPage = () => {
               {loading ? (
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="empty-state">
+                    <td colSpan="3" className="empty-state">
                       <Loader2 className="loading-spinner" />
                       <p className="empty-title">Chargement des étudiants...</p>
                     </td>
@@ -147,32 +139,23 @@ const EtudiantsPage = () => {
               ) : etudiantsFiltres.length === 0 ? (
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="empty-state">
+                    <td colSpan="3" className="empty-state">
                       <UserCircle className="empty-icon w-12 h-12" />
                       <p className="empty-title">Aucun étudiant trouvé</p>
-                      <p className="empty-desc">Essayez de modifier vos critères de recherche.</p>
                     </td>
                   </tr>
                 </tbody>
               ) : (
-                <motion.tbody
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="show"
-                >
+                <motion.tbody variants={containerVariants} initial="hidden" animate="show">
                   {etudiantsFiltres.map((etudiant) => (
-                    <motion.tr variants={itemVariants} key={etudiant.id_etudiant}>
+                    <motion.tr variants={itemVariants} key={etudiant.id}>
                       <td>{etudiant.cef}</td>
                       <td className="font-bold">
                         <div className="book-cell">
-                          <div className="book-icon-bg">
-                            <UserCircle className="w-4 h-4" />
-                          </div>
+                          <div className="book-icon-bg"><UserCircle className="w-4 h-4" /></div>
                           {etudiant.nom} {etudiant.prenom}
                         </div>
                       </td>
-                      <td>{etudiant.email}</td>
-                      <td>{etudiant.Fillier?.nomFillier || "—"}</td>
                       <td className="actions-cell">
                         <button
                           className="btn-icon edit-icon"
@@ -183,7 +166,7 @@ const EtudiantsPage = () => {
                         </button>
                         <button
                           className="btn-icon delete-icon"
-                          onClick={() => handleDelete(etudiant.id_etudiant)}
+                          onClick={() => handleDelete(etudiant.id)}
                           title="Supprimer"
                         >
                           <Trash2 className="w-4 h-4" />

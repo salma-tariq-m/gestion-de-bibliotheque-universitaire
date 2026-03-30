@@ -5,8 +5,11 @@
   align-items: center !important;
   justify-content: center !important;
   background-color: var(--bg-primary, #f8fafc);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding: 20px 0;
 }
 
 .login-bg-shapes {

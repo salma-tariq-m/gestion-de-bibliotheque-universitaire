@@ -11,13 +11,11 @@ public class DashboardRepository
         _context = context;
     }
 
-    // 📚 Total books (عدد العناوين)
     public async Task<int> GetTotalBooks()
     {
         return await _context.Books.CountAsync();
     }
 
-    // 🔄 Emprunts en cours
     public async Task<int> GetBorrowedBooks()
     {
         return await _context.Emprunts
@@ -33,7 +31,6 @@ public class DashboardRepository
             .CountAsync();
     }
 
-    // 📦 Stock total (Quantite)
     public async Task<int> GetAvailableBooks()
     {
         return await _context.Books

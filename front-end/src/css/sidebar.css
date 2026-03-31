@@ -104,18 +104,16 @@
         backdrop-filter: blur(12px);
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
     }
-    
-    .sidebar-brand, .sidebar-footer {
+    .sidebar-brand,
+    .sidebar-footer {
         display: none;
     }
-    
     .sidebar-nav {
         width: 100%;
         display: flex;
         align-items: center;
         padding: 0 8px;
     }
-    
     .sidebar-nav ul {
         display: flex;
         width: 100%;
@@ -123,14 +121,12 @@
         margin: 0;
         padding: 0;
     }
-    
     .sidebar-nav li {
         margin-bottom: 0;
         flex: 1;
         display: flex;
         justify-content: center;
     }
-    
     .sidebar-nav a {
         flex-direction: column;
         gap: 6px;
@@ -142,13 +138,11 @@
         width: 100%;
         max-width: 80px;
     }
-    
     .sidebar-nav a:hover {
         transform: none;
         background-color: var(--bg-primary);
         color: var(--text-main);
     }
-
     .sidebar-nav li.active a {
         background: var(--accent-light);
         color: var(--accent-primary);

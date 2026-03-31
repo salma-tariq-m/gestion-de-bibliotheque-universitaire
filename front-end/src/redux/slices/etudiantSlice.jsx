@@ -8,7 +8,8 @@ const mapEtudiant = (e) => ({
   id: e.id_etudiant,  
   nom: e.nom,
   prenom: e.prenom,
-  cef: e.cef
+  cef: e.cef,
+  email:e.email
 });
 export const fetchEtudiants = createAsyncThunk(
   "etudiants/fetchEtudiants",

@@ -27,7 +27,6 @@ const DashboardPage = () => {
         setStats({
           totalBooks: data.totalBooks ?? data.TotalBooks,
           borrowedBooks: data.borrowedBooks ?? data.BorrowedBooks,
-          pendingRequests: data.pendingRequests ?? data.PendingRequests,
           availableBooks: data.availableBooks ?? data.AvailableBooks,
           monthlyBorrows: data.monthlyBorrows ?? data.MonthlyBorrows
         });
@@ -79,7 +78,6 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          {/* 📊 STATS */}
           <div className="stats-grid">
             <div className="stat-card blue">
               <div className="stat-icon"><BookOpen size={28} /></div>
@@ -94,14 +92,6 @@ const DashboardPage = () => {
               <div className="stat-info">
                 <h3>{stats.borrowedBooks}</h3>
                 <p>Emprunts en cours</p>
-              </div>
-            </div>
-
-            <div className="stat-card orange">
-              <div className="stat-icon"><Clock size={28} /></div>
-              <div className="stat-info">
-                <h3>{stats.pendingRequests}</h3>
-                <p>Demandes en attente</p>
               </div>
             </div>
 

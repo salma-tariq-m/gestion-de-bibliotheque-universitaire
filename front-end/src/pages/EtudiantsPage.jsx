@@ -4,7 +4,7 @@ import { fetchEtudiants, addEtudiant, updateEtudiant, deleteEtudiant } from "../
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EtudiantForm from "../components/EtudiantForm";
-import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle } from "lucide-react";
+import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle,Mail  } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/etudiant.css";
 
@@ -123,6 +123,7 @@ const EtudiantsPage = () => {
                 <tr>
                   <th>CEF</th>
                   <th>Nom Complet</th>
+                  <th>Email</th>
                   <th className="text-right">Actions</th>
                 </tr>
               </thead>
@@ -154,6 +155,12 @@ const EtudiantsPage = () => {
                         <div className="book-cell">
                           <div className="book-icon-bg"><UserCircle className="w-4 h-4" /></div>
                           {etudiant.nom} {etudiant.prenom}
+                        </div>
+                      </td>
+                      <td className="font-bold">
+                        <div className="book-cell">
+                          <Mail className="w-4 h-4" /> 
+                          {etudiant.email} 
                         </div>
                       </td>
                       <td className="actions-cell">

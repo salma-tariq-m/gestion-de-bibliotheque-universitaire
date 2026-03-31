@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Library, Users, ArrowRightLeft, ShieldBan, LibraryBig } from "lucide-react";
+import { LayoutDashboard, Library, Users, ArrowRightLeft, ShieldBan, LibraryBig,History  } from "lucide-react";
 import "../css/sidebar.css";
 
 const Sidebar = () => {
@@ -37,6 +37,11 @@ const Sidebar = () => {
           <li className={location.pathname === "/retards" ? "active" : ""}>
             <Link to="/retards" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <ShieldBan size={20} /> Liste Noir
+            </Link>
+          </li>
+          <li className={location.pathname === "/historique" ? "active" : ""}>
+            <Link to="/historique " style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <History size={20} /> Historique
             </Link>
           </li>
         </ul>

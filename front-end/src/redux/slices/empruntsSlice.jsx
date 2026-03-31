@@ -28,17 +28,23 @@ export const fetchEmprunts = createAsyncThunk(
     }
   }
 );
-
-
-// ============================
-// 🔹 CREATE
-// ============================
+export const annulerEmprunt = createAsyncThunk(
+  "emprunts/annulerEmprunt",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`${API_URL}/annuler/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Erreur annulation");
+    }
+  }
+);
 export const createEmprunt = createAsyncThunk(
   "emprunts/createEmprunt",
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post(API_URL, data);
-      return mapEmprunt(res.data); // ✅ mapping
+      return mapEmprunt(res.data); 
     } catch (err) {
       return rejectWithValue(
         err.response?.data?.message || "Erreur serveur"
@@ -47,10 +53,6 @@ export const createEmprunt = createAsyncThunk(
   }
 );
 
-
-// ============================
-// 🔹 VALIDER (optionnel)
-// ============================
 export const validerEmprunt = createAsyncThunk(
   "emprunts/validerEmprunt",
   async (id, { rejectWithValue }) => {
@@ -63,10 +65,6 @@ export const validerEmprunt = createAsyncThunk(
   }
 );
 
-
-// ============================
-// 🔹 RETOURNER (optionnel)
-// ============================
 export const retournerEmprunt = createAsyncThunk(
   "emprunts/retournerEmprunt",
   async (id, { rejectWithValue }) => {
@@ -79,10 +77,6 @@ export const retournerEmprunt = createAsyncThunk(
   }
 );
 
-
-// ============================
-// 🧠 SLICE
-// ============================
 const empruntsSlice = createSlice({
   name: "emprunts",
   initialState: {
@@ -94,8 +88,6 @@ const empruntsSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
-      // 🔄 FETCH
       .addCase(fetchEmprunts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -108,9 +100,6 @@ const empruntsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-
-      // ➕ CREATE
       .addCase(createEmprunt.pending, (state) => {
         state.loading = true;
       })
@@ -122,25 +111,25 @@ const empruntsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-
-      // ✅ VALIDER
       .addCase(validerEmprunt.fulfilled, (state, action) => {
         const emprunt = state.emprunts.find(e => e.id === action.payload);
         if (emprunt) {
           emprunt.statut = "Emprunté";
         }
       })
-
-
-      // 🔁 RETOURNER
       .addCase(retournerEmprunt.fulfilled, (state, action) => {
         const emprunt = state.emprunts.find(e => e.id === action.payload);
         if (emprunt) {
           emprunt.statut = "Retourné";
           emprunt.dateRetourReelle = new Date().toISOString();
         }
-      });
+      })
+      .addCase(annulerEmprunt.fulfilled, (state, action) => {
+      const emprunt = state.emprunts.find(e => e.id === action.payload);
+      if (emprunt) {
+        emprunt.statut = "Annulé";
+      }
+});
 
   }
 });

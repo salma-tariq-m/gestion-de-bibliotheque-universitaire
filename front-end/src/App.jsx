@@ -7,6 +7,7 @@ import EtudiantsPage from "./pages/EtudiantsPage";
 import LivresPage from "./pages/livresPage";
 import EmpruntsPage from "./pages/EmpruntsPage";
 import BlacklistPage from "./pages/RetardPage";
+import HistoriquePage from "./pages/historiquePage";
 
 const PageTransition = ({ children }) => {
   return (
@@ -33,6 +34,7 @@ const AnimatedRoutes = () => {
         <Route path="/livres" element={<PageTransition><LivresPage /></PageTransition>} />
         <Route path="/emprunts" element={<PageTransition><EmpruntsPage /></PageTransition>} />
         <Route path="/retards" element={<PageTransition><BlacklistPage /></PageTransition>} />
+        <Route path="/historique" element={<PageTransition><HistoriquePage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );

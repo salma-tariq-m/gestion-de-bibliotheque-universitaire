@@ -12,6 +12,7 @@ namespace LibraryApi.Repositories
         {
             _context = context;
         }
+
         public async Task<List<Emprunt>> GetAllAsync()
         {
             return await _context.Emprunts
@@ -19,6 +20,7 @@ namespace LibraryApi.Repositories
                 .Include(e => e.Livre)
                 .ToListAsync();
         }
+
         public async Task<Emprunt> AddAsync(Emprunt emprunt)
         {
             _context.Emprunts.Add(emprunt);
@@ -34,19 +36,12 @@ namespace LibraryApi.Repositories
                 .FirstOrDefaultAsync(e => e.Id_Emprunt == id);
         }
 
-        public async Task<bool> IsLivreEmprunteAsync(int livreId)
-        {
-            return await _context.Emprunts
-                .AnyAsync(e => e.Id_Livre == livreId && e.DateRetourReelle == null);
-        }
-
         public async Task UpdateAsync(Emprunt emprunt)
         {
             _context.Emprunts.Update(emprunt);
             await _context.SaveChangesAsync();
         }
 
-        // Supprimer un emprunt
         public async Task DeleteAsync(Emprunt emprunt)
         {
             _context.Emprunts.Remove(emprunt);

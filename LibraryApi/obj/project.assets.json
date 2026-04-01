@@ -3196,11 +3196,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\us\\Desktop\\projetSalma\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
+      "projectUniqueName": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
       "projectName": "LibraryApi",
-      "projectPath": "C:\\Users\\us\\Desktop\\projetSalma\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
+      "projectPath": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\LibraryApi.csproj",
       "packagesPath": "C:\\Users\\us\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\us\\Desktop\\projetSalma\\gestion-de-bibliotheque-universitaire\\LibraryApi\\obj\\",
+      "outputPath": "C:\\Users\\us\\Desktop\\salmaProjet\\gestion-de-bibliotheque-universitaire\\LibraryApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

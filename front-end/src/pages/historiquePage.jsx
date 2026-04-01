@@ -23,14 +23,13 @@ const HistoriquePage = () => {
     dispatch(fetchEmprunts());
   }, [dispatch]);
 
-  // ✅ FILTRAGE CORRECT (Recherche + Historique)
   const filtered = emprunts
     .filter(e =>
       (e.etudiantNom || "").toLowerCase().includes(search.toLowerCase()) ||
       (e.etudiantPrenom || "").toLowerCase().includes(search.toLowerCase()) ||
       (e.livreTitre || "").toLowerCase().includes(search.toLowerCase())
     )
-    .filter(e => e.statut === "Retourné" || e.statut === "Annule");
+    .filter(e => e.statut === "Termine" || e.statut === "Annule");
 
   const containerVariants = {
     hidden: { opacity: 0 },

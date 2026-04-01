@@ -22,15 +22,14 @@ const EmpruntsPage = () => {
     dispatch(fetchEmprunts());
   }, [dispatch]);
 
-  // ✅ Correction filtre
   const filtered = emprunts
-    .filter(e => e.statut === "Emprunté" || e.statut === "En attente")
+    .filter(e =>  e.statut === "En Cours")
     .filter(e =>
       (e.etudiantNom || "").toLowerCase().includes(search.toLowerCase()) ||
       (e.etudiantPrenom || "").toLowerCase().includes(search.toLowerCase()) ||
       (e.livreTitre || "").toLowerCase().includes(search.toLowerCase())
     );
-
+console.log(filtered)
   const containerVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.05 } }
@@ -175,16 +174,8 @@ const EmpruntsPage = () => {
                       <td>{e.dateRetourPrevue ? new Date(e.dateRetourPrevue).toLocaleDateString() : "-"}</td>
                       <td><span className={getStatusBadgeClass(e.statut)}>{e.statut || "N/A"}</span></td>
                       <td className="actions-cell">
-                        {e.statut === "En attente" && (
+                        {e.statut === "En Cours" && (
                           <>
-                            <button 
-                              className="btn-action bg-green-500"
-                              onClick={() => dispatch(validerEmprunt(e.id))}
-                              title="Valider"
-                            >
-                              <CheckCircle className="w-4 h-4 inline-block mr-1" /> Valider
-                            </button>
-
                             <button
                               className="btn-action btn-cancel bg-red-500 ml-2"
                               onClick={() => dispatch(annulerEmprunt(e.id))}
@@ -192,18 +183,16 @@ const EmpruntsPage = () => {
                             >
                               <X className="w-4 h-4 inline-block mr-1" /> Annuler
                             </button>
-                          </>
-                        )}
-
-                        {(e.statut === "Emprunté" || e.statut === "EnCours") && (
-                          <button 
+                             <button 
                             className="btn-action btn-return"
                             onClick={() => dispatch(retournerEmprunt(e.id))}
                             title="Retourner"
                           >
                             <RotateCcw className="w-4 h-4 inline-block mr-1" /> Retourner
                           </button>
+                          </>
                         )}
+
                       </td>
                     </motion.tr>
                   ))}

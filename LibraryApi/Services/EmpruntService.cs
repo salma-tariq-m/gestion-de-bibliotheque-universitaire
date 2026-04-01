@@ -50,7 +50,7 @@ namespace LibraryApi.Services
                 Id_Livre = livre.Id_Livre,
                 Date_Emprunt = DateTime.Now,
                 DateRetourPrevue = dto.DateRetourPrevue,
-                Statut = "EnCours"
+                Statut = "En Cours"
             };
 
             _context.Emprunts.Add(emprunt);
@@ -79,7 +79,7 @@ namespace LibraryApi.Services
                 .FirstOrDefaultAsync(e => e.Id_Emprunt == empruntId);
 
             if (emprunt == null) throw new Exception("Emprunt introuvable");
-            if (emprunt.Statut != "EnCours") throw new Exception("Impossible de retourner cet emprunt");
+            if (emprunt.Statut != "En Cours") throw new Exception("Impossible de retourner cet emprunt");
 
             emprunt.DateRetourReelle = DateTime.Now;
             emprunt.Statut = "Termine";
@@ -108,7 +108,7 @@ namespace LibraryApi.Services
                 .FirstOrDefaultAsync(e => e.Id_Emprunt == empruntId);
 
             if (emprunt == null) throw new Exception("Emprunt introuvable");
-            if (emprunt.Statut != "EnCours") throw new Exception("Impossible d'annuler cet emprunt");
+            if (emprunt.Statut != "En Cours") throw new Exception("Impossible d'annuler cet emprunt");
 
             emprunt.Statut = "Annule";
             emprunt.Livre.Quantite += 1;

@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import "../css/form.css"
-const LivreForm = ({ initialData, onSubmit, onCancel }) => {
- const [formData, setFormData] = useState(
-  initialData || { titre: '', auteur: '', quantite: 0, annee: 0, id_categorie: 0 }
-);
-  const [categories, setCategories] = useState([]);
 
-  // Charger les catégories depuis le backend
+const LivreForm = ({ initialData = {}, onSubmit, onCancel }) => {
+  const dispatch = useDispatch();
+
+  const [livre, setLivre] = useState({
+    titre: "",
+    auteur: "",
+    quantite: 0,
+    annee: "",
+    id_categorie: ""
+  });
+
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+
+  // Pré-remplissage du formulaire
+  useEffect(() => {
+    setLivre({
+      titre: initialData.titre || "",
+      auteur: initialData.auteur || "",
+      quantite: initialData.quantite || 0,
+      annee: initialData.annee || "",
+      id_categorie: initialData.id_categorie || ""
+    });
+  }, [initialData]);
+
+  // Récupération des catégories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -15,119 +35,129 @@ const LivreForm = ({ initialData, onSubmit, onCancel }) => {
         setCategories(res.data);
       } catch (err) {
         console.error("Erreur lors du chargement des catégories :", err);
+      } finally {
+        setLoadingCategories(false);
       }
     };
     fetchCategories();
   }, []);
 
-  // Pré-remplir le formulaire si modification
-  useEffect(() => {
-    if (initialData) setFormData(initialData);
-  }, [initialData]);
-
   const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setFormData({
-    ...formData,
-    [name]:
-      name === "id_categorie" || name === "quantite" || name === "annee"
-        ? Number(value)
-        : value
-  });
-};
+    setLivre({
+      ...livre,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    console.log(formData);
+    // Convertir id_categorie en number pour la DB
+    const dataToSend = { ...livre, id_categorie: Number(livre.id_categorie) };
+    onSubmit(dataToSend);
   };
 
   return (
     <div className="form-container">
       <h2 className="form-title">
-        {initialData ? " Modifier le livre" : " Ajouter un nouveau livre"}
+        {initialData.id_Livre ? "Modifier le Livre" : "Ajouter un Livre"}
       </h2>
 
       <form onSubmit={handleSubmit} className="modern-form">
-        {/* Titre occupe toute la largeur */}
-        <div className="form-group full-width">
-          <label>Titre du livre</label>
+
+        <div className="form-group">
+          <label className="form-label">Titre</label>
           <input
+            type="text"
             name="titre"
-            value={formData.titre}
+            value={livre.titre}
             onChange={handleChange}
-            placeholder="Ex: Le Petit Prince"
+            placeholder="Titre du livre"
+            className="form-input"
             required
           />
         </div>
 
-        {/* Auteur et Catégorie sur la même ligne */}
+        <div className="form-group">
+          <label className="form-label">Auteur</label>
+          <input
+            type="text"
+            name="auteur"
+            value={livre.auteur}
+            onChange={handleChange}
+            placeholder="Nom de l'auteur"
+            className="form-input"
+            required
+          />
+        </div>
+
         <div className="form-row">
           <div className="form-group">
-            <label>Auteur</label>
+            <label className="form-label">Quantité</label>
             <input
-              name="auteur"
-              value={formData.auteur}
+              type="number"
+              name="quantite"
+              value={livre.quantite}
               onChange={handleChange}
-              placeholder="Nom de l'auteur"
+              min="0"
+              className="form-input"
               required
             />
           </div>
+
           <div className="form-group">
-            <label>Catégorie</label>
+            <label className="form-label">Année</label>
+            <input
+              type="number"
+              name="annee"
+              value={livre.annee}
+              onChange={handleChange}
+              min="0"
+              className="form-input"
+              placeholder="Année de publication"
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Catégorie</label>
+          {loadingCategories ? (
+            <p>Chargement des catégories...</p>
+          ) : (
             <select
               name="id_categorie"
-              value={formData.id_categorie || ''}
+              value={livre.id_categorie}
               onChange={handleChange}
+              className="form-select"
               required
             >
-              <option value="">-- Choisir --</option>
-              {categories.map(cat => (
-                <option key={cat.id_Categorie} value={cat.id_Categorie}>
+              <option value="">--Choisir Catégorie--</option>
+              {categories.map((cat) => (
+                <option key={cat.id_categorie} value={cat.id_categorie}>
                   {cat.nomCategorie}
                 </option>
               ))}
             </select>
-          </div>
-        </div>
-
-        {/* Quantité et Année sur la même ligne */}
-        <div className="form-row">
-          <div className="form-group">
-            <label>Quantité en stock</label>
-            <input
-              name="quantite"
-              type="number"
-              value={formData.quantite}
-              onChange={handleChange}
-              min="0"
-            />
-          </div>
-          <div className="form-group">
-            <label>Année de publication</label>
-            <input
-              name="annee"
-              type="number"
-              value={formData.annee}
-              onChange={handleChange}
-              placeholder="Ex: 2024"
-            />
-          </div>
+          )}
         </div>
 
         <div className="form-actions">
-          <button type="button" className="btn-cancel" onClick={onCancel}>
-            Annuler
-          </button>
+          {onCancel && (
+            <button
+              type="button"
+              className="btn-cancel"
+              onClick={onCancel}
+            >
+              Annuler
+            </button>
+          )}
           <button type="submit" className="btn-submit">
-            {initialData ? "Enregistrer les modifications" : "Ajouter à la bibliothèque"}
+            {initialData.id_Livre ? "Mettre à jour" : "Enregistrer"}
           </button>
         </div>
+
       </form>
     </div>
   );
 };
-
 
 export default LivreForm;

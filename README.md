@@ -39,9 +39,9 @@ Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFE)**.
   - Retourné
 
 ###  Pofile
--Affichage des informations personnelles (email, nom, rôle)
--Modification du mot de passe avec validation
--Pour les administrateurs : ajout de nouveaux utilisateurs avec email et mot de passe
+- Voir ses informations personnelles : email, nom et rôle
+- Changer son mot de passe 
+- Pour les admins : ajouter de nouveaux utilisateurs avec email et mot de passe
 ---
 ##  Architecture Technique
 

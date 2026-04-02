@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { addEtudiant, updateEtudiant } from "../redux/slices/etudiantSlice";
 
-const EtudiantForm = ({ initialData = {}, onCancel }) => {
+const EtudiantForm = ({ initialData = {}, onCancel,onSubmit }) => {
   const dispatch = useDispatch();
 
   const [etudiant, setEtudiant] = useState({
@@ -16,44 +16,47 @@ const EtudiantForm = ({ initialData = {}, onCancel }) => {
 
   const [fillier, setFillier] = useState([]);
   
-  useEffect(() => {
+useEffect(() => {
+  if (initialData && fillier.length > 0) {
     setEtudiant({
-      Cef: initialData.Cef || "",
-      Nom: initialData.Nom || "",
-      Prenom: initialData.Prenom || "",
-      Email: initialData.Email || "",
-      Id_Fillier: initialData.Id_Fillier || ""
+      Cef: initialData.Cef || initialData.cef || "",
+      Nom: initialData.Nom || initialData.nom || "",
+      Prenom: initialData.Prenom || initialData.prenom || "",
+      Email: initialData.Email || initialData.email || "",
+      Id_Fillier: initialData.Id_Fillier
+        ? String(initialData.Id_Fillier)
+        : initialData.id_Fillier
+        ? String(initialData.id_Fillier)
+        : ""
     });
-  }, [initialData]);
+  }
+}, [initialData, fillier]);
+console.log(initialData)
+useEffect(() => { 
+  const fetchFilliers = async () => {
+     try { const res = await axios.get("http://localhost:5136/api/fillier");
+       setFillier(res.data); }
+        catch (err) { console.error("Erreur lors du chargement des fillières :", err); } }; fetchFilliers(); }, [])
 
-  useEffect(() => {
-    const fetchFilliers = async () => {
-      try {
-        const res = await axios.get("http://localhost:5136/api/fillier");
-        setFillier(res.data);
-      } catch (err) {
-        console.error("Erreur lors du chargement des fillières :", err);
-      }
-    };
-    fetchFilliers();
-  }, []);
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setEtudiant(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
-  const handleChange = (e) => {
-    setEtudiant({
-      ...etudiant,
-      [e.target.name]: e.target.value
-    });
+ const handleSubmit = (e) => {
+  e.preventDefault();
+  const dataToSend = {
+    ...etudiant,
+    Id_Fillier: Number(etudiant.Id_Fillier)
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const dataToSend = { ...etudiant, Id_Fillier: Number(etudiant.Id_Fillier) };
-    if(initialData.id_etudiant){
-      dispatch(updateEtudiant({ id: initialData.id_etudiant, etudiant: dataToSend }));
-    } else {
-      dispatch(addEtudiant(dataToSend));
-    }
-  };
+  if (onSubmit) {
+    onSubmit(dataToSend);
+  }
+};
 
   return (
     <div className="form-container">
@@ -106,9 +109,9 @@ const EtudiantForm = ({ initialData = {}, onCancel }) => {
 
         <div className="form-group">
           <label className="form-label">Filière</label>
-          <select
+         <select
             name="Id_Fillier"
-            value={etudiant.Id_Fillier}
+            value={etudiant.Id_Fillier || ""}
             onChange={handleChange}
             className="form-select"
             required

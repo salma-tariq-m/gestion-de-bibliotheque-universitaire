@@ -12,6 +12,7 @@ export const loginAdmin = createAsyncThunk(
       });
       return response.data; 
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue(error.response?.data || { message: "Erreur serveur" });
     }
   }

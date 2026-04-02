@@ -4,7 +4,7 @@ import { fetchEtudiants, addEtudiant, updateEtudiant, deleteEtudiant } from "../
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EtudiantForm from "../components/EtudiantForm";
-import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle,Mail  } from "lucide-react";
+import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle, Mail, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/etudiant.css";
 
@@ -25,6 +25,7 @@ const EtudiantsPage = () => {
 
   useEffect(() => {
     dispatch(fetchEtudiants());
+    console.log("etudiants", etudiants);
   }, [dispatch]);
 
   const handleAdd = (etudiant) => {
@@ -71,7 +72,7 @@ const EtudiantsPage = () => {
               className={`btn-primary ${showForm ? 'btn-close' : ''} header-btn`}
               onClick={() => { setShowForm(!showForm); setEditEtudiant(null); }}
             >
-              {showForm ? "Fermer le formulaire" : <><Plus className="w-5 h-5" /> Ajouter un Étudiant</>}
+              {showForm ? <><X className="w-5 h-5" /> </> : <><Plus className="w-5 h-5" /> Ajouter un Étudiant</>}
             </button>
           </div>
 
@@ -148,33 +149,32 @@ const EtudiantsPage = () => {
                 </tbody>
               ) : (
                 <motion.tbody variants={containerVariants} initial="hidden" animate="show">
-                  {etudiantsFiltres.map((etudiant) => (
-                    <motion.tr variants={itemVariants} key={etudiant.id}>
+                  {etudiantsFiltres.map((etudiant, index) => (
+                    <motion.tr variants={itemVariants} key={etudiant.id || index}>
                       <td>{etudiant.cef}</td>
-                      <td className="font-bold">
-                        <div className="book-cell">
-                          <div className="book-icon-bg"><UserCircle className="w-4 h-4" /></div>
-                          {etudiant.nom} {etudiant.prenom}
-                        </div>
-                      </td>
-                      <td className="font-bold">
-                        <div className="book-cell">
-                          <Mail className="w-4 h-4" /> 
-                          {etudiant.email} 
-                        </div>
-                      </td>
+                      <td className="font-bold">{etudiant.nom} {etudiant.prenom}</td>
+                      <td>{etudiant.email}</td>
                       <td className="actions-cell">
+                        {console.log(etudiantsFiltres)}
                         <button
                           className="btn-icon edit-icon"
-                          onClick={() => { setEditEtudiant(etudiant); setShowForm(true); }}
-                          title="Modifier"
+                          onClick={() => {
+                            setEditEtudiant({
+                              id: etudiant.id,
+                              Cef: etudiant.cef,
+                              Nom: etudiant.nom,
+                              Prenom: etudiant.prenom,
+                              Email: etudiant.email,
+                              Id_Fillier: etudiant.Id_Fillier || etudiant.filiereId || etudiant.fillier?.id_Fillier || ""
+                            });
+                            setShowForm(true);
+                          }}
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           className="btn-icon delete-icon"
                           onClick={() => handleDelete(etudiant.id)}
-                          title="Supprimer"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

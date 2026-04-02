@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Library, Users, ArrowRightLeft, ShieldBan, LibraryBig,History  } from "lucide-react";
+import { LayoutDashboard, Library, Users, ArrowRightLeft, ShieldBan, LibraryBig, History, User } from "lucide-react";
 import "../css/sidebar.css";
 
 const Sidebar = () => {
@@ -42,6 +42,11 @@ const Sidebar = () => {
           <li className={location.pathname === "/historique" ? "active" : ""}>
             <Link to="/historique " style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <History size={20} /> Historique
+            </Link>
+          </li>
+          <li className={location.pathname === "/profile" ? "active" : ""}>
+            <Link to="/profile" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <User size={20} /> Mon Profil
             </Link>
           </li>
         </ul>

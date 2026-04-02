@@ -24,15 +24,16 @@ public class EtudiantController : ControllerBase
     {
         var etudiants = await _context.Etudiants
             .Include(e => e.Fillier) // inclure Fillier
-            .Select(e => new EtudiantDto {
-                Cef = e.Cef,
-                Nom = e.Nom,
-                Prenom = e.Prenom,
-                Email = e.Email,
-                Id_Fillier = e.Id_Fillier,
-                NomFillier = e.Fillier != null ? e.Fillier.NomFillier : ""
-            })
-            .ToListAsync();
+             .Select(e => new EtudiantDto {
+              Cef = e.Cef,
+              Nom = e.Nom,
+              Prenom = e.Prenom,
+              Email = e.Email,
+              Id_Fillier = e.Id_Fillier,
+              NomFillier = e.Fillier != null ? e.Fillier.NomFillier : "",
+              Id_etudiant = e.Id_etudiant,
+             })
+             .ToListAsync();
 
         return Ok(etudiants);
     }

@@ -8,6 +8,7 @@ import LivresPage from "./pages/livresPage";
 import EmpruntsPage from "./pages/EmpruntsPage";
 import BlacklistPage from "./pages/RetardPage";
 import HistoriquePage from "./pages/historiquePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const PageTransition = ({ children }) => {
   return (
@@ -35,6 +36,7 @@ const AnimatedRoutes = () => {
         <Route path="/emprunts" element={<PageTransition><EmpruntsPage /></PageTransition>} />
         <Route path="/retards" element={<PageTransition><BlacklistPage /></PageTransition>} />
         <Route path="/historique" element={<PageTransition><HistoriquePage /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><ProfilePage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );

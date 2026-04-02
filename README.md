@@ -89,14 +89,17 @@ Utiliser React + Redux pour le frontend
 Développer une API en .NET
 Implémenter un système CRUD complet
 Concevoir une interface moderne et intuitive
-📸 Aperçu 
-<img width="1600" height="819" alt="image" src="https://github.com/user-attachments/assets/661e4657-13eb-4aa0-9ec7-b369d7f58bb6" />
-<img width="1593" height="776" alt="image" src="https://github.com/user-attachments/assets/e369423f-1f9f-4dd6-83a9-b29a543a0dfe" />
-<img width="1590" height="769" alt="image" src="https://github.com/user-attachments/assets/6da2e6bb-03fd-44cb-a289-d7cb6489968f" />
-<img width="1590" height="777" alt="image" src="https://github.com/user-attachments/assets/4c15b124-c650-412f-821f-926466845c92" />
-<img width="1585" height="772" alt="image" src="https://github.com/user-attachments/assets/f4b64723-3cf1-4b91-bcdf-9d6c99844bd9" />
-<img width="1587" height="776" alt="image" src="https://github.com/user-attachments/assets/49971be5-edc0-47c6-b190-93029fb36cc1" />
-<img width="1598" height="777" alt="image" src="https://github.com/user-attachments/assets/fdfd52d6-e82b-4c2e-9707-4ee5def03a89" />
+
+<img width="1600" height="780" alt="image" src="https://github.com/user-attachments/assets/de7302b8-27a2-4dee-9b2d-f53df492ca0f" />
+<img width="1600" height="818" alt="image" src="https://github.com/user-attachments/assets/dac6a475-a6a2-457c-8b58-e0dec377f9ac" />
+<img width="1599" height="767" alt="image" src="https://github.com/user-attachments/assets/97e42623-9b90-42ac-b01f-f0dff4e9751d" />
+<img width="1600" height="779" alt="image" src="https://github.com/user-attachments/assets/4fdbaaf7-145b-4813-9f21-3c903718c17c" />
+<img width="1599" height="773" alt="image" src="https://github.com/user-attachments/assets/6e7d8db1-ffa2-414e-97de-d676113c8879" />
+<img width="1599" height="780" alt="image" src="https://github.com/user-attachments/assets/590842de-2ade-4c24-86b8-c7ef11595a2e" />
+<img width="1599" height="779" alt="image" src="https://github.com/user-attachments/assets/9f260866-aba9-441f-96af-ef4be78cece0" />
+<img width="1594" height="773" alt="image" src="https://github.com/user-attachments/assets/f052fcb0-8f07-43fa-a7c1-7055bf45c5d3" />
+<img width="1600" height="778" alt="image" src="https://github.com/user-attachments/assets/dcd4d5bb-f7a8-472e-af76-d103f4b38459" />
+
 
 🎓 À propos de l'Auteur
 

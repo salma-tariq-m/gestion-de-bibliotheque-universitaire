@@ -15,7 +15,7 @@ Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFE)**.
 ###  Authentification
 - Connexion sécurisée du bibliothécaire
 - Accès protégé au dashboard
-
+  
 ### Gestion des Livres
 - Ajouter un livre
 - Modifier un livre
@@ -38,6 +38,10 @@ Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFE)**.
   - Emprunté
   - Retourné
 
+###  Pofile
+-Affichage des informations personnelles (email, nom, rôle)
+-Modification du mot de passe avec validation
+-Pour les administrateurs : ajout de nouveaux utilisateurs avec email et mot de passe
 ---
 ##  Architecture Technique
 

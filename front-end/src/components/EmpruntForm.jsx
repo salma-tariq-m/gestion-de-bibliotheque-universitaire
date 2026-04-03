@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createEmprunt } from "../redux/slices/empruntsSlice";
 import { motion } from "framer-motion";
-import { BookOpen, AlertCircle, Loader2, User, Book, Calendar, CalendarClock, X } from "lucide-react";
+import { BookOpen, AlertCircle, Loader2, User, Book, FileText, X } from "lucide-react";
 import "../css/form.css";
 
 const CreateEmprunt = ({ onSuccess, onCancel }) => {
@@ -11,8 +11,7 @@ const CreateEmprunt = ({ onSuccess, onCancel }) => {
   const [form, setForm] = useState({
     etudiantCef: "",
     livreTitre: "",
-    dateEmprunt: "",
-    dateRetourPrevue: ""
+    observation: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -22,23 +21,39 @@ const CreateEmprunt = ({ onSuccess, onCancel }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const calculateReturnDate = (startDate, daysToAdd) => {
+    let currentDate = new Date(startDate);
+    let addedDays = 0;
+    while (addedDays < daysToAdd) {
+      currentDate.setDate(currentDate.getDate() + 1);
+      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+        addedDays++;
+      }
+    }
+    return currentDate;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(null);
 
-    if (!form.etudiantCef || !form.livreTitre || !form.dateEmprunt || !form.dateRetourPrevue) {
-      setMessage({ type: "error", text: "Tous les champs sont obligatoires" });
+    if (!form.etudiantCef || !form.livreTitre) {
+      setMessage({ type: "error", text: "Le CEF et le titre du livre sont obligatoires" });
       return;
     }
 
     try {
       setLoading(true);
 
+      const dateEmprunt = new Date();
+      const dateRetourPrevue = calculateReturnDate(dateEmprunt, 2);
+
       await dispatch(createEmprunt({
         EtudiantCef: form.etudiantCef,
         LivreTitre: form.livreTitre.trim(),
-        DateEmprunt: new Date(form.dateEmprunt).toISOString(),
-        DateRetourPrevue: new Date(form.dateRetourPrevue).toISOString()
+        DateEmprunt: dateEmprunt.toISOString(),
+        DateRetourPrevue: dateRetourPrevue.toISOString(),
+        Observation: form.observation
       })).unwrap();
 
       setMessage({ type: "success", text: "Emprunt créé avec succès !" });
@@ -46,8 +61,7 @@ const CreateEmprunt = ({ onSuccess, onCancel }) => {
       setForm({
         etudiantCef: "",
         livreTitre: "",
-        dateEmprunt: "",
-        dateRetourPrevue: ""
+        observation: ""
       });
 
       if (onSuccess) onSuccess();
@@ -123,28 +137,16 @@ const CreateEmprunt = ({ onSuccess, onCancel }) => {
         </div>
 
         <div className="form-grid">
-          <div className="form-group">
-            <label>Date de l'emprunt</label>
+          <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <label>Observation (État avant emprunt)</label>
             <div className="input-with-icon">
-              <Calendar className="input-icon-sm" size={18} />
+              <FileText className="input-icon-sm" size={18} />
               <input
-                type="date"
-                name="dateEmprunt"
-                value={form.dateEmprunt}
+                type="text"
+                name="observation"
+                value={form.observation}
                 onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Date de retour prévue</label>
-            <div className="input-with-icon">
-              <CalendarClock className="input-icon-sm" size={18} />
-              <input
-                type="date"
-                name="dateRetourPrevue"
-                value={form.dateRetourPrevue}
-                onChange={handleChange}
+                placeholder="Ex: Bon état, couverture abîmée..."
               />
             </div>
           </div>

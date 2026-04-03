@@ -17,6 +17,17 @@ const EmpruntsPage = () => {
 
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [returnModal, setReturnModal] = useState({ isOpen: false, empruntId: null });
+  const [returnForm, setReturnForm] = useState({
+    dateRetourReelle: new Date().toISOString().split("T")[0],
+    observationRetour: "",
+    etatFinal: "physique"
+  });
+
+  const handleReturnSubmit = () => {
+    dispatch(retournerEmprunt({ id: returnModal.empruntId, data: returnForm }));
+    setReturnModal({ isOpen: false, empruntId: null });
+  };
 
   useEffect(() => {
     dispatch(fetchEmprunts());
@@ -185,7 +196,7 @@ console.log(filtered)
                             </button>
                              <button 
                             className="btn-action btn-return"
-                            onClick={() => dispatch(retournerEmprunt(e.id))}
+                            onClick={() => setReturnModal({ isOpen: true, empruntId: e.id })}
                             title="Retourner"
                           >
                             <RotateCcw className="w-4 h-4 inline-block mr-1" /> Retourner
@@ -200,6 +211,41 @@ console.log(filtered)
               )}
             </table>
           </div>
+          
+          <AnimatePresence>
+            {returnModal.isOpen && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 fixed-modal-backdrop" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }} exit={{opacity:0, scale:0.9}} className="bg-white p-6 rounded-xl w-96 shadow-2xl relative">
+                  <h3 className="text-xl font-bold mb-4">Retourner le livre</h3>
+                  <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onClick={() => setReturnModal({ isOpen: false, empruntId: null })}><X size={20}/></button>
+                  
+                  <div className="mb-4 text-left">
+                    <label className="block text-sm font-medium mb-1">Date réelle de retour</label>
+                    <input type="date" className="w-full border p-2 rounded" value={returnForm.dateRetourReelle} onChange={(e) => setReturnForm({...returnForm, dateRetourReelle: e.target.value})} />
+                  </div>
+                  
+                  <div className="mb-4 text-left">
+                    <label className="block text-sm font-medium mb-1">État du livre (Observation)</label>
+                    <input type="text" className="w-full border p-2 rounded" placeholder="Ex: Page déchirée..." value={returnForm.observationRetour} onChange={(e) => setReturnForm({...returnForm, observationRetour: e.target.value})} />
+                  </div>
+                  
+                  <div className="mb-6 text-left">
+                    <label className="block text-sm font-medium mb-1">État final</label>
+                    <select className="w-full border p-2 rounded" value={returnForm.etatFinal} onChange={(e) => setReturnForm({...returnForm, etatFinal: e.target.value})}>
+                      <option value="physique">Retourné physiquement</option>
+                      <option value="perdu">Livre perdu</option>
+                    </select>
+                  </div>
+
+                  <div className="flex justify-end gap-2 mt-4">
+                    <button className="px-4 py-2 bg-gray-200 rounded text-gray-700 hover:bg-gray-300 transition" onClick={() => setReturnModal({ isOpen: false, empruntId: null })}>Annuler</button>
+                    <button className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition" onClick={handleReturnSubmit}>Confirmer</button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+
         </main>
       </div>
     </div>

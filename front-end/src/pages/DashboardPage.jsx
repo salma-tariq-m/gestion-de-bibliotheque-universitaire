@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEmprunts } from "../redux/slices/empruntsSlice";
 import { Bar, Pie } from "react-chartjs-2";
 import {Chart as ChartJS,CategoryScale,LinearScale, BarElement,Title,Tooltip,Legend,ArcElement} from "chart.js";
-import { BookOpen, RefreshCw, Clock, Package, TrendingUp, PieChart, LayoutDashboard } from "lucide-react";
+import { BookOpen, RefreshCw, Clock, Package, TrendingUp, PieChart, LayoutDashboard, AlertTriangle, XCircle, Users } from "lucide-react";
 
 import "../css/dashboard.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const DashboardPage = () => {
+  const dispatch = useDispatch();
+  const { emprunts } = useSelector(state => state.emprunts);
+
   const [stats, setStats] = useState({
     totalBooks: 0,
     borrowedBooks: 0,
@@ -20,6 +25,7 @@ const DashboardPage = () => {
   });
 
   useEffect(() => {
+    dispatch(fetchEmprunts());
     axios.get("http://localhost:5136/api/dashboard")
       .then(res => {
         const data = res.data;
@@ -59,6 +65,27 @@ const DashboardPage = () => {
     ]
   };
 
+  const now = new Date();
+  
+  const livresRetard = emprunts.filter(e => 
+    e.statut && typeof e.statut === "string" && e.statut.includes("Cours") && new Date(e.dateRetourPrevue) < now
+  ).length;
+
+  const livresPerdus = emprunts.filter(e => e.statut === "Perdu").length;
+
+  const etudiantsStats = {};
+  emprunts.forEach(e => {
+    const isRetard = e.statut && typeof e.statut === "string" && e.statut.includes("Cours") && new Date(e.dateRetourPrevue) < now;
+    const isPerdu = e.statut === "Perdu";
+    if (!etudiantsStats[e.etudiantCef]) etudiantsStats[e.etudiantCef] = { retards: 0, perdus: 0 };
+    if (isRetard) etudiantsStats[e.etudiantCef].retards++;
+    if (isPerdu) etudiantsStats[e.etudiantCef].perdus++;
+  });
+
+  const etudiantsBlacklist = Object.values(etudiantsStats).filter(
+    s => s.retards > 1 || s.perdus >= 1
+  ).length;
+
   return (
     <div className="app-layout">
       <Sidebar />
@@ -79,13 +106,6 @@ const DashboardPage = () => {
           </div>
 
           <div className="stats-grid">
-            <div className="stat-card blue">
-              <div className="stat-icon"><BookOpen size={28} /></div>
-              <div className="stat-info">
-                <h3>{stats.totalBooks}</h3>
-                <p>Total Livres</p>
-              </div>
-            </div>
 
             <div className="stat-card green">
               <div className="stat-icon"><RefreshCw size={28} /></div>
@@ -95,11 +115,28 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="stat-card purple">
-              <div className="stat-icon"><Package size={28} /></div>
+
+            <div className="stat-card" style={{ backgroundColor: "#fef2f2", color: "#991b1b" }}>
+              <div className="stat-icon text-red-600"><AlertTriangle size={28} /></div>
               <div className="stat-info">
-                <h3>{stats.availableBooks}</h3>
-                <p>Stock disponible</p>
+                <h3>{livresRetard}</h3>
+                <p>Livres en retard</p>
+              </div>
+            </div>
+
+            <div className="stat-card" style={{ backgroundColor: "#fef3c7", color: "#92400e" }}>
+              <div className="stat-icon text-amber-600"><XCircle size={28} /></div>
+              <div className="stat-info">
+                <h3>{livresPerdus}</h3>
+                <p>Livres perdus</p>
+              </div>
+            </div>
+
+            <div className="stat-card" style={{ backgroundColor: "#f3f4f6", color: "#1f2937" }}>
+              <div className="stat-icon text-gray-800"><Users size={28} /></div>
+              <div className="stat-info">
+                <h3>{etudiantsBlacklist}</h3>
+                <p>Étudiants listés noirs</p>
               </div>
             </div>
           </div>

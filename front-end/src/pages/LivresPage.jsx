@@ -7,7 +7,6 @@ import LivreForm from "../components/LivreForm";
 import { Book, Plus, Search, Edit2, Trash2, Library, Loader2, AlertCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/livres.css"
-import TotalBook from "../components/totalBook";
 
 const LivresPage = () => {
   const dispatch = useDispatch();
@@ -19,13 +18,14 @@ const LivresPage = () => {
 
   useEffect(() => {
     dispatch(fetchLivres());
+    console.log(livres)
   }, [dispatch]);
 
   // Filtrage dynamique des livres
   const filteredLivres = livres.filter(
     (l) =>
-      l.titre.toLowerCase().includes(search.toLowerCase()) ||
-      l.auteur?.toLowerCase().includes(search.toLowerCase())
+      l.titre?.toLowerCase().includes(search?.toLowerCase()) ||
+      l.auteur?.toLowerCase().includes(search?.toLowerCase())
   );
 
   const handleAdd = (livreData) => {
@@ -94,11 +94,14 @@ const LivresPage = () => {
                 className="overflow-hidden"
               >
                 <div className="card form-card">
-                  <LivreForm
-                    initialData={editLivre}
-                    onSubmit={editLivre ? handleUpdate : handleAdd}
-                    onCancel={() => { setShowForm(false); setEditLivre(null); }}
-                  />
+<LivreForm
+  initialData={editLivre || {}}
+  onSubmit={editLivre ? handleUpdate : handleAdd}
+  onCancel={() => {
+    setShowForm(false);
+    setEditLivre(null);
+  }}
+/>
                 </div>
               </motion.div>
             )}

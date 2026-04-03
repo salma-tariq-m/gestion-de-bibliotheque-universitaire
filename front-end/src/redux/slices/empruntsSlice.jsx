@@ -67,10 +67,10 @@ export const validerEmprunt = createAsyncThunk(
 
 export const retournerEmprunt = createAsyncThunk(
   "emprunts/retournerEmprunt",
-  async (id, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      await axios.put(`${API_URL}/retourner/${id}`);
-      return id;
+      await axios.put(`${API_URL}/retourner/${id}`, data);
+      return { id, data };
     } catch (err) {
       return rejectWithValue(err.response?.data?.message ||"Erreur retour");
     }
@@ -118,10 +118,10 @@ const empruntsSlice = createSlice({
         }
       })
       .addCase(retournerEmprunt.fulfilled, (state, action) => {
-        const emprunt = state.emprunts.find(e => e.id === action.payload);
+        const emprunt = state.emprunts.find(e => e.id === action.payload.id);
         if (emprunt) {
-          emprunt.statut = "Retourné";
-          emprunt.dateRetourReelle = new Date().toISOString();
+          emprunt.statut = action.payload.data.etatFinal === "perdu" ? "Perdu" : "Retourné";
+          emprunt.dateRetourReelle = action.payload.data.dateRetourReelle;
         }
       })
       .addCase(annulerEmprunt.fulfilled, (state, action) => {

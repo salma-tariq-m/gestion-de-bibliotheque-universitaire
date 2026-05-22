@@ -6,7 +6,7 @@
 ![Backend](https://img.shields.io/badge/Backend-.NET-purple)
 
 Ce projet est une application web de gestion de bibliothèque permettant au **bibliothécaire** de gérer efficacement les livres, les étudiants et les emprunts.  
-Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFE)**.
+Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFF)**.
 
 ---
 
@@ -22,12 +22,6 @@ Il a été réalisé dans le cadre du **Projet de Fin de Formation (PFE)**.
 - Supprimer un livre
 - - Consulter la liste des livres
 - Recherche et filtrage
-
-### Gestion des Étudiants
-- Ajouter un étudiant
-- Modifier un étudiant
-- Supprimer un étudiant
-- Consultation des comptes étudiants
 
 ### Gestion des Emprunts
 - Valider une demande d’emprunt

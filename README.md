@@ -73,7 +73,6 @@ http://localhost:5000/api/
 Exemples :
 
 /livres
-/etudiants
 /emprunts
 /auth/login
 
@@ -87,7 +86,6 @@ Concevoir une interface moderne et intuitive
 <img width="1600" height="780" alt="image" src="https://github.com/user-attachments/assets/de7302b8-27a2-4dee-9b2d-f53df492ca0f" />
 <img width="1600" height="818" alt="image" src="https://github.com/user-attachments/assets/dac6a475-a6a2-457c-8b58-e0dec377f9ac" />
 <img width="1599" height="767" alt="image" src="https://github.com/user-attachments/assets/97e42623-9b90-42ac-b01f-f0dff4e9751d" />
-<img width="1600" height="779" alt="image" src="https://github.com/user-attachments/assets/4fdbaaf7-145b-4813-9f21-3c903718c17c" />
 <img width="1599" height="773" alt="image" src="https://github.com/user-attachments/assets/6e7d8db1-ffa2-414e-97de-d676113c8879" />
 <img width="1599" height="780" alt="image" src="https://github.com/user-attachments/assets/590842de-2ade-4c24-86b8-c7ef11595a2e" />
 <img width="1599" height="779" alt="image" src="https://github.com/user-attachments/assets/9f260866-aba9-441f-96af-ef4be78cece0" />

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LibraryApi.Models
@@ -7,9 +6,15 @@ namespace LibraryApi.Models
     {
         [Key]
         public int Id_Categorie { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string NomCategorie { get; set; } = string.Empty;
 
-        // Liste des livres de cette catégorie
+        [MaxLength(300)]
+        public string? Description { get; set; }
+
+        // Une catégorie contient plusieurs livres
         public ICollection<Livre> Livres { get; set; } = new List<Livre>();
     }
 }

@@ -22,15 +22,6 @@ builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<CategorieRepository>();
 builder.Services.AddScoped<CategorieService>();
 
-builder.Services.AddScoped<EtudiantRepository>();
-builder.Services.AddScoped<EtudiantService>();
-
-builder.Services.AddScoped<FillierRepository>();
-builder.Services.AddScoped<FillierService>();
-
-builder.Services.AddScoped<RetardRepository>();
-builder.Services.AddScoped<RetardService>();
-
 builder.Services.AddScoped<DashboardRepository>();
 builder.Services.AddScoped<DashboardService>();
 

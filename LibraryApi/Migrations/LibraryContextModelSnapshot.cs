@@ -30,9 +30,14 @@ namespace LibraryApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Categorie"));
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<string>("NomCategorie")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id_Categorie");
 
@@ -56,81 +61,42 @@ namespace LibraryApi.Migrations
                     b.Property<DateTime>("Date_Emprunt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EtatAuRetour")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("EtatAvantEmprunt")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("EtudiantCEF")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<int>("Id_Livre")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id_etudiant")
+                    b.Property<int?>("LivreId_Livre")
                         .HasColumnType("int");
+
+                    b.Property<string>("Observation")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Statut")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id_Emprunt");
 
                     b.HasIndex("Id_Livre");
 
-                    b.HasIndex("Id_etudiant");
+                    b.HasIndex("LivreId_Livre");
 
                     b.ToTable("Emprunt", (string)null);
-                });
-
-            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
-                {
-                    b.Property<int>("Id_etudiant")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_etudiant"));
-
-                    b.Property<string>("Cef")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("FillierId_Fillier")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_Fillier")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Prenom")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id_etudiant");
-
-                    b.HasIndex("FillierId_Fillier");
-
-                    b.HasIndex("Id_Fillier");
-
-                    b.ToTable("Etudiant", (string)null);
-                });
-
-            modelBuilder.Entity("LibraryApi.Models.Fillier", b =>
-                {
-                    b.Property<int>("Id_Fillier")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Fillier"));
-
-                    b.Property<string>("NomFillier")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id_Fillier");
-
-                    b.ToTable("Fillier", (string)null);
                 });
 
             modelBuilder.Entity("LibraryApi.Models.Livre", b =>
@@ -146,7 +112,13 @@ namespace LibraryApi.Migrations
 
                     b.Property<string>("Auteur")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Id_Categorie")
                         .HasColumnType("int");
@@ -156,7 +128,8 @@ namespace LibraryApi.Migrations
 
                     b.Property<string>("Titre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id_Livre");
 
@@ -198,30 +171,11 @@ namespace LibraryApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LibraryApi.Models.Etudiant", "Etudiant")
+                    b.HasOne("LibraryApi.Models.Livre", null)
                         .WithMany("Emprunts")
-                        .HasForeignKey("Id_etudiant")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Etudiant");
+                        .HasForeignKey("LivreId_Livre");
 
                     b.Navigation("Livre");
-                });
-
-            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
-                {
-                    b.HasOne("LibraryApi.Models.Fillier", "Fillier")
-                        .WithMany()
-                        .HasForeignKey("FillierId_Fillier");
-
-                    b.HasOne("LibraryApi.Models.Fillier", null)
-                        .WithMany("Etudiants")
-                        .HasForeignKey("Id_Fillier")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fillier");
                 });
 
             modelBuilder.Entity("LibraryApi.Models.Livre", b =>
@@ -240,14 +194,9 @@ namespace LibraryApi.Migrations
                     b.Navigation("Livres");
                 });
 
-            modelBuilder.Entity("LibraryApi.Models.Etudiant", b =>
+            modelBuilder.Entity("LibraryApi.Models.Livre", b =>
                 {
                     b.Navigation("Emprunts");
-                });
-
-            modelBuilder.Entity("LibraryApi.Models.Fillier", b =>
-                {
-                    b.Navigation("Etudiants");
                 });
 #pragma warning restore 612, 618
         }

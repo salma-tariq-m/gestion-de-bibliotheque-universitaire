@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmprunts, validerEmprunt, retournerEmprunt, annulerEmprunt } from "../redux/slices/empruntsSlice";
+import { fetchEmprunts, retournerEmprunt, annulerEmprunt } from "../redux/slices/empruntsSlice";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import CreateEmprunt from "../components/EmpruntForm";
@@ -172,7 +172,7 @@ console.log(filtered)
                 >
                   {filtered.map((e) => (
                     <motion.tr variants={itemVariants} key={e.id}>
-                      <td className="font-bold">{e.etudiantNom} {e.etudiantPrenom}</td>
+                      <td className="font-bold">{e.etudiantCEF}</td>
                       <td>
                         <div className="book-cell">
                           <div className="book-icon-bg">

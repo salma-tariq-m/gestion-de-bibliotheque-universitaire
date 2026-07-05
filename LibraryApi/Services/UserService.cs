@@ -13,20 +13,20 @@ namespace LibraryApi.Services
             _context = context;
         }
 
-        public async Task<User> RegisterAsync(string email, string password)
-        {
-            var user = new User
-            {
-                Email = email,
-                Password = password,
-                Role = "User"
-            };
+   public async Task<User> RegisterAsync(string email, string password, UserRole role)
+{
+    var user = new User
+    {
+        Email = email,
+        Password = password,
+        Role = role
+    };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+    _context.Users.Add(user);
+    await _context.SaveChangesAsync();
 
-            return user;
-        }
+    return user;
+}
 
         public async Task<User?> LoginAsync(string email, string password)
         {

@@ -26,12 +26,11 @@ namespace LibraryApi.Controllers
             return Ok(new { message = "Connexion réussie", email = user.Email, role = user.Role });
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto dto)
-        {
-            var user = await _service.RegisterAsync(dto.Email, dto.Password);
-
-            return Ok(user);
-        }
+       [HttpPost("register")]
+public async Task<IActionResult> Register(RegisterDto dto)
+{
+    var user = await _service.RegisterAsync(dto.Email, dto.Password, dto.Role);
+    return Ok(user);
+}
     }
 }

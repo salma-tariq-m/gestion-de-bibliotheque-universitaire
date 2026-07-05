@@ -5,7 +5,7 @@ import axios from "axios";
 export const fetchRetards = createAsyncThunk(
   "retards/fetchRetards",
   async () => {
-    const res = await axios.get("http://localhost:5136/api/retards");
+    const res = await axios.get("http://localhost:5136/api/emprunt/retards");
     return res.data;
   }
 );

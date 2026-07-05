@@ -15,6 +15,9 @@ namespace LibraryApi.Controllers
             _service = service;
         }
 
+        // ===========================
+        // Tous les emprunts
+        // ===========================
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -22,8 +25,11 @@ namespace LibraryApi.Controllers
             return Ok(emprunts);
         }
 
+        // ===========================
+        // Créer un emprunt
+        // ===========================
         [HttpPost]
-        public async Task<IActionResult> Create(CreateEmpruntDto dto)
+        public async Task<IActionResult> Create([FromBody] CreateEmpruntDto dto)
         {
             try
             {
@@ -36,12 +42,20 @@ namespace LibraryApi.Controllers
             }
         }
 
+        // ===========================
+        // Retourner un livre
+        // ===========================
         [HttpPut("retourner/{id}")]
-        public async Task<IActionResult> Retourner(int id)
+        public async Task<IActionResult> Retourner(
+            int id,
+            [FromBody] RetourEmpruntDto dto)
         {
             try
             {
-                var emprunt = await _service.RetournerEmpruntAsync(id);
+                var emprunt = await _service.RetournerEmpruntAsync(
+                    id,
+                    dto.EtatAuRetour);
+
                 return Ok(emprunt);
             }
             catch (Exception ex)
@@ -50,18 +64,35 @@ namespace LibraryApi.Controllers
             }
         }
 
+        // ===========================
+        // Annuler un emprunt
+        // ===========================
         [HttpDelete("annuler/{id}")]
         public async Task<IActionResult> Annuler(int id)
         {
             try
             {
                 await _service.AnnulerEmpruntAsync(id);
-                return Ok(new { message = "Emprunt annulé" });
+
+                return Ok(new
+                {
+                    message = "Emprunt annulé avec succès."
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        // ===========================
+        // Liste des retards
+        // ===========================
+        [HttpGet("retards")]
+        public async Task<IActionResult> GetRetards()
+        {
+            var result = await _service.GetRetardsAsync();
+            return Ok(result);
         }
     }
 }

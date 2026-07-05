@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEtudiants, addEtudiant, updateEtudiant, deleteEtudiant } from "../redux/slices/etudiantSlice";
+import { fetchEtudiants } from "../redux/slices/etudiantSlice";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import EtudiantForm from "../components/EtudiantForm";
+// import EtudiantForm from "../components/EtudiantForm";
 import { Users, Plus, Search, Edit2, Trash2, UserCircle, Loader2, AlertCircle, Mail, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/etudiant.css";
@@ -28,23 +28,6 @@ const EtudiantsPage = () => {
     console.log("etudiants", etudiants);
   }, [dispatch]);
 
-  const handleAdd = (etudiant) => {
-    dispatch(addEtudiant(etudiant));
-    setShowForm(false);
-  };
-
-  const handleUpdate = (etudiant) => {
-    dispatch(updateEtudiant({ id: editEtudiant.id, etudiant }));
-    setEditEtudiant(null);
-    setShowForm(false);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.")) {
-      dispatch(deleteEtudiant(id));
-    }
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.05 } }
@@ -65,36 +48,11 @@ const EtudiantsPage = () => {
             <div className="page-header-content">
               <div className="header-icon-box"><Users className="w-6 h-6" /></div>
               <div>
-                <h1>Gestion des Étudiants</h1>
+                <h1>Les Étudiants</h1>
               </div>
             </div>
-            <button
-              className={`btn-primary ${showForm ? 'btn-close' : ''} header-btn`}
-              onClick={() => { setShowForm(!showForm); setEditEtudiant(null); }}
-            >
-              {showForm ? <><X className="w-5 h-5" /> </> : <><Plus className="w-5 h-5" /> Ajouter un Étudiant</>}
-            </button>
-          </div>
 
-          <AnimatePresence>
-            {showForm && (
-              <motion.div
-                initial={{ opacity: 0, height: 0, scale: 0.98 }}
-                animate={{ opacity: 1, height: "auto", scale: 1 }}
-                exit={{ opacity: 0, height: 0, scale: 0.98 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="overflow-hidden"
-              >
-                <div className="card form-card">
-                  <EtudiantForm
-                    initialData={editEtudiant || {}}
-                    onSubmit={editEtudiant ? handleUpdate : handleAdd}
-                    onCancel={() => { setShowForm(false); setEditEtudiant(null); }}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </div>
 
           <div className="controls-bar">
             <h3>
@@ -125,7 +83,7 @@ const EtudiantsPage = () => {
                   <th>CEF</th>
                   <th>Nom Complet</th>
                   <th>Email</th>
-                  <th className="text-right">Actions</th>
+                  <th>Telephone</th>
                 </tr>
               </thead>
 
@@ -154,31 +112,7 @@ const EtudiantsPage = () => {
                       <td>{etudiant.cef}</td>
                       <td className="font-bold">{etudiant.nom} {etudiant.prenom}</td>
                       <td>{etudiant.email}</td>
-                      <td className="actions-cell">
-                        {console.log(etudiantsFiltres)}
-                        <button
-                          className="btn-icon edit-icon"
-                          onClick={() => {
-                            setEditEtudiant({
-                              id: etudiant.id,
-                              Cef: etudiant.cef,
-                              Nom: etudiant.nom,
-                              Prenom: etudiant.prenom,
-                              Email: etudiant.email,
-                              Id_Fillier: etudiant.Id_Fillier || etudiant.filiereId || etudiant.fillier?.id_Fillier || ""
-                            });
-                            setShowForm(true);
-                          }}
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button
-                          className="btn-icon delete-icon"
-                          onClick={() => handleDelete(etudiant.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
+                      <td>{etudiant.telephone}</td>
                     </motion.tr>
                   ))}
                 </motion.tbody>
